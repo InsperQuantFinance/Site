@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import FormularioContato from '@/components/landing/FormularioContato';
 
 /* ============================================================ A liga */
 export function Sobre() {
@@ -556,6 +557,9 @@ export function Contato() {
             Alunos interessados no processo seletivo, empresas que querem recrutar ou patrocinar e profissionais
             dispostos a palestrar: fale com a liga.
           </p>
+          <div style={{ marginTop: 40 }}>
+            <FormularioContato />
+          </div>
         </div>
         <div className="grade-hairline">
           {canais.map(([rotulo, texto, href]) => (
