@@ -523,7 +523,7 @@ export function Parceiros() {
 /* ========================================================= Contato */
 export function Contato() {
   const canais = [
-    ['E-mail', 'insperqfc@gmail.com', 'mailto:insperqfc@gmail.com'],
+    ['E-mail', 'insperqf@gmail.com', 'mailto:insperqf@gmail.com'],
     ['LinkedIn', 'Insper Quantitative Finance Club', 'https://www.linkedin.com/company/insper-quantitative-finance-club/'],
     ['Instagram', '@insperqf', 'https://www.instagram.com/insperqf/'],
   ];
@@ -573,7 +573,7 @@ export function Rodape() {
         <div>
           <div className="eyebrow" style={{ marginBottom: 12 }}>Contato</div>
           <div style={{ fontSize: 15, lineHeight: 1.9, color: 'var(--texto-2)', display: 'grid', justifyItems: 'start' }}>
-            <a href="mailto:insperqfc@gmail.com">insperqfc@gmail.com</a>
+            <a href="mailto:insperqf@gmail.com">insperqf@gmail.com</a>
             <a href="https://www.instagram.com/insperqf/" target="_blank" rel="noopener">Instagram</a>
             <a href="https://www.linkedin.com/company/insper-quantitative-finance-club/" target="_blank" rel="noopener">LinkedIn</a>
             <a href="/membros">Área de membros</a>
