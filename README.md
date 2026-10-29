@@ -1,6 +1,6 @@
 # Site da Liga Insper Quantitative Finance
 
-Next.js 14 (App Router) + Supabase, pronto para o Render. Inclui a landing pública
+Next.js 14 (App Router) + Supabase, no ar na Vercel (ver DEPLOY.md). Inclui a landing pública
 portada do design original, login, área de membros, administração de usuários,
 biblioteca de materiais e a seção "Últimas da liga" puxando do Instagram.
 
