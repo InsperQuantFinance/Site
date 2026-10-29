@@ -87,9 +87,10 @@ depois cadastram todo mundo pelo painel:
 node --env-file=.env.local scripts/criar-diretoria.mjs
 ```
 
-Senha inicial dos dois: `IQF@2026`. Entrem em `/login` e troquem em
-**Minha conta** — depois disso ninguém mais consegue vê-la. O script é
-idempotente: rodar de novo atualiza o perfil em vez de falhar.
+As contas nascem sem senha: o script dispara para cada um o e-mail de
+definição de senha (o mesmo fluxo do "Esqueci minha senha"). Se o link não
+chegar, use "Esqueci minha senha" em `/login`. O script é idempotente:
+rodar de novo atualiza o perfil em vez de falhar.
 
 Para qualquer outra conta avulsa:
 
