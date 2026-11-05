@@ -86,7 +86,7 @@ function FormularioNovoConvite({ origem, aoFechar }) {
         <div className="campo">
           <label htmlFor="cv-rotulo">Nome do convite</label>
           <input id="cv-rotulo" name="rotulo" placeholder="Trainees 2026.1" />
-          <div className="ajuda">Opcional — só para você reconhecer o link na tabela.</div>
+          <div className="ajuda">Opcional. Só para você reconhecer o link na tabela.</div>
         </div>
         <div className="campo">
           <label htmlFor="cv-usos">Limite de cadastros</label>
@@ -106,7 +106,7 @@ function FormularioNovoConvite({ origem, aoFechar }) {
       </div>
 
       <div className="aviso" style={{ borderColor: 'var(--linha-forte)', color: 'var(--texto-3)', margin: 0 }}>
-        Só e-mails @{DOMINIO_PERMITIDO} conseguem se cadastrar — é a trava que vale se o link vazar. Para desligar
+        Só e-mails @{DOMINIO_PERMITIDO} conseguem se cadastrar. É a trava que vale se o link vazar. Para desligar
         o link antes do prazo, use <strong>Revogar</strong>.
       </div>
 
