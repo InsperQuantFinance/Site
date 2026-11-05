@@ -1,5 +1,4 @@
-import Image from 'next/image';
-import Link from 'next/link';
+import Header from '@/components/landing/Header';
 import { DadosFundo } from '@/components/fundo/DadosFundo';
 import PainelEstrategias from '@/components/fundo/PainelEstrategias';
 import PainelPatrimonio from '@/components/fundo/PainelPatrimonio';
@@ -46,24 +45,18 @@ export default async function PaginaFundo() {
 
   return (
     <>
-      <header className="fundo-topo">
-        <Link href="/" aria-label="Voltar para a home" style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <Image src="/assets/logo-mark.png" alt="" width={30} height={30} />
-          <span className="eyebrow" style={{ color: 'var(--osso)' }}>Insper Quantitative Finance</span>
-        </Link>
-        <Link href="/membros" className="eyebrow">Área de membros</Link>
-      </header>
+      <Header />
 
       <main>
-        <section className="secao secao--carvao" style={{ paddingBottom: 72 }}>
+        <section className="secao secao--mesh secao--mesh-azul" style={{ padding: '150px var(--gutter) 72px' }}>
           <div className="container">
             <div className="eyebrow" style={{ marginBottom: 16 }}>Fundo IQF</div>
             <h1 className="h-secao" style={{ margin: '0 0 20px', maxWidth: '22ch' }}>
               As estratégias da liga, operando todos os dias
             </h1>
             <p className="p-corpo" style={{ maxWidth: '62ch', margin: 0 }}>
-              Um fundo fictício com R$ 1 milhão virtuais, numa conta de simulação da B3. As estratégias são escritas
-              em Python pelos membros e rodam sozinhas em todo pregão. Nenhum dinheiro real está envolvido.
+              R$ 1 milhão virtuais numa conta de simulação da B3. Os membros escrevem as estratégias em Python, e elas
+              operam sozinhas em todo pregão. Nenhum dinheiro real está envolvido.
             </p>
             {fundo && (
               <nav className="fundo-atalhos eyebrow" aria-label="Nesta página">
