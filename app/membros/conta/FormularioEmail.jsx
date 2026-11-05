@@ -42,7 +42,7 @@ export default function FormularioEmail({ emailAtual }) {
 
     setEmail('');
     setEstado({
-      ok: `Enviamos um link de confirmação para ${novo}. O e-mail só muda depois que você abrir esse link — até lá, continue entrando com o atual.`,
+      ok: `Enviamos um link de confirmação para ${novo}. O e-mail só muda depois que você abrir esse link. Até lá, continue entrando com o atual.`,
     });
   }
 
