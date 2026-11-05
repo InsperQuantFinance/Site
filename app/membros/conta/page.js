@@ -40,7 +40,7 @@ export default async function MinhaConta() {
       <section className="painel">
         <h2 style={{ fontSize: 22, marginBottom: 8 }}>Trocar senha</h2>
         <p style={{ color: 'var(--texto-3)', fontSize: 14, margin: '0 0 24px' }}>
-          A senha é sua e de mais ninguém — nem a presidência consegue vê-la ou alterá-la. Se esquecer, peça um link de
+          A senha é só sua: nem a presidência consegue ver ou alterar. Se esquecer, peça um link de
           redefinição na tela de login.
         </p>
         <FormularioSenha emailAtual={usuario.authEmail || usuario.email} />
