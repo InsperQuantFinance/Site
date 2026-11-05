@@ -112,7 +112,7 @@ export default function Cabecalho({ projeto, tarefas, equipe, podeEditar, podeVi
 
       {!podeEditar && (
         <div className="aviso" style={{ borderColor: 'var(--linha-forte)', color: 'var(--texto-3)' }}>
-          Modo leitura — você não está alocado neste projeto.
+          Modo leitura: você não está alocado neste projeto.
         </div>
       )}
 
