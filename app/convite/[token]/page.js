@@ -66,8 +66,8 @@ export default async function PaginaConvite({ params }) {
       </h1>
       <p style={{ color: 'var(--texto-3)', fontSize: 15, lineHeight: 1.6, margin: '0 0 32px' }}>
         {convite.email
-          ? 'Confira seu nome e escolha uma senha. A senha fica só com você — nem a diretoria consegue vê-la.'
-          : `Use seu e-mail @${DOMINIO_PERMITIDO} e escolha uma senha. A senha fica só com você — nem a diretoria consegue vê-la.`}
+          ? 'Confira seu nome e escolha uma senha. A senha fica só com você: nem a diretoria consegue ver.'
+          : `Use seu e-mail @${DOMINIO_PERMITIDO} e escolha uma senha. A senha fica só com você: nem a diretoria consegue ver.`}
       </p>
 
       <FormularioConvite token={params.token} nome={convite.nome} email={convite.email} />
