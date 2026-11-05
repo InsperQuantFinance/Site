@@ -45,6 +45,7 @@ chave** no painel do Supabase.
    | `INSTAGRAM_ACCESS_TOKEN` | token de longa duração da Graph API (opcional) |
    | `INSTAGRAM_USER_ID` | só no fluxo de Facebook Login; senão, vazio |
    | `CRON_SECRET` | gere com `openssl rand -hex 32` |
+   | `FUNDO_SITE_TOKEN` | gere com `openssl rand -hex 32`; o mesmo valor vai na VM do fundo (página `/fundo`) |
    | `GMAIL_USER` | o Gmail da liga (`insperqfc@gmail.com`); só para enviar convites |
    | `GMAIL_APP_PASSWORD` | Conta Google → Segurança → Senhas de app (16 caracteres) |
    | `EMAIL_NOME` | nome exibido na caixa de entrada; vazio usa "Insper Quantitative Finance" |

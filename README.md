@@ -20,6 +20,7 @@ app/
     api/
       instagram/atualizar/  cron do cache do Instagram
       materiais/[id]/download/  URL assinada do Storage
+      fundo/snapshot/       recebe os números do fundo (VM, a cada 15 min)
   components/landing/       seções da home
   components/membros/       UI da área logada
   lib/cargos.js             cargos e permissões
@@ -27,6 +28,7 @@ app/
   lib/supabase/             clients (navegador, servidor, admin)
   supabase/schema.sql       tabelas, RLS e bucket — rode primeiro
   supabase/seed.sql         os 4 projetos que já estavam no site
+  supabase/migracao-fundo.sql  tabelas e views da página /fundo
   public/assets/            logos e fotos extraídos do HTML original
 ```
 
@@ -61,6 +63,7 @@ Postgres barra.
 2. **SQL Editor** → cole e rode `supabase/schema.sql` inteiro.
    (Se você já tinha rodado o schema antes da funcionalidade de paper, rode
    também `supabase/migracao-papers.sql`.)
+   Para a página `/fundo`, rode também `supabase/migracao-fundo.sql`.
 3. Rode `supabase/seed.sql` para trazer os quatro projetos que já estavam no site.
 4. **Project Settings → API**, anote: `Project URL`, a chave `anon` e a `service_role`.
 5. **Authentication → URL Configuration**: em *Site URL* ponha a URL do Render
@@ -190,3 +193,33 @@ notebooks. Vídeos longos é melhor deixar no Drive e cadastrar como link.
   do perfil desativado (`ativo = false`) com sessão ainda válida.
 - **Auditoria.** Toda ação de gestão grava uma linha em `auditoria`. Falhar ali
   não desfaz a ação — é registro, não pré-requisito.
+
+---
+
+## Página do fundo (`/fundo`)
+
+Mostra o patrimônio do fundo fictício da liga e o resultado de cada estratégia.
+Os números vêm da VM do fundo (repo `fundoIQF`), que faz POST em
+`/api/fundo/snapshot` a cada 15 minutos no pregão e no fechamento, com
+`Authorization: Bearer $FUNDO_SITE_TOKEN`. O contrato do JSON está no
+`PUBLICACAO.md` daquele repo.
+
+- **Banco:** `supabase/migracao-fundo.sql`. As tabelas não têm leitura pública;
+  a página lê só as views `fundo_publico_*`, que não expõem posições nem o id
+  interno das estratégias. A gravação é pela função `fundo_registrar`, que só
+  a chave secreta executa. Reenviar o mesmo registro não duplica nada.
+- **Nomes das estratégias:** aparecem como "Estratégia 1, 2…" pela ordem de
+  chegada. Para dar um nome público, preencha `nome_publico` na tabela
+  `fundo_estrategias` (Table Editor). O nome vale para todo o histórico (mesma
+  linha, mesma cor) e aparece em até 15 min. Apagar o nome volta ao número.
+  Não troque o `id` da estratégia no `config.toml` do fundo: para o site, id
+  novo é estratégia nova.
+- **Atualização:** a rota revalida a página a cada envio; `revalidate = 900`
+  é só o teto.
+- **Períodos:** Dia, Semana, Mês, Ano e Total (`lib/periodos-fundo.js`). Dia e
+  Semana usam os pontos de 15 min, que a página busca só para os últimos 7
+  dias; os outros usam o fechamento diário. Mês e Ano só aparecem quando o
+  histórico já passou deles.
+- **Estratégias:** "Resultado" mostra o lucro de cada uma no período;
+  "Patrimônio alocado" empilha fatia × patrimônio de cada uma (a soma é o
+  patrimônio do fundo).
