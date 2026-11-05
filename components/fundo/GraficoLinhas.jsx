@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   formatarAlocacao,
+  diaEMinuto,
   formatarDia,
   formatarDiaAno,
   formatarDiaHora,
@@ -23,8 +24,9 @@ import {
  *               (nota: texto extra no tooltip, ex. o valor em R$ de um retorno em %)
  *   formato     'moeda' (valores) | 'resultado' (lucro/prejuízo em R$) |
  *               'percentual' (retorno, 0,05 = +5%); os dois últimos com linha do zero
- *   escalaX     'tempo' (proporcional ao relógio) | 'ordinal' (um passo por ponto:
- *               noites e fins de semana não ocupam espaço)
+ *   escalaX     'tempo' (proporcional ao relógio) | 'pregao' (proporcional ao tempo de
+ *               pregão: cada dia ocupa a mesma largura, 10h-18h; noites, fins de semana
+ *               e feriados não ocupam espaço)
  *   rotuloX     'hora' | 'dia' | 'mes'
  *   empilhado   áreas empilhadas a partir do zero; o topo é a soma (o tooltip
  *               mostra também a fatia de cada faixa no total)
@@ -37,6 +39,8 @@ import {
 
 const ALTURA = 300;
 const M = { topo: 14, base: 30 };
+const PREGAO_INICIO = 10 * 60; // minutos do dia (horário de Brasília)
+const PREGAO_DURACAO = 8 * 60;
 const ROTULOS_X = { hora: formatarHora, dia: formatarDia, mes: formatarMes };
 
 /** Largura de um texto do eixo (11px, fonte do site); sem canvas, estimativa. */
@@ -134,25 +138,46 @@ export default function GraficoLinhas({
     let tMin = tempos[0];
     let tMax = tempos[n - 1];
     if (tMin === tMax) { tMin -= 3600e3; tMax += 3600e3; }
-    const indice = new Map(tempos.map((t, i) => [t, i]));
-    const x = escalaX === 'ordinal' && n > 1
-      ? (t) => esq + (indice.get(t) / (n - 1)) * w
-      : (t) => esq + ((t - tMin) / (tMax - tMin)) * w;
     const y = (v) => M.topo + (1 - (v - dMin) / (dMax - dMin)) * h;
-
-    // eixo X: no ordinal, o começo de cada dia; senão, os próprios pontos.
-    // No máximo ~1 rótulo a cada 110px, sem repetir texto (vários pontos no mesmo mês).
-    const candidatos = escalaX === 'ordinal'
-      ? tempos.filter((t, i) => i === 0 || formatarDia(t) !== formatarDia(tempos[i - 1]))
-      : tempos;
     const nX = Math.max(2, Math.min(7, Math.floor(w / 110)));
-    const escolhidos = candidatos.length <= nX
-      ? candidatos
-      : Array.from({ length: nX }, (_, i) => candidatos[Math.round((i * (candidatos.length - 1)) / (nX - 1))]);
-    const marcasX = [];
-    for (const t of escolhidos) {
-      const texto = fmtX(t);
-      if (!marcasX.length || marcasX[marcasX.length - 1].texto !== texto) marcasX.push({ t, texto });
+    const espalhar = (lista) => (lista.length <= nX ? lista
+      : Array.from({ length: nX }, (_, i) => lista[Math.round((i * (lista.length - 1)) / (nX - 1))]));
+
+    // posição no eixo: tempo de relógio ou tempo de pregão (dia = 1 unidade)
+    let x;
+    let marcasX = [];
+    let pregao = null;
+    if (escalaX === 'pregao') {
+      const info = new Map(tempos.map((t) => [t, diaEMinuto(t)]));
+      const dias = [...new Set([...info.values()].map((v) => v.dia))].sort();
+      const indiceDia = new Map(dias.map((d, i) => [d, i]));
+      const pos = (t) => {
+        const v = info.get(t);
+        return indiceDia.get(v.dia)
+          + Math.min(1, Math.max(0, (v.min - PREGAO_INICIO) / PREGAO_DURACAO));
+      };
+      const pMin = pos(tempos[0]);
+      const pMax = pos(tempos[n - 1]);
+      if (pMax > pMin) pregao = { pos, pMin, pMax, dias, info };
+    }
+    if (pregao) {
+      const { pos, pMin, pMax, dias, info } = pregao;
+      const px = (p) => esq + ((p - pMin) / (pMax - pMin)) * w;
+      x = (t) => px(pos(t));
+      // um rótulo no meio de cada dia de pregão
+      const primeiroDoDia = new Map();
+      for (const t of tempos) if (!primeiroDoDia.has(info.get(t).dia)) primeiroDoDia.set(info.get(t).dia, t);
+      marcasX = espalhar(dias).map((d) => {
+        const meio = Math.min(pMax, Math.max(pMin, dias.indexOf(d) + 0.5));
+        return { x: px(meio), texto: fmtX(primeiroDoDia.get(d)) };
+      });
+    } else {
+      x = (t) => esq + ((t - tMin) / (tMax - tMin)) * w;
+      // os próprios pontos, sem repetir texto (vários pontos no mesmo mês)
+      for (const t of espalhar(tempos)) {
+        const texto = fmtX(t);
+        if (!marcasX.length || marcasX[marcasX.length - 1].texto !== texto) marcasX.push({ x: x(t), texto });
+      }
     }
 
     return { tempos, faixas, ticks, x, y, w, h, esq, marcasX };
@@ -161,7 +186,7 @@ export default function GraficoLinhas({
   const fmtY = formato === 'resultado' ? formatarResultado : formato === 'percentual' ? formatarVariacao : formatarMoeda;
   const passoY = g && g.ticks.length > 1 ? g.ticks[1] - g.ticks[0] : 1;
   const fmtEixo = (v) => (formato === 'percentual' ? formatarEixoPct(v, passoY) : formatarEixoMoeda(v, passoY));
-  const fmtFoco = rotuloX === 'hora' || escalaX === 'ordinal' ? formatarDiaHora : formatarDiaAno;
+  const fmtFoco = rotuloX === 'hora' || escalaX === 'pregao' ? formatarDiaHora : formatarDiaAno;
 
   function pontoEm(s, t) {
     // último ponto da série até o instante t; nada depois do fim dela
@@ -282,8 +307,8 @@ export default function GraficoLinhas({
               </g>
             ))}
 
-            {g.marcasX.map(({ t, texto }) => (
-              <text key={t} x={g.x(t)} y={ALTURA - 8} className="fundo-eixo" textAnchor={anchorX(g.x(t))}>
+            {g.marcasX.map(({ x, texto }) => (
+              <text key={`${texto}-${x}`} x={x} y={ALTURA - 8} className="fundo-eixo" textAnchor={anchorX(x)}>
                 {texto}
               </text>
             ))}
