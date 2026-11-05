@@ -15,6 +15,7 @@ import {
   Rodape,
   Sobre,
 } from '@/components/landing/Secoes';
+import { carregarFundo } from '@/lib/fundo';
 import { buscarPostsInstagram } from '@/lib/instagram';
 import { criarClienteEstatico } from '@/lib/supabase/server';
 
@@ -51,9 +52,12 @@ async function carregarProjetos() {
 }
 
 export default async function Home() {
-  const [projetos, instagram] = await Promise.all([
+  // O fundo entra no hero: é o número que muda a cada visita. carregarFundo()
+  // já devolve null (e não lança) quando a VM ou o banco estão fora.
+  const [projetos, instagram, fundo] = await Promise.all([
     carregarProjetos(),
     buscarPostsInstagram({ limite: 6 }),
+    carregarFundo(),
   ]);
 
   return (
@@ -70,7 +74,7 @@ export default async function Home() {
       <PausarHero />
 
       <main>
-        <Hero />
+        <Hero fundo={fundo} />
         <Sobre />
         <OQueE />
         <QuantConnect />
@@ -79,12 +83,10 @@ export default async function Home() {
         <section id="research" className="secao secao--carvao">
           <div className="container">
             <div className="eyebrow" style={{ marginBottom: 16 }}>Projetos</div>
-            <h2 className="h-secao" style={{ margin: '0 0 20px', maxWidth: '26ch' }}>O que a liga produz</h2>
-            <p className="p-corpo" style={{ maxWidth: '64ch', margin: '0 0 56px' }}>
-              Todo membro entra pelo processo de trainee: fundamentos de factor investing, estratégia autoral em grupo,
-              backtest em Python e um paper acadêmico ao final. A mesma estrutura sustenta os projetos seguintes — o que
-              muda é a origem da tese: estratégia própria, adaptação de papers internacionais ou mentoria direta de uma
-              gestora.
+            <h2 className="h-secao" style={{ margin: '0 0 20px', maxWidth: '26ch' }}>O que a liga já construiu</h2>
+            <p className="p-corpo" style={{ maxWidth: '62ch', margin: '0 0 56px' }}>
+              Cada projeto parte de uma tese, vira código, passa por backtest e termina em paper. Muda a origem da
+              tese: uma estratégia própria, um paper internacional adaptado ou a mentoria direta de uma gestora.
             </p>
             <ListaProjetos projetos={projetos} />
           </div>
