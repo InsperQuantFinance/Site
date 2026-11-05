@@ -83,7 +83,7 @@ function enderecoGmail({ nome, email, link }) {
     `Olá, ${primeiro}!\n\n` +
     'Você foi convidado para a área de membros da Insper Quantitative Finance.\n' +
     `Crie sua conta neste link:\n\n${link}\n\n` +
-    'Este link é pessoal — não repasse. Nele você confirma seu nome e escolhe sua própria senha.\n\n' +
+    'Este link é pessoal, não repasse. Nele você confirma seu nome e escolhe sua própria senha.\n\n' +
     'Insper Quantitative Finance';
 
   const q = new URLSearchParams({ view: 'cm', fs: '1', to: email, su: assunto, body: corpo });
@@ -184,7 +184,7 @@ function Individual({ cargo, origem, emailPronto, aoMarcar, aoFechar }) {
       <div>
         <h3 style={{ fontSize: 20, margin: '0 0 6px' }}>{titulo}</h3>
         <p style={{ margin: 0, fontSize: 13, color: 'var(--texto-3)' }}>
-          Só nome e e-mail. Sai um link pessoal para copiar — ou já enviado por e-mail — e é lá que a pessoa
+          Só nome e e-mail. Sai um link pessoal para copiar ou já enviado por e-mail, e é lá que a pessoa
           escolhe a senha dela. Você não precisa combinar senha por mensagem.
         </p>
       </div>
@@ -226,7 +226,7 @@ function Individual({ cargo, origem, emailPronto, aoMarcar, aoFechar }) {
       ) : (
         <p style={{ margin: 0, fontSize: 13, color: 'var(--texto-3)' }}>
           O envio automático não está configurado. Vai sair o link pessoal na tela, com um botão que abre o Gmail
-          numa aba nova, com a mensagem já escrita — você só confere e aperta Enviar.
+          numa aba nova, com a mensagem já escrita. Você confere e aperta Enviar.
         </p>
       )}
 
@@ -310,7 +310,7 @@ function Importador({ cargo, aoTrocarCargo, aoFechar }) {
         <h3 style={{ fontSize: 20, margin: '0 0 6px' }}>Importar planilha</h3>
         <p style={{ margin: 0, fontSize: 13, color: 'var(--texto-3)' }}>
           Cole as colunas direto do Excel/Sheets ou escolha um CSV. Nome e e-mail em qualquer ordem, com ou sem
-          cabeçalho — o e-mail é reconhecido pelo formato. Nada é criado ou enviado neste passo.
+          cabeçalho: o e-mail é reconhecido pelo formato. Nada é criado ou enviado neste passo.
         </p>
       </div>
 
@@ -412,7 +412,7 @@ function Importador({ cargo, aoTrocarCargo, aoFechar }) {
             <div className="campo">
               <label htmlFor="imp-rotulo">Nome do lote</label>
               <input id="imp-rotulo" name="rotulo" placeholder={`${rotuloCargoConvite(cargo)}s 2026.1`} />
-              <div className="ajuda">Opcional — serve para você achar este lote na tabela depois.</div>
+              <div className="ajuda">Opcional. Serve para você achar este lote na tabela depois.</div>
             </div>
           </div>
 
@@ -514,7 +514,7 @@ export default function Convidados({ convidados, emailPronto }) {
         <h2 style={{ fontSize: 24, margin: '0 0 6px' }}>Adicionar pessoas</h2>
         <p style={{ margin: 0, fontSize: 14, color: 'var(--texto-3)', maxWidth: '62ch' }}>
           Uma pessoa ou uma turma inteira, pedindo só nome e e-mail @{DOMINIO_PERMITIDO}. Cada uma recebe um link
-          pessoal, que vale só para o e-mail dela e só para um cadastro — e é lá que ela escolhe a própria senha.
+          pessoal, que vale só para o e-mail dela e para um cadastro. É lá que ela escolhe a própria senha.
         </p>
       </div>
 
