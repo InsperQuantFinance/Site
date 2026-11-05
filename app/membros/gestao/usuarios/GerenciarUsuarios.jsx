@@ -173,7 +173,7 @@ function FormularioEdicao({ usuario, ator, aoFechar }) {
       {eusMesmo && <input type="hidden" name="ativo" value="on" />}
 
       <div className="aviso" style={{ borderColor: 'var(--linha-forte)', color: 'var(--texto-3)' }}>
-        A senha desta pessoa não aparece e não pode ser editada aqui — nem pela presidência. Se ela esqueceu, use o
+        A senha desta pessoa não aparece e não pode ser editada aqui, nem pela presidência. Se ela esqueceu, use o
         botão “Enviar link de senha” na lista.
       </div>
 
@@ -211,7 +211,7 @@ function ZonaRisco({ usuario, ator, aoApagar }) {
     return (
       <div className="painel" style={{ display: 'grid', gap: 12, justifyItems: 'start' }}>
         <p style={{ margin: 0, fontSize: 13, color: 'var(--texto-3)' }}>
-          Para só tirar o acesso, desmarque <strong>Membro ativo</strong> acima — o histórico fica. Apagar é definitivo.
+          Para só tirar o acesso, desmarque <strong>Membro ativo</strong> acima. O histórico fica. Apagar é definitivo.
         </p>
         <button type="button" className="btn btn--vazado btn--pequeno" onClick={() => setAberta(true)}>
           Apagar conta de {usuario.nome}
