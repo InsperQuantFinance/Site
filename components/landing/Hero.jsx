@@ -123,10 +123,6 @@ export default function Hero({ fundo = null }) {
         <p className="hero-rise-2 hero-legenda" style={{ margin: '0 0 22px', color: 'rgba(242,242,240,0.78)', textTransform: 'uppercase' }}>
           Liga universitária pioneira em finanças quantitativas no Brasil
         </p>
-        <p className="hero__frase hero-rise-2">
-          Você aprende a transformar uma ideia sobre o mercado em código, testar no passado e ver a estratégia operar
-          todo dia no fundo da liga.
-        </p>
         <div className="hero__botoes hero-rise-2">
           <a className="btn btn--solido" href="#ps">Quero entrar</a>
           <a className="btn btn--vazado" href="#research">Ver os projetos</a>
