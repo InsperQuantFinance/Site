@@ -15,39 +15,43 @@ export default async function LayoutMembros({ children }) {
 
   const gestao = ehGestao(usuario.cargo);
 
-  return (
-    <div style={{ minHeight: '100svh', display: 'flex', flexDirection: 'column' }}>
-      <header
-        style={{
-          borderBottom: '1px solid var(--linha-card)',
-          background: 'var(--carvao)',
-          padding: '18px var(--gutter)',
-        }}
-      >
-        <div
-          className="container"
-          style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24, flexWrap: 'wrap' }}
-        >
-          <Link href="/membros" style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            <Image src="/assets/logo-mark.png" alt="" width={30} height={30} />
-            <span className="eyebrow" style={{ color: 'var(--osso)' }}>Área de membros</span>
-          </Link>
+  const iniciais = usuario.nome
+    .split(' ')
+    .filter(Boolean)
+    .map((p) => p[0])
+    .filter((_, i, arr) => i === 0 || i === arr.length - 1)
+    .join('')
+    .toUpperCase();
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 18, flexWrap: 'wrap' }}>
-            <div style={{ textAlign: 'right', lineHeight: 1.35 }}>
-              <div style={{ fontSize: 14 }}>{usuario.nome}</div>
-              <div style={{ fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--azul)' }}>
-                {rotuloCargo(usuario.cargo)}
+  return (
+    <div className="membros-fundo" style={{ minHeight: '100svh', display: 'flex', flexDirection: 'column' }}>
+      {/* Uma barra só, de vidro, que acompanha a rolagem: marca e usuário em
+          cima, abas embaixo. Antes eram duas faixas opacas que comiam a tela. */}
+      <header className="membros-topo">
+        <div className="vidro vidro--escuro">
+          <div className="membros-topo__linha">
+            <Link href="/membros" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <Image src="/assets/logo-mark.png" alt="" width={28} height={28} />
+              <span className="eyebrow" style={{ color: 'var(--osso)' }}>Área de membros</span>
+            </Link>
+
+            <div className="membros-usuario">
+              <div style={{ textAlign: 'right', lineHeight: 1.35 }}>
+                <div style={{ fontSize: 14 }}>{usuario.nome}</div>
+                <div style={{ fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--azul)' }}>
+                  {rotuloCargo(usuario.cargo)}
+                </div>
               </div>
+              <Link href="/membros/conta" className="membros-avatar" aria-label="Minha conta">{iniciais}</Link>
+              <BotaoSair />
             </div>
-            <BotaoSair />
           </div>
+
+          <NavMembros gestao={gestao} areaGeral={podeVerAreaGeral(usuario.cargo)} />
         </div>
       </header>
 
-      <NavMembros gestao={gestao} areaGeral={podeVerAreaGeral(usuario.cargo)} />
-
-      <main style={{ flex: 1, padding: '48px var(--gutter) 80px' }}>
+      <main style={{ flex: 1, padding: '56px var(--gutter) 96px' }}>
         <div className="container">{children}</div>
       </main>
 
@@ -55,9 +59,7 @@ export default async function LayoutMembros({ children }) {
         style={{
           borderTop: '1px solid var(--linha)',
           padding: '24px var(--gutter)',
-          fontSize: 11,
-          letterSpacing: '0.18em',
-          textTransform: 'uppercase',
+          fontSize: 13,
           color: 'var(--texto-3)',
         }}
       >
