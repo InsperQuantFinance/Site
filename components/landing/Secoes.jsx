@@ -3,34 +3,42 @@ import FormularioContato from '@/components/landing/FormularioContato';
 
 /* ============================================================ A liga */
 export function Sobre() {
-  const blocos = [
-    {
-      titulo: 'Missão',
-      texto:
-        'Formar quants por meio de projetos próprios, competições e conexão direta com o mercado, unindo rigor técnico e aplicação prática.',
-    },
-    {
-      titulo: 'Visão',
-      texto:
-        'Ser a referência em finanças quantitativas entre as entidades estudantis brasileiras e o caminho natural do aluno do Insper para o mercado sistemático.',
-    },
-    { titulo: 'Valores', valores: ['Rigor técnico', 'Colaboração', 'Meritocracia', 'Excelência'] },
+  // Só fatos que a página prova em outro lugar: cada número aponta para um
+  // projeto, um evento ou o fundo, todos mais abaixo.
+  const marcas = [
+    ['2º lugar', 'no Quantamental Challenge 2024, da Itaú Asset, com o Solaris.'],
+    ['Semifinal', 'no Desafio Quant AI 2025, também da Itaú Asset, com o Nexus.'],
+    ['4 ligas', 'organizam juntas o Quant Connect: Insper, Poli-USP, FEA-USP e FGV.'],
+    ['R$ 1 mi', 'virtuais no fundo da liga, operados todo pregão pelas estratégias dos membros.'],
   ];
 
   return (
     <section id="sobre" className="secao">
       <div className="container">
-        <div className="grade-hairline grade-3">
-          {blocos.map((b) => (
-            <div key={b.titulo} style={{ padding: '40px 34px 44px' }}>
-              <h2 className="eyebrow" style={{ marginBottom: 20 }}>{b.titulo}</h2>
-              {b.texto ? (
-                <p style={{ margin: 0, fontSize: 16, lineHeight: 1.7, color: 'var(--texto-2)' }}>{b.texto}</p>
-              ) : (
-                <div style={{ display: 'grid', gap: 10, fontSize: 16, color: 'var(--texto-2)' }}>
-                  {b.valores.map((v) => <div key={v}>{v}</div>)}
-                </div>
-              )}
+        <div className="duas-colunas" style={{ alignItems: 'end' }}>
+          <div>
+            <div className="eyebrow" style={{ marginBottom: 16 }}>A liga</div>
+            <h2 className="h-secao" style={{ margin: 0, maxWidth: '24ch', textWrap: 'balance' }}>
+              Projeto de verdade desde o primeiro semestre
+            </h2>
+          </div>
+          <div>
+            <p className="p-corpo" style={{ margin: '0 0 16px', maxWidth: '54ch' }}>
+              O IQF forma quants com projetos próprios, competições e contato direto com gestoras. A meta é ser a
+              referência em finanças quantitativas entre as entidades estudantis do Brasil e o caminho natural do aluno
+              do Insper para o mercado sistemático.
+            </p>
+            <p style={{ margin: 0, fontSize: 15, color: 'var(--texto-3)' }}>
+              Valores: rigor técnico, colaboração, meritocracia e excelência.
+            </p>
+          </div>
+        </div>
+
+        <div className="marcas">
+          {marcas.map(([valor, texto]) => (
+            <div key={valor} data-reveal>
+              <div className="marcas__valor">{valor}</div>
+              <p className="marcas__texto">{texto}</p>
             </div>
           ))}
         </div>
@@ -42,16 +50,16 @@ export function Sobre() {
 /* ================================================ O que são finanças quant */
 export function OQueE() {
   const etapas = [
-    ['01 · Hipótese', 'Uma ideia verificável sobre o mercado. Por exemplo: empresas mais lucrativas e menos endividadas tendem a se sustentar melhor em períodos ruins.'],
-    ['02 · Regra', 'A hipótese vira filtro objetivo: entre as ações mais negociadas da bolsa, selecionar as 20% melhores nesses critérios e revisar a cada trimestre.'],
-    ['03 · Teste histórico', 'A regra é simulada sobre dados reais do passado — o backtest — com custos de operação incluídos, para revelar retorno, risco e onde a estratégia quebra.'],
-    ['04 · Crítica', 'O resultado é discutido por escrito: o que funcionou, o que foi coincidência e o que precisa mudar. É aqui que a maior parte do aprendizado acontece.'],
+    ['Hipótese', 'Uma ideia que dá para verificar. Por exemplo: empresas lucrativas e pouco endividadas aguentam melhor os períodos ruins.'],
+    ['Regra', 'A ideia vira filtro objetivo: entre as ações mais negociadas, comprar as 20% melhores nesses critérios e revisar a cada trimestre.'],
+    ['Backtest', 'A regra roda sobre os dados reais do passado, com custos de operação, e mostra retorno, risco e onde a estratégia quebra.'],
+    ['Crítica', 'O resultado é discutido por escrito: o que funcionou, o que foi sorte e o que muda. É aqui que se aprende mais.'],
   ];
 
   const pilares = [
-    ['Finanças', 'Entender o que move preços, o que é risco e por que uma estratégia deveria funcionar.'],
-    ['Estatística', 'Separar padrão de ruído e medir se um resultado se sustenta fora da amostra em que foi encontrado.'],
-    ['Programação', 'Transformar a regra em código que trata dados, simula o passado e executa decisões sem intervenção manual.'],
+    ['Finanças', 'O que move preços, o que é risco e por que uma estratégia deveria funcionar.'],
+    ['Estatística', 'Separar padrão de ruído e medir se o resultado se sustenta fora da amostra.'],
+    ['Programação', 'Transformar a regra em código que trata dados, simula o passado e decide sozinho.'],
   ];
 
   return (
@@ -64,48 +72,44 @@ export function OQueE() {
       }}
     >
       <div className="container">
-        <h2 className="eyebrow" style={{ marginBottom: 16 }}>O que são finanças quantitativas</h2>
-
-        <div className="duas-colunas" style={{ alignItems: 'start' }}>
+        <div className="duas-colunas" style={{ alignItems: 'start', marginBottom: 56 }}>
           <div>
-            <p className="p-corpo" style={{ margin: '0 0 20px', maxWidth: '56ch' }}>
-              A forma tradicional de investir depende de julgamento: um analista estuda uma empresa, forma uma tese e
-              decide comprar ou vender. Finanças quantitativas trocam esse julgamento por regras explícitas — critérios
-              objetivos, escritos em código, aplicados da mesma maneira a centenas de ativos ao mesmo tempo.
-            </p>
-            <p className="p-corpo" style={{ margin: '0 0 20px', maxWidth: '56ch' }}>
-              A vantagem não é adivinhar melhor o futuro. É poder testar: uma regra pode ser aplicada aos últimos vinte
-              anos de mercado para ver como teria se comportado, quanto teria rendido, quanto teria perdido nas piores
-              quedas e se o resultado é consistente ou apenas sorte. Onde a intuição só se confirma com o tempo, a regra
-              se mede antes de valer dinheiro.
+            <div className="eyebrow" style={{ marginBottom: 16 }}>Finanças quantitativas</div>
+            <h2 className="h-secao" style={{ margin: 0, maxWidth: '24ch', textWrap: 'balance' }}>
+              Regras que se testam antes de valer dinheiro
+            </h2>
+          </div>
+          <div>
+            <p className="p-corpo" style={{ margin: '0 0 18px', maxWidth: '56ch' }}>
+              Na forma tradicional, um analista estuda uma empresa, forma uma tese e decide. Em finanças quantitativas,
+              essa decisão vira uma regra escrita em código e aplicada do mesmo jeito a centenas de ativos.
             </p>
             <p className="p-corpo" style={{ margin: 0, maxWidth: '56ch' }}>
-              É por isso que a área mistura três coisas que raramente andam juntas: finanças, estatística e programação.
-              Quem trabalha nela — o quant — traduz uma ideia sobre o mercado em um modelo, e o modelo em código que roda
-              todo dia.
+              A vantagem não é adivinhar o futuro. É poder medir: rodar a regra sobre vinte anos de mercado e ver quanto
+              teria rendido, quanto teria perdido nas piores quedas e se o resultado é consistente ou só sorte.
             </p>
           </div>
-
-          <div className="grade-hairline">
-            {etapas.map(([titulo, texto]) => (
-              <div key={titulo} style={{ padding: '30px 30px 32px' }}>
-                <h3 className="eyebrow" style={{ marginBottom: 14 }}>{titulo}</h3>
-                <p style={{ margin: 0, fontSize: 15, lineHeight: 1.7, color: 'var(--texto-2)' }}>{texto}</p>
-              </div>
-            ))}
-          </div>
         </div>
+
+        <ol className="ciclo">
+          {etapas.map(([titulo, texto]) => (
+            <li key={titulo} data-reveal>
+              <h3>{titulo}</h3>
+              <p>{texto}</p>
+            </li>
+          ))}
+        </ol>
 
         <div
           className="duas-colunas"
           style={{ marginTop: 72, paddingTop: 44, borderTop: '1px solid var(--linha-forte)', alignItems: 'start' }}
         >
           <div>
+            <h3 style={{ fontSize: 26, lineHeight: 1.25, margin: '0 0 14px' }}>Você não precisa chegar sabendo programar</h3>
             <p style={{ fontSize: 16, lineHeight: 1.75, color: 'var(--texto-2)', margin: 0, maxWidth: '54ch' }}>
-              Ninguém precisa chegar sabendo programar. Todo membro percorre esse mesmo ciclo no processo de trainee:
-              aulas de fundamentos, uma estratégia autoral construída em grupo, o backtest escrito em Python e um paper
-              com a análise dos resultados. Terminado o ciclo, o membro passa a projetos mais ambiciosos — adaptação de
-              papers acadêmicos internacionais, competições nacionais e projetos mentorados por gestoras.
+              Todo membro passa por esse ciclo no trainee: aulas de fundamentos, uma estratégia autoral em grupo, o
+              backtest em Python e um paper com a análise. Depois vêm os projetos maiores: adaptação de papers
+              internacionais, competições nacionais e projetos mentorados por gestoras.
             </p>
           </div>
           <div style={{ display: 'grid', gap: 20 }}>
@@ -141,14 +145,12 @@ export function QuantConnect() {
           <div>
             <h2 className="h-secao" style={{ fontSize: 46, lineHeight: 1.1, margin: '0 0 24px' }}>Quant Connect</h2>
             <p className="p-corpo" style={{ margin: '0 0 20px', maxWidth: '56ch' }}>
-              O Quant Connect aproxima estudantes do mercado quantitativo brasileiro. É organizado em conjunto pelas
-              ligas quant do Insper, da Poli-USP, da FEA-USP e da FGV, com dias de conteúdo nos auditórios das próprias
-              escolas.
+              O maior encontro de finanças quantitativas entre estudantes do país, organizado pelas ligas quant do
+              Insper, da Poli-USP, da FEA-USP e da FGV, nos auditórios das próprias escolas.
             </p>
             <p style={{ fontSize: 16, lineHeight: 1.7, color: 'var(--texto-2)', margin: '0 0 32px', maxWidth: '56ch' }}>
-              A programação combina palestras de gestoras e mesas proprietárias, painéis com quants em atividade,
-              workshops técnicos e espaço de recrutamento. A segunda edição ocorreu em maio, nos auditórios do Insper e
-              da Poli-USP.
+              São dois dias de palestras de gestoras e mesas proprietárias, painéis com quants em atividade, workshops
+              técnicos e recrutamento. A segunda edição foi em maio de 2026, no Insper e na Poli-USP.
             </p>
             <a
               className="btn btn--vazado"
@@ -156,7 +158,7 @@ export function QuantConnect() {
               target="_blank"
               rel="noopener"
             >
-              LinkedIn do evento
+              Acompanhar no LinkedIn
             </a>
           </div>
         </div>
@@ -233,7 +235,7 @@ const EVENTOS = [
     tag: 'Todo semestre · Insper',
     titulo: 'Treinamentos internos',
     paragrafos: [
-      'Os próprios membros ensinam: fundamentos de factor investing, índices e ETFs, e as ferramentas que a liga desenvolve — como o dashboard de análise de carteira usado nos projetos.',
+      'Os próprios membros ensinam: fundamentos de factor investing, índices e ETFs, e as ferramentas que a liga desenvolve, como o dashboard de análise de carteira usado nos projetos.',
     ],
     fotos: [{ src: '/assets/foto-treinamento.jpg', alt: 'Treinamento interno da liga' }],
     proporcao: '3 / 2',
@@ -400,49 +402,38 @@ export function Eventos({ posts = [] }) {
 }
 
 /* ============================================== Processo seletivo */
+const LINK_INSCRICAO =
+  'https://docs.google.com/forms/d/e/1FAIpQLScrwUvYpostcTPRLIXiZNyGCVsqQY2O-bPJwliCM5sOzQUtuA/viewform';
+
 export function ProcessoSeletivo() {
   const faq = [
-    ['Precisa saber programar?', 'Não. O trainee começa pelos fundamentos e a parte técnica é construída ao longo do processo, com mentoria dos membros mais experientes.'],
-    ['De quais cursos vocês aceitam?', 'De todos. Buscamos interesse por mercado e disposição para estudo técnico, não um curso específico.'],
-    ['Quanto tempo exige por semana?', 'Reuniões da frente de trabalho, mais o estudo individual e o desenvolvimento do projeto do semestre.'],
-    ['Como funciona a seleção?', 'Inscrição pelo formulário, seguida das etapas de avaliação e entrevista divulgadas a cada edição.'],
+    ['Preciso saber programar?', 'Não. O trainee começa pelos fundamentos, e a parte técnica se constrói ao longo do processo, com mentoria dos membros mais experientes.'],
+    ['Quais cursos podem se inscrever?', 'Todos os cursos do Insper. O que conta é interesse por mercado e disposição para estudo técnico.'],
+    ['Quanto tempo leva por semana?', 'As reuniões da sua frente de trabalho, mais o estudo individual e o projeto do semestre.'],
+    ['Como é a seleção?', 'Você se inscreve pelo formulário e passa pelas etapas de avaliação e entrevista, divulgadas a cada edição.'],
   ];
 
   return (
-    <section
-      id="ps"
-      className="secao"
-      style={{
-        backgroundImage:
-          'radial-gradient(58% 78% at 92% 44%, rgba(214,26,26,0.16) 0%, rgba(214,26,26,0) 68%),' +
-          'radial-gradient(40% 60% at 78% 96%, rgba(156,14,46,0.12) 0%, rgba(122,10,26,0) 72%)',
-      }}
-    >
+    <section id="ps" className="secao secao--mesh">
       <div className="container duas-colunas" style={{ alignItems: 'center' }}>
         <div>
           <div className="eyebrow" style={{ marginBottom: 16 }}>Processo seletivo</div>
           <h2 className="h-secao" style={{ margin: '0 0 22px' }}>Faça parte da liga</h2>
-          <p className="p-corpo" style={{ maxWidth: '52ch', margin: '0 0 32px' }}>
-            Convidamos alunos do Insper de todos os cursos a se inscreverem. Buscamos interesse genuíno por mercado,
-            disposição para estudo técnico e vontade de construir projetos com o time — não exigimos experiência prévia
-            em programação.
+          <p className="p-corpo" style={{ maxWidth: '50ch', margin: '0 0 32px' }}>
+            Aberto a alunos do Insper de todos os cursos. Você entra pelo trainee, sai com uma estratégia própria
+            testada e um paper escrito, e segue para os projetos com gestoras.
           </p>
-          <a
-            className="btn btn--solido"
-            href="https://docs.google.com/forms/d/e/1FAIpQLScrwUvYpostcTPRLIXiZNyGCVsqQY2O-bPJwliCM5sOzQUtuA/viewform"
-            target="_blank"
-            rel="noopener"
-          >
-            Quero me inscrever
+          <a className="btn btn--solido" href={LINK_INSCRICAO} target="_blank" rel="noopener">
+            Quero entrar
           </a>
         </div>
 
-        <div style={{ display: 'grid', borderTop: '1px solid var(--linha-forte)' }}>
-          {faq.map(([pergunta, resposta]) => (
-            <div key={pergunta} style={{ padding: '22px 0', borderBottom: '1px solid var(--linha-forte)' }}>
-              <div style={{ fontFamily: 'var(--serif)', fontSize: 19, lineHeight: 1.35, marginBottom: 10 }}>{pergunta}</div>
-              <p style={{ margin: 0, fontSize: 14, lineHeight: 1.7, color: 'var(--texto-3)' }}>{resposta}</p>
-            </div>
+        <div className="faq" style={{ borderTop: '1px solid rgba(242,242,240,0.14)' }}>
+          {faq.map(([pergunta, resposta], i) => (
+            <details key={pergunta} open={i === 0}>
+              <summary>{pergunta}</summary>
+              <p>{resposta}</p>
+            </details>
           ))}
         </div>
       </div>
@@ -453,11 +444,11 @@ export function ProcessoSeletivo() {
 /* ======================================================== Empresas */
 export function Empresas() {
   const caminhos = [
-    ['01', 'Mentoria de projetos', 'A empresa propõe a tese e acompanha o desenvolvimento ao longo do semestre.'],
-    ['02', 'Recrutamento', 'Acesso a alunos com experiência prática em modelagem, backtest e pesquisa aplicada.'],
-    ['03', 'Palestras e workshops', 'Profissionais do mercado apresentam para os membros e, nos eventos abertos, para o público de várias escolas.'],
-    ['04', 'Visitas ao escritório', 'Recebemos um grupo de membros para conhecer a operação de perto, conversar com o time e ver o dia a dia da mesa.'],
-    ['05', 'Patrocínio do Quant Connect', 'Presença de marca no evento que reúne as ligas quantitativas de Insper, Poli-USP, FEA-USP e FGV.'],
+    ['Mentoria de projetos', 'Sua equipe propõe a tese e acompanha o desenvolvimento durante o semestre, como a Lev e a Vault Capital já fizeram.'],
+    ['Recrutamento', 'Acesso a alunos com prática em modelagem, backtest e pesquisa aplicada, com o portfólio de cada projeto à vista.'],
+    ['Palestras e workshops', 'Profissionais da casa apresentam para os membros e, nos eventos abertos, para o público de várias escolas.'],
+    ['Visitas ao escritório', 'Um grupo de membros conhece a operação de perto, conversa com o time e vê o dia a dia da mesa.'],
+    ['Patrocínio do Quant Connect', 'Presença de marca no encontro das ligas quant de Insper, Poli-USP, FEA-USP e FGV.'],
   ];
 
   return (
@@ -466,25 +457,24 @@ export function Empresas() {
       className="secao secao--carvao"
       style={{ backgroundImage: 'radial-gradient(50% 70% at 4% 92%, rgba(22,42,118,0.12) 0%, rgba(22,42,118,0) 72%)' }}
     >
-      <div className="container">
-        <div className="eyebrow" style={{ marginBottom: 16 }}>Para empresas</div>
-        <h2 className="h-secao" style={{ margin: '0 0 20px', maxWidth: '24ch' }}>Como trabalhamos com o mercado</h2>
-        <p className="p-corpo" style={{ maxWidth: '60ch', margin: '0 0 56px' }}>
-          Gestoras, mesas proprietárias e empresas de tecnologia financeira se aproximam da liga por cinco caminhos.
-        </p>
-
-        <div className="grade-hairline grade-5">
-          {caminhos.map(([n, titulo, texto]) => (
-            <div key={n}>
-              <div className="eyebrow" style={{ letterSpacing: '0.2em', marginBottom: 16 }}>{n}</div>
-              <h3 style={{ fontFamily: 'var(--serif)', fontSize: 21, lineHeight: 1.3, marginBottom: 12 }}>{titulo}</h3>
-              <p style={{ margin: 0, fontSize: 14, lineHeight: 1.7, color: 'var(--texto-3)' }}>{texto}</p>
-            </div>
-          ))}
+      <div className="container duas-colunas" style={{ alignItems: 'start' }}>
+        <div className="fixo-desktop">
+          <div className="eyebrow" style={{ marginBottom: 16 }}>Para empresas</div>
+          <h2 className="h-secao" style={{ margin: '0 0 20px', maxWidth: '20ch', textWrap: 'balance' }}>Cinco formas de trabalhar com a liga</h2>
+          <p className="p-corpo" style={{ maxWidth: '44ch', margin: '0 0 32px' }}>
+            Gestoras, mesas proprietárias e fintechs chegam até os membros por um destes caminhos. Você escolhe um ou
+            combina vários.
+          </p>
+          <a className="btn btn--vazado" href="#contato">Falar com a diretoria</a>
         </div>
 
-        <div style={{ marginTop: 44 }}>
-          <a className="btn btn--vazado" href="#contato">Falar com a diretoria</a>
+        <div className="caminhos">
+          {caminhos.map(([titulo, texto]) => (
+            <div key={titulo} data-reveal>
+              <h3>{titulo}</h3>
+              <p>{texto}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -520,7 +510,7 @@ export function Parceiros() {
   return (
     <section id="parceiros" className="secao secao--carvao" style={{ padding: '100px 0' }}>
       <div className="container" style={{ margin: '0 auto 44px', padding: '0 var(--gutter)' }}>
-        <h2 className="eyebrow">Parceiros e patrocinadores de eventos passados</h2>
+        <h2 className="eyebrow">Quem já esteve com a liga</h2>
       </div>
       <div className="marquee">
         {fila(false)}
@@ -539,25 +529,15 @@ export function Contato() {
   ];
 
   return (
-    <section
-      id="contato"
-      className="secao"
-      style={{
-        padding: '110px var(--gutter) 80px',
-        borderBottom: 'none',
-        backgroundImage:
-          'radial-gradient(60% 80% at 6% 30%, rgba(20,70,150,0.14) 0%, rgba(20,70,150,0) 70%),' +
-          'radial-gradient(50% 70% at 30% 100%, rgba(22,42,118,0.12) 0%, rgba(22,42,118,0) 74%)',
-      }}
-    >
+    <section id="contato" className="secao secao--mesh secao--mesh-azul" style={{ padding: '120px var(--gutter) 96px', borderBottom: 'none' }}>
       <div className="container duas-colunas duas-colunas--estreita" style={{ alignItems: 'start' }}>
-        <div>
-          <h2 className="h-secao" style={{ fontSize: 48, lineHeight: 1.08, margin: '0 0 24px' }}>Vamos conversar.</h2>
+        <div className="painel" style={{ padding: '36px 34px' }}>
+          <h2 className="h-secao" style={{ margin: '0 0 16px' }}>Fale com a liga</h2>
           <p className="p-corpo" style={{ maxWidth: '52ch', margin: 0 }}>
-            Alunos interessados no processo seletivo, empresas que querem recrutar ou patrocinar e profissionais
-            dispostos a palestrar: fale com a liga.
+            Dúvidas sobre o processo seletivo, vagas para divulgar, patrocínio ou uma palestra para propor. A diretoria
+            responde por e-mail.
           </p>
-          <div style={{ marginTop: 40 }}>
+          <div style={{ marginTop: 32 }}>
             <FormularioContato />
           </div>
         </div>
@@ -580,14 +560,14 @@ export function Contato() {
 /* ========================================================== Rodapé */
 export function Rodape() {
   return (
-    <footer style={{ padding: 'var(--gutter)', borderTop: '1px solid var(--linha)', background: 'var(--carvao)' }}>
+    <footer style={{ padding: '64px var(--gutter) 40px', borderTop: '1px solid var(--linha)', background: 'var(--carvao)' }}>
       <div className="container rodape-grade">
         <Image src="/assets/logo-iqf.png" alt="Liga Insper Quantitative Finance" width={230} height={107}
-               style={{ width: '100%', maxWidth: 230, height: 'auto' }} />
+               style={{ width: '100%', maxWidth: 190, height: 'auto' }} />
         <div>
           <div className="eyebrow" style={{ marginBottom: 12 }}>Endereço</div>
           <div style={{ fontSize: 15, lineHeight: 1.75, color: 'var(--texto-2)' }}>
-            Rua Quatá, 300 — Vila Olímpia<br />São Paulo, SP
+            Insper, Rua Quatá, 300<br />Vila Olímpia, São Paulo, SP
           </div>
         </div>
         <div>
@@ -596,18 +576,17 @@ export function Rodape() {
             <a href="mailto:insperqfc@gmail.com">insperqfc@gmail.com</a>
             <a href="https://www.instagram.com/insperqf/" target="_blank" rel="noopener">Instagram</a>
             <a href="https://www.linkedin.com/company/insper-quantitative-finance-club/" target="_blank" rel="noopener">LinkedIn</a>
+            <a href="/membros">Área de membros</a>
           </div>
         </div>
       </div>
       <div
         className="container"
         style={{
-          paddingTop: 36,
+          paddingTop: 28,
           marginTop: 44,
           borderTop: '1px solid var(--linha)',
-          fontSize: 11,
-          letterSpacing: '0.18em',
-          textTransform: 'uppercase',
+          fontSize: 13,
           color: 'var(--texto-3)',
         }}
       >
