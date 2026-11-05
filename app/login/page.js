@@ -28,15 +28,18 @@ export default function PaginaLogin({ searchParams }) {
           'radial-gradient(30% 34% at 78% 78%, rgba(16,32,90,0.5) 0%, rgba(16,32,90,0) 70%)',
       }}
     >
-      <div style={{ width: '100%', maxWidth: 420 }}>
+      <div style={{ width: '100%', maxWidth: 460 }}>
         <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 12, marginBottom: 40 }}>
           <Image src="/assets/logo-mark.png" alt="" width={34} height={34} />
           <span className="eyebrow">Voltar ao site</span>
         </Link>
 
-        <h1 style={{ fontSize: 38, lineHeight: 1.1, marginBottom: 12 }}>Área de membros</h1>
+        {/* O cartão de vidro é a única superfície sobre o mesh: é a "folha"
+            de entrar, um controle, não conteúdo. */}
+        <div className="vidro vidro--escuro" style={{ padding: '34px 32px 32px' }}>
+        <h1 style={{ fontSize: 38, lineHeight: 1.1, marginBottom: 12 }}>Entrar</h1>
         <p style={{ color: 'var(--texto-3)', fontSize: 15, lineHeight: 1.6, margin: '0 0 32px' }}>
-          Acesso restrito aos membros da liga. O cadastro é feito pela gestão — se você ainda não tem login, fale com a
+          Área de membros da liga. Quem cria as contas é a gestão: se você ainda não tem login, fale com a
           diretoria.
         </p>
 
@@ -45,6 +48,7 @@ export default function PaginaLogin({ searchParams }) {
         )}
 
         <FormularioLogin destino={searchParams?.destino || '/membros'} />
+        </div>
       </div>
     </main>
   );
