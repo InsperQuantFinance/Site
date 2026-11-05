@@ -10,6 +10,7 @@ const LINKS = [
   { href: '#quant-connect', label: 'Quant Connect' },
   { href: '#eventos', label: 'Eventos' },
   { href: '#research', label: 'Projetos' },
+  { href: '/fundo', label: 'Fundo' },
   { href: '#ps', label: 'Processo seletivo' },
   { href: '#empresas', label: 'Empresas' },
   { href: '#contato', label: 'Contato' },

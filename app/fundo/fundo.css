@@ -1,0 +1,177 @@
+/* Página /fundo. Usa os tokens de globals.css; nada de cor nova além da
+   paleta das estratégias (lib/formato-fundo.js). */
+
+.fundo-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding: 18px var(--gutter);
+  border-bottom: 1px solid var(--linha-card);
+  background: var(--carvao);
+}
+
+.fundo-cartao__valor {
+  font-family: var(--serif);
+  font-size: 30px;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+.fundo-cartao__detalhe { margin-top: 6px; font-size: 13px; color: var(--texto-3); }
+
+.fundo-atalhos { display: flex; flex-wrap: wrap; gap: 8px 28px; margin-top: 32px; }
+.fundo-atalhos a { color: var(--texto-2); border-bottom: 1px solid var(--linha-forte); padding-bottom: 2px; }
+.fundo-atalhos a:hover { color: var(--osso); border-color: var(--osso); }
+#patrimonio, #estrategias, #como-ler { scroll-margin-top: 24px; }
+
+/* ------------------------------------------------------------ gráfico */
+.fundo-grafico {
+  position: relative;
+  --fundo-superficie: var(--preto);
+}
+.secao--carvao .fundo-grafico { --fundo-superficie: var(--carvao); }
+.fundo-grafico svg:focus-visible { outline: 1px solid var(--azul); outline-offset: 4px; }
+
+.fundo-eixo {
+  fill: var(--texto-3);
+  font-family: var(--sans);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+.fundo-ponta { fill: var(--texto-2); font-family: var(--sans); font-size: 12px; }
+
+.fundo-tooltip {
+  position: absolute;
+  top: 8px;
+  z-index: 2;
+  min-width: 170px;
+  padding: 10px 12px;
+  background: var(--preto-puro);
+  border: 1px solid var(--linha-forte);
+  font-size: 13px;
+  line-height: 1.5;
+  pointer-events: none;
+}
+.fundo-tooltip__quando { color: var(--texto-3); font-size: 12px; margin-bottom: 4px; }
+.fundo-tooltip__linha { display: flex; align-items: center; gap: 8px; }
+.fundo-tooltip__fatia {
+  min-width: 58px;
+  text-align: right;
+  color: var(--texto-3);
+  font-variant-numeric: tabular-nums;
+}
+.fundo-tooltip__total { margin-top: 4px; padding-top: 4px; border-top: 1px solid var(--linha-forte); }
+.fundo-tooltip__linha strong {
+  margin-left: auto;
+  padding-left: 12px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.fundo-legenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+  color: var(--texto-2);
+}
+.fundo-legenda li { display: flex; align-items: center; }
+.fundo-legenda__amostra {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 14px;
+  height: 3px;
+  margin-right: 8px;
+  border-radius: 2px;
+  vertical-align: middle;
+}
+
+.fundo-controles {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  margin-bottom: 20px;
+}
+.fundo-periodos { display: flex; gap: 8px; flex-wrap: wrap; }
+.fundo-variacao { margin: 0; font-size: 14px; color: var(--texto-3); font-variant-numeric: tabular-nums; }
+.fundo-variacao strong { color: var(--osso); font-weight: 500; }
+.fundo-periodo {
+  padding: 7px 14px;
+  font: inherit;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--texto-2);
+  background: transparent;
+  border: 1px solid var(--linha-forte);
+  cursor: pointer;
+}
+.fundo-periodo:hover { color: var(--osso); border-color: var(--texto-3); }
+.fundo-periodo[aria-pressed='true'] { color: var(--preto); background: var(--osso); border-color: var(--osso); }
+
+.fundo-legenda__nota { color: var(--texto-3); }
+.fundo-legenda__amostra--tracejada {
+  height: 0;
+  border-top: 1px dashed var(--texto-3);
+  border-radius: 0;
+}
+
+/* ------------------------------------------------------------ tabela */
+.fundo-tabela-caixa { margin-top: 48px; overflow-x: auto; }
+.fundo-tabela { width: 100%; border-collapse: collapse; font-size: 15px; }
+.fundo-tabela th {
+  padding: 0 12px 12px 0;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: left;
+  color: var(--texto-3);
+  border-bottom: 1px solid var(--linha-forte);
+  white-space: nowrap;
+}
+.fundo-tabela td { padding: 14px 12px 14px 0; border-bottom: 1px solid var(--linha); white-space: nowrap; }
+.fundo-tabela .num { text-align: right; font-variant-numeric: tabular-nums; padding-left: 24px; padding-right: 0; }
+.fundo-tabela__inativa td { color: var(--texto-3); }
+.fundo-tabela__nota { font-size: 13px; }
+.fundo-tabela__grupo td { padding: 0; }
+.fundo-tabela__alternar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 0;
+  font: inherit;
+  font-size: 14px;
+  color: var(--texto-2);
+  text-align: left;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.fundo-tabela__alternar:hover { color: var(--osso); }
+.fundo-tabela__alternar:focus-visible { outline: 1px solid var(--azul); outline-offset: -1px; }
+.fundo-tabela__seta { width: 14px; color: var(--texto-3); }
+
+.fundo-nota { margin: 16px 0 0; font-size: 13px; color: var(--texto-3); }
+
+.fundo-notas { margin: 0; padding-left: 18px; color: var(--texto-2); font-size: 15px; line-height: 1.7; }
+.fundo-notas li + li { margin-top: 10px; }
+
+@media (max-width: 900px) {
+  .grade-hairline.fundo-cartoes { grid-template-columns: 1fr 1fr; }
+  .fundo-cartao__valor { font-size: 24px; }
+}
+@media (max-width: 420px) {
+  .grade-hairline.fundo-cartoes { grid-template-columns: 1fr; }
+  /* os cinco períodos numa linha só */
+  .fundo-periodos { gap: 6px; }
+  .fundo-periodo { padding: 7px 9px; letter-spacing: 0.06em; }
+  .fundo-tabela { font-size: 14px; }
+}
