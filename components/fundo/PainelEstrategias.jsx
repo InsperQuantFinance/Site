@@ -9,27 +9,30 @@ import {
   formatarAlocacao,
   formatarMoeda,
   formatarResultado,
+  formatarVariacao,
 } from '@/lib/formato-fundo';
-import { periodosDisponiveis, recortar } from '@/lib/periodos-fundo';
+import { fatoresRetorno, periodosDisponiveis, recortar } from '@/lib/periodos-fundo';
 
 const MEDIDAS = [
-  { id: 'resultado', rotulo: 'Resultado' },
+  { id: 'retorno', rotulo: 'Retorno' },
   { id: 'alocado', rotulo: 'Patrimônio alocado' },
 ];
 const COR_LIVRE = '#6b6e75'; // "Não alocado": cinza, fora da paleta das estratégias
 
 /**
- * Estratégias: resultado no período (linhas, a partir do zero no começo da
- * janela) ou o patrimônio que cada uma administra (áreas empilhadas, cuja
+ * Estratégias: retorno no período, em % do capital de cada uma (linhas, a
+ * partir do zero no começo da janela; o fundo inteiro tracejado para
+ * comparar), ou o patrimônio que cada uma administra (áreas empilhadas, cuja
  * soma é o patrimônio do fundo). Nunca as posições.
  */
 export default function PainelEstrategias() {
   const { pontos, estrategias } = useDadosFundo();
   const opcoes = useMemo(() => periodosDisponiveis(pontos), [pontos]);
   const [periodo, setPeriodo] = useState('total');
-  const [medida, setMedida] = useState('resultado');
+  const [medida, setMedida] = useState('retorno');
   const [verEncerradas, setVerEncerradas] = useState(false);
   const r = useMemo(() => recortar(pontos, periodo), [pontos, periodo]);
+  const fatores = useMemo(() => fatoresRetorno(pontos), [pontos]);
 
   // estratégias com algum dado na janela, com o resultado do período
   const linhasTabela = useMemo(() => estrategias.map((e) => {
@@ -37,16 +40,35 @@ export default function PainelEstrategias() {
     const naJanela = r.linhas.filter((p) => p.est[n]);
     const inicial = r.base?.est[n]?.resultado ?? 0;
     const ult = naJanela[naJanela.length - 1];
-    return { ...e, naJanela, inicial, noPeriodo: ult ? ult.est[n].resultado - inicial : null };
-  }), [estrategias, r]);
+    const f = fatores.get(n) ?? new Map();
+    // fator no começo da janela; quem estreou depois começa em 1 (0%)
+    const fatorBase = (r.base && f.get(r.base.t)) || 1;
+    const fatorFinal = [...f.values()].pop() ?? 1;
+    return {
+      ...e,
+      naJanela,
+      inicial,
+      f,
+      fatorBase,
+      noPeriodo: ult ? ult.est[n].resultado - inicial : null,
+      retornoPeriodo: ult ? f.get(ult.t) / fatorBase - 1 : null,
+      retornoTotal: fatorFinal - 1,
+    };
+  }), [estrategias, r, fatores]);
 
   const series = useMemo(() => {
-    if (medida === 'resultado') {
-      return linhasTabela.filter((e) => e.naJanela.length).map((e) => {
-        const pontosLinha = e.naJanela.map((p) => ({ t: p.t, y: p.est[e.numero].resultado - e.inicial }));
+    if (medida === 'retorno') {
+      const lista = linhasTabela.filter((e) => e.naJanela.length).map((e) => {
+        const pontosLinha = e.naJanela.map((p) => ({
+          t: p.t,
+          y: e.f.get(p.t) / e.fatorBase - 1,
+          nota: formatarResultado(p.est[e.numero].resultado - e.inicial),
+        }));
         // criada dentro da janela: a linha larga do zero, no registro anterior à estreia
         const i = r.linhas.indexOf(e.naJanela[0]);
-        if (i > 0 && !r.linhas[i - 1].est[e.numero]) pontosLinha.unshift({ t: r.linhas[i - 1].t, y: 0 });
+        if (i > 0 && !r.linhas[i - 1].est[e.numero]) {
+          pontosLinha.unshift({ t: r.linhas[i - 1].t, y: 0, nota: formatarResultado(0) });
+        }
         return {
           id: String(e.numero),
           rotulo: e.rotulo,
@@ -55,6 +77,20 @@ export default function PainelEstrategias() {
           pontos: pontosLinha,
         };
       });
+      // o fundo inteiro, para comparar: retorno da cota
+      const cotaBase = r.base?.cota ?? 1;
+      lista.push({
+        id: 'fundo',
+        rotulo: 'Fundo',
+        cor: 'var(--texto-2)',
+        tracejado: true,
+        pontos: r.linhas.map((p) => ({
+          t: p.t,
+          y: p.cota / cotaBase - 1,
+          nota: formatarResultado(p.patrimonio - (r.base ? r.base.patrimonio : p.patrimonio / p.cota)),
+        })),
+      });
+      return lista;
     }
     const comFatia = linhasTabela.filter((e) => e.naJanela.some((p) => p.est[e.numero].alocacao > 0));
     const lista = comFatia.map((e) => ({
@@ -89,20 +125,21 @@ export default function PainelEstrategias() {
         <Alternador rotulo="Período do gráfico" opcoes={opcoes} valor={periodo} aoMudar={setPeriodo} />
       </div>
       <p className="fundo-nota" style={{ margin: '0 0 20px' }}>
-        {medida === 'resultado'
-          ? `Resultado de cada estratégia no período (${r.intervalo}), em reais e já descontados os custos.`
+        {medida === 'retorno'
+          ? `Retorno sobre o patrimônio que cada estratégia administra (${r.intervalo}), já descontados os custos.
+            A linha tracejada é o fundo inteiro; passe o mouse para ver também em reais.`
           : `Quanto do patrimônio cada estratégia administra (${r.intervalo}). A soma das faixas é o patrimônio do fundo.`}
       </p>
 
       <GraficoLinhas
         key={`${medida}-${periodo}`}
         series={series}
-        formato={medida === 'resultado' ? 'resultado' : 'moeda'}
+        formato={medida === 'retorno' ? 'percentual' : 'moeda'}
         empilhado={medida === 'alocado'}
         escalaX={r.escalaX}
         rotuloX={r.rotuloX}
-        rotuloAcessivel={medida === 'resultado'
-          ? `Resultado de cada estratégia, ${r.intervalo}`
+        rotuloAcessivel={medida === 'retorno'
+          ? `Retorno de cada estratégia em %, ${r.intervalo}`
           : `Patrimônio alocado em cada estratégia, ${r.intervalo}`}
       />
 
@@ -163,8 +200,16 @@ function LinhaEstrategia({ e, patrimonio, mostrarPeriodo }) {
         {formatarMoeda(e.ativa ? e.alocacao * patrimonio : 0)}
         <span className="fundo-tabela__nota"> · {formatarAlocacao(e.ativa ? e.alocacao : 0)}</span>
       </td>
-      {mostrarPeriodo && <td className="num">{formatarResultado(e.noPeriodo)}</td>}
-      <td className="num">{formatarResultado(e.resultado)}</td>
+      {mostrarPeriodo && (
+        <td className="num">
+          {formatarResultado(e.noPeriodo)}
+          <span className="fundo-tabela__nota"> · {formatarVariacao(e.retornoPeriodo)}</span>
+        </td>
+      )}
+      <td className="num">
+        {formatarResultado(e.resultado)}
+        <span className="fundo-tabela__nota"> · {formatarVariacao(e.retornoTotal)}</span>
+      </td>
     </tr>
   );
 }

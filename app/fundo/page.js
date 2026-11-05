@@ -107,6 +107,9 @@ export default async function PaginaFundo() {
                   <li>Mês, Ano e Total usam o fechamento de cada dia, que é o valor oficial da cota. Dia e Semana mostram os
                     pontos de 15 em 15 minutos do pregão; na Semana, noites e fins de semana não ocupam espaço no gráfico.</li>
                   <li>A variação ao lado do período é o retorno da cota: do fechamento anterior ao período até agora.</li>
+                  <li>O retorno de cada estratégia é calculado sobre o patrimônio que ela administra, encadeado ponto a
+                    ponto como a cota do fundo. Assim uma estratégia com 10% do fundo e outra com 50% ficam comparáveis,
+                    mesmo que a fatia mude no caminho.</li>
                   <li>Numa conta de simulação as ordens são executadas sem fila e sem mover o preço, o que deixa o resultado
                     um pouco melhor do que seria no mercado real. Os custos de operação são estimados e descontados.</li>
                   <li>Os ativos que cada estratégia opera não são divulgados.</li>

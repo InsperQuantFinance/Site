@@ -61,6 +61,12 @@
   color: var(--texto-3);
   font-variant-numeric: tabular-nums;
 }
+.fundo-tooltip__nota {
+  min-width: 78px;
+  text-align: right;
+  color: var(--texto-3);
+  font-variant-numeric: tabular-nums;
+}
 .fundo-tooltip__total { margin-top: 4px; padding-top: 4px; border-top: 1px solid var(--linha-forte); }
 .fundo-tooltip__linha strong {
   margin-left: auto;

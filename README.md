@@ -220,6 +220,9 @@ Os números vêm da VM do fundo (repo `fundoIQF`), que faz POST em
   Semana usam os pontos de 15 min, que a página busca só para os últimos 7
   dias; os outros usam o fechamento diário. Mês e Ano só aparecem quando o
   histórico já passou deles.
-- **Estratégias:** "Resultado" mostra o lucro de cada uma no período;
+- **Estratégias:** "Retorno" mostra o retorno de cada uma no período, em % do
+  capital dela (fatia × patrimônio), encadeado ponto a ponto
+  (`fatoresRetorno` em `lib/periodos-fundo.js`), com o fundo tracejado para
+  comparar; o tooltip e a tabela trazem também o valor em R$;
   "Patrimônio alocado" empilha fatia × patrimônio de cada uma (a soma é o
   patrimônio do fundo).

@@ -10,15 +10,19 @@ import {
   formatarMes,
   formatarMoeda,
   formatarEixoMoeda,
+  formatarEixoPct,
   formatarResultado,
+  formatarVariacao,
 } from '@/lib/formato-fundo';
 
 /**
  * Gráfico de linhas (ou áreas empilhadas) em SVG, sem biblioteca (o site não
  * tinha nenhuma, e dois gráficos não justificam 100 kB a mais no bundle).
  *
- *   series      [{ id, rotulo, cor, encerrada?, pontos: [{ t (ms), y }] }]
- *   formato     'moeda' (valores) | 'resultado' (lucro/prejuízo, com linha do zero)
+ *   series      [{ id, rotulo, cor, encerrada?, tracejado?, pontos: [{ t (ms), y, nota? }] }]
+ *               (nota: texto extra no tooltip, ex. o valor em R$ de um retorno em %)
+ *   formato     'moeda' (valores) | 'resultado' (lucro/prejuízo em R$) |
+ *               'percentual' (retorno, 0,05 = +5%); os dois últimos com linha do zero
  *   escalaX     'tempo' (proporcional ao relógio) | 'ordinal' (um passo por ponto:
  *               noites e fins de semana não ocupam espaço)
  *   rotuloX     'hora' | 'dia' | 'mes'
@@ -114,7 +118,7 @@ export default function GraficoLinhas({
     let yMin = Math.min(...valores);
     let yMax = Math.max(...valores);
     if (referencia) { yMin = Math.min(yMin, referencia.y); yMax = Math.max(yMax, referencia.y); }
-    if (formato === 'resultado' || empilhado) { yMin = Math.min(yMin, 0); yMax = Math.max(yMax, 0); }
+    if (formato !== 'moeda' || empilhado) { yMin = Math.min(yMin, 0); yMax = Math.max(yMax, 0); }
     if (yMin === yMax) { yMin -= Math.abs(yMin) * 0.005 || 1; yMax += Math.abs(yMax) * 0.005 || 1; }
     const folga = (yMax - yMin) * 0.08;
     // áreas sempre partem do zero: a altura é o valor
@@ -124,7 +128,7 @@ export default function GraficoLinhas({
 
     // margem esquerda do tamanho do maior rótulo do eixo Y
     const passo = ticks.length > 1 ? ticks[1] - ticks[0] : 1;
-    const esq = Math.ceil(Math.max(...ticks.map((v) => medirTexto(formatarEixoMoeda(v, passo), caixa.current)))) + 14;
+    const esq = Math.ceil(Math.max(...ticks.map((v) => medirTexto(formato === 'percentual' ? formatarEixoPct(v, passo) : formatarEixoMoeda(v, passo), caixa.current)))) + 14;
     const w = largura - esq - dir;
     const h = ALTURA - M.topo - M.base;
     let tMin = tempos[0];
@@ -154,9 +158,9 @@ export default function GraficoLinhas({
     return { tempos, faixas, ticks, x, y, w, h, esq, marcasX };
   }, [largura, visiveis, formato, dir, empilhado, referencia, escalaX, fmtX]);
 
-  const fmtY = formato === 'resultado' ? formatarResultado : formatarMoeda;
+  const fmtY = formato === 'resultado' ? formatarResultado : formato === 'percentual' ? formatarVariacao : formatarMoeda;
   const passoY = g && g.ticks.length > 1 ? g.ticks[1] - g.ticks[0] : 1;
-  const fmtEixo = (v) => formatarEixoMoeda(v, passoY);
+  const fmtEixo = (v) => (formato === 'percentual' ? formatarEixoPct(v, passoY) : formatarEixoMoeda(v, passoY));
   const fmtFoco = rotuloX === 'hora' || escalaX === 'ordinal' ? formatarDiaHora : formatarDiaAno;
 
   function pontoEm(s, t) {
@@ -220,11 +224,16 @@ export default function GraficoLinhas({
     linhasTooltip = visiveis.map((s, k) => {
       if (empilhado) return g.faixas[k][foco].v > 0 ? { s, v: g.faixas[k][foco].v } : null;
       const p = pontoEm(s, tFoco);
-      return p ? { s, v: p.y } : null;
+      return p ? { s, v: p.y, nota: p.nota } : null;
     }).filter(Boolean);
     if (empilhado) linhasTooltip.reverse();
   }
   const totalFoco = linhasTooltip.reduce((soma, l) => soma + l.v, 0);
+  const temNotas = linhasTooltip.some((l) => l.nota);
+  const amostra = (s) => (s.tracejado
+    ? <span className="fundo-legenda__amostra fundo-legenda__amostra--tracejada" style={{ borderTopColor: s.cor }}
+            aria-hidden="true" />
+    : <span className="fundo-legenda__amostra" style={{ background: s.cor }} aria-hidden="true" />);
   const anchorX = (x) => (x - g.esq < 30 ? 'start' : g.esq + g.w - x < 30 ? 'end' : 'middle');
   const caminho = (pts) => pts.map((p, i) => `${i ? 'L' : 'M'}${p[0].toFixed(1)},${p[1].toFixed(1)}`).join('');
 
@@ -234,7 +243,7 @@ export default function GraficoLinhas({
         <ul className="fundo-legenda" aria-label="Legenda">
           {visiveis.length >= 2 && visiveis.map((s) => (
             <li key={s.id}>
-              <span className="fundo-legenda__amostra" style={{ background: s.cor }} aria-hidden="true" />
+              {amostra(s)}
               {s.rotulo}
               {s.encerrada && <span className="fundo-legenda__nota">&nbsp;· encerrada</span>}
             </li>
@@ -266,7 +275,7 @@ export default function GraficoLinhas({
             {g.ticks.map((v) => (
               <g key={v}>
                 <line x1={g.esq} x2={g.esq + g.w} y1={g.y(v)} y2={g.y(v)}
-                      stroke={formato === 'resultado' && v === 0 ? 'var(--linha-forte)' : 'var(--linha)'} />
+                      stroke={formato !== 'moeda' && v === 0 ? 'var(--linha-forte)' : 'var(--linha)'} />
                 <text x={g.esq - 10} y={g.y(v)} dy="0.32em" textAnchor="end" className="fundo-eixo">
                   {fmtEixo(v)}
                 </text>
@@ -306,7 +315,8 @@ export default function GraficoLinhas({
             ) : (
               <>
                 {visiveis.map((s) => (s.pontos.length > 1 ? (
-                  <path key={s.id} fill="none" stroke={s.cor} strokeWidth={2}
+                  <path key={s.id} fill="none" stroke={s.cor} strokeWidth={s.tracejado ? 1.5 : 2}
+                        strokeDasharray={s.tracejado ? '5 4' : undefined}
                         strokeLinejoin="round" strokeLinecap="round"
                         d={caminho(s.pontos.map((p) => [g.x(p.t), g.y(p.y)]))} />
                 ) : null))}
@@ -361,11 +371,12 @@ export default function GraficoLinhas({
             }}
           >
             <div className="fundo-tooltip__quando">{fmtFoco(tFoco)}</div>
-            {linhasTooltip.map(({ s, v }) => (
+            {linhasTooltip.map(({ s, v, nota }) => (
               <div key={s.id} className="fundo-tooltip__linha">
-                <span className="fundo-legenda__amostra" style={{ background: s.cor }} aria-hidden="true" />
+                {amostra(s)}
                 {visiveis.length > 1 && <span>{s.rotulo}</span>}
                 <strong>{fmtY(v)}</strong>
+                {temNotas && <span className="fundo-tooltip__nota">{nota ?? ''}</span>}
                 {empilhado && <span className="fundo-tooltip__fatia">{totalFoco ? formatarAlocacao(v / totalFoco) : '—'}</span>}
               </div>
             ))}
