@@ -88,7 +88,7 @@ export async function aceitarConvite(_estadoAnterior, formData) {
     const motivo = registrarErro('convite: criar conta', erroAuth, { acao: 'criar a conta' });
     return erro(
       tipoDeErro(erroAuth) === 'ja-existe'
-        ? 'Já existe uma conta com esse e-mail. Entre pelo login — se esqueceu a senha, use “Esqueci minha senha”.'
+        ? 'Já existe uma conta com esse e-mail. Entre pelo login. Se esqueceu a senha, use “Esqueci minha senha”.'
         : motivo,
     );
   }
