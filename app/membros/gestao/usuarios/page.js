@@ -37,11 +37,34 @@ export default async function PaginaUsuarios() {
       a.nome.localeCompare(b.nome),
   );
 
+  const agora = Date.now();
+  const ativos = ordenados.filter((u) => u.ativo);
+  const resumo = [
+    [ativos.length, 'contas ativas'],
+    [ativos.filter((u) => u.cargo === 'trainee').length, 'trainees'],
+    [convidados.filter((c) => !c.revogado && c.usos === 0 && (!c.expira_em || new Date(c.expira_em).getTime() > agora)).length,
+      'convites esperando cadastro'],
+    [ordenados.length - ativos.length, 'contas desativadas'],
+  ];
+
   return (
-    <div style={{ display: 'grid', gap: 40 }}>
+    <div style={{ display: 'grid', gap: 48 }}>
       <div>
         <div className="eyebrow" style={{ marginBottom: 16 }}>Gestão</div>
-        <h1 style={{ fontSize: 38, lineHeight: 1.1, marginBottom: 0 }}>Usuários</h1>
+        <h1 style={{ fontSize: 'clamp(34px, 4vw, 48px)', lineHeight: 1.08, margin: '0 0 12px' }}>Usuários e convites</h1>
+        <p className="p-corpo" style={{ margin: 0, maxWidth: '60ch' }}>
+          Convide quem entrou na liga, acompanhe quem já criou a conta e ajuste cargos. Só a própria pessoa define e
+          troca a senha.
+        </p>
+      </div>
+
+      <div className="resumo-gestao">
+        {resumo.map(([valor, rotulo]) => (
+          <div key={rotulo}>
+            <div className="resumo-gestao__valor">{valor}</div>
+            <div className="resumo-gestao__rotulo">{rotulo}</div>
+          </div>
+        ))}
       </div>
 
       {/* A instrução de configurar o servidor só aparece para a presidência.
@@ -50,12 +73,11 @@ export default async function PaginaUsuarios() {
           que não existem no mundo deles e que ninguém ali vai mexer. O que
           todo mundo precisa saber é que convidar continua funcionando. */}
       {!emailConfigurado() && (
-        <div className="aviso" style={{ margin: 0, borderColor: 'var(--linha-forte)', color: 'var(--texto-3)' }}>
-          O disparo automático está desligado, mas convidar funciona normalmente:{' '}
-          <strong>Abrir e-mail</strong> abre o Gmail numa aba nova com a mensagem pronta e já marca o convite como
-          enviado — você só confere e aperta Enviar.
+        <div className="aviso aviso--info" style={{ margin: 0 }}>
+          O envio automático está desligado, e convidar funciona do mesmo jeito: <strong>Abrir e-mail</strong> abre o
+          Gmail com a mensagem pronta e marca o convite como enviado. Você confere e aperta Enviar.
           {ehPresidencia(ator.cargo)
-            ? ' Para disparar a turma inteira de uma vez, é preciso ligar o envio automático nas configurações do servidor; quem cuida do deploy sabe onde.'
+            ? ' Para disparar a turma inteira de uma vez, ligue o envio automático nas configurações do servidor.'
             : ' Para disparar a turma inteira de uma vez, fale com a presidência.'}
         </div>
       )}
@@ -64,7 +86,10 @@ export default async function PaginaUsuarios() {
 
       <Convites convites={links} />
 
-      <GerenciarUsuarios usuarios={ordenados} ator={{ id: ator.id, cargo: ator.cargo }} />
+      <section style={{ display: 'grid', gap: 16 }}>
+        <h2 style={{ fontSize: 26, margin: 0 }}>Contas</h2>
+        <GerenciarUsuarios usuarios={ordenados} ator={{ id: ator.id, cargo: ator.cargo }} />
+      </section>
     </div>
   );
 }
