@@ -671,9 +671,9 @@ input[type='date'].inline-edit:focus::-webkit-calendar-picker-indicator {
   margin-top: clamp(48px, 9vh, 96px);
   width: min(1080px, 100%);
   display: grid;
-  grid-template-columns: 1.25fr 1fr 1fr;
+  grid-template-columns: 1.25fr 1fr 1fr 1fr;
 }
-.hero__faixa > * { padding: 22px 26px; }
+.hero__faixa > * { padding: 22px 20px; }
 .hero__faixa > * + * { border-left: 1px solid rgba(242, 242, 240, 0.1); }
 .faixa__rotulo { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--azul); margin: 0 0 8px; }
 .faixa__valor { font-family: var(--serif); font-size: 30px; line-height: 1.05; color: var(--osso); }
@@ -701,7 +701,7 @@ input[type='date'].inline-edit:focus::-webkit-calendar-picker-indicator {
 }
 
 /* ------------------------------------------------------ a liga (marcas) */
-.marcas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--linha-card); margin-top: 64px; }
+.marcas { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--linha-card); margin-top: 64px; }
 .marcas > div { background: var(--preto); padding: 30px 26px 34px; }
 .marcas__valor { font-family: var(--serif); font-size: clamp(38px, 4vw, 56px); line-height: 1; letter-spacing: -0.02em; margin-bottom: 14px; }
 .marcas__texto { margin: 0; font-size: 15px; line-height: 1.6; color: var(--texto-2); }

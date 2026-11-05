@@ -8,6 +8,7 @@ export function Sobre() {
   const marcas = [
     ['2º lugar', 'no Quantamental Challenge 2024, da Itaú Asset, com o Solaris.'],
     ['Semifinal', 'no Desafio Quant AI 2025, também da Itaú Asset, com o Nexus.'],
+    ['4º lugar', 'finalista no Desafio Quant AI 2026, da Itaú Asset, com o Kairos.'],
     ['4 ligas', 'organizam juntas o Quant Connect: Insper, Poli-USP, FEA-USP e FGV.'],
   ];
 

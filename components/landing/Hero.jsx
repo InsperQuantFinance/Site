@@ -64,13 +64,13 @@ function CartaoFundo({ fundo }) {
   return (
     <a href="/fundo" className="faixa__fundo">
       <div>
-        <p className="faixa__rotulo faixa__vivo">Fundo IQF</p>
+        <p className="faixa__rotulo faixa__vivo">Fundo IQF · fictício</p>
         <div className={`faixa__valor ${sobe ? 'faixa__sobe' : 'faixa__desce'}`}>{fmtPct(fundo.retorno)}</div>
       </div>
       <Sparkline pontos={fundo.pontos} />
       <p className="faixa__texto" style={{ gridColumn: '1 / -1' }}>
-        Cota desde o início. Hoje {fmtPct(fundo.variacaoDia)}, às {fmtHora(fundo.atualizadoEm)}. Conta de simulação da B3, atualizada a
-        cada 15 min no pregão. <span className="faixa__mais">Ver o fundo</span>
+        Cota desde o início. Hoje {fmtPct(fundo.variacaoDia)}, às {fmtHora(fundo.atualizadoEm)}. Conta de simulação da B3, sem
+        dinheiro real, atualizada a cada 15 min no pregão. <span className="faixa__mais">Ver o fundo</span>
       </p>
     </a>
   );
@@ -134,9 +134,9 @@ export default function Hero({ fundo = null }) {
           <CartaoFundo fundo={fundo} />
         ) : (
           <div>
-            <p className="faixa__rotulo">Fundo IQF</p>
+            <p className="faixa__rotulo">Fundo IQF · fictício</p>
             <div className="faixa__valor">R$ 1 mi</div>
-            <p className="faixa__texto">virtuais operados pelas estratégias dos membros. <a href="/fundo" className="faixa__mais">Ver o fundo</a></p>
+            <p className="faixa__texto">virtuais, sem dinheiro real, operados pelas estratégias dos membros. <a href="/fundo" className="faixa__mais">Ver o fundo</a></p>
           </div>
         )}
         <div>
@@ -148,6 +148,11 @@ export default function Hero({ fundo = null }) {
           <p className="faixa__rotulo">Desafio Quant AI 2025</p>
           <div className="faixa__valor">Semifinal</div>
           <p className="faixa__texto">com o Nexus, alocação por grafos e redes neurais.</p>
+        </div>
+        <div>
+          <p className="faixa__rotulo">Desafio Quant AI 2026</p>
+          <div className="faixa__valor">4º lugar</div>
+          <p className="faixa__texto">finalista com o Kairos, na competição da Itaú Asset.</p>
         </div>
       </div>
     </section>
