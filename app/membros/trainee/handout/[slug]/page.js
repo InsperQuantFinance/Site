@@ -46,7 +46,7 @@ export default async function PaginaHandout({ params }) {
         </Link>
         <div className="painel" style={{ color: 'var(--texto-3)' }}>
           Não foi possível ler este handout. O arquivo no bucket não está no formato que a página
-          espera{gestao ? ' — remonte com conteudo/handouts/_montar.mjs e suba de novo.' : '.'}
+          espera{gestao ? '. Remonte com conteudo/handouts/_montar.mjs e suba de novo.' : '.'}
         </div>
       </div>
     );
@@ -63,7 +63,7 @@ export default async function PaginaHandout({ params }) {
       {/* Gestão chega aqui antes da turma; o aviso evita achar que já abriu. */}
       {!atual.liberado && (
         <div className="painel" style={{ fontSize: 14, color: 'var(--texto-3)', borderColor: 'var(--azul)' }}>
-          Ainda fechado para os trainees — abre em {formatarLiberacao(atual.liberadoEm)}. Você está
+          Ainda fechado para os trainees. Abre em {formatarLiberacao(atual.liberadoEm)}. Você está
           vendo como gestão.
         </div>
       )}
