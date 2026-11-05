@@ -144,7 +144,7 @@ export async function criarUsuario(_estadoAnterior, formData) {
   });
   if (erroLink) {
     registrarErro('gestao: criarUsuario/enviar link', erroLink);
-    avisoEnvio = ' O e-mail com o link não saiu — use “Enviar link de senha” na lista abaixo.';
+    avisoEnvio = ' O e-mail com o link não saiu. Use “Enviar link de senha” na lista abaixo.';
   }
 
   await registrar(ator, 'criar_usuario', 'profiles', criado.user.id, { email, cargo });
