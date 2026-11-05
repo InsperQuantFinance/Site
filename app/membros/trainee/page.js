@@ -233,7 +233,7 @@ export default async function Trainee() {
         {aulas.length === 0 ? (
           <div className="painel" style={{ color: 'var(--texto-3)' }}>
             {gestao
-              ? 'Nenhum handout no catálogo. Suba o HTML com scripts/subir-handout.mjs — veja conteudo/handouts/README.md.'
+              ? 'Nenhum handout no catálogo. Suba o HTML com scripts/subir-handout.mjs. Veja conteudo/handouts/README.md.'
               : 'Nenhum handout liberado ainda. Cada aula aparece aqui na data dela.'}
           </div>
         ) : (
