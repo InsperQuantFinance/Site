@@ -104,8 +104,9 @@ export default async function PaginaFundo() {
                 <h2 className="eyebrow" style={{ marginBottom: 16 }}>Como ler</h2>
                 <ul className="fundo-notas">
                   <li>As ordens saem uma vez por dia, às 10:30. Fora disso, o patrimônio só muda com o preço dos ativos.</li>
-                  <li>Mês, Ano e Total usam o fechamento de cada dia, que é o valor oficial da cota. Dia e Semana mostram os
-                    pontos de 15 em 15 minutos do pregão; na Semana, noites e fins de semana não ocupam espaço no gráfico.</li>
+                  <li>Dia e Semana mostram os pontos de 15 em 15 minutos do pregão; Mês, um ponto por hora; Ano e Total, o
+                    fechamento de cada dia, que é o valor oficial da cota. Em Semana e Mês, noites e fins de semana não
+                    ocupam espaço no gráfico. Mês e Ano aparecem quando o fundo tiver mais de um mês e de um ano.</li>
                   <li>A variação ao lado do período é o retorno da cota: do fechamento anterior ao período até agora.</li>
                   <li>O retorno de cada estratégia é calculado sobre o patrimônio que ela administra, encadeado ponto a
                     ponto como a cota do fundo. Assim uma estratégia com 10% do fundo e outra com 50% ficam comparáveis,

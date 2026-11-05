@@ -217,9 +217,9 @@ Os números vêm da VM do fundo (repo `fundoIQF`), que faz POST em
 - **Atualização:** a rota revalida a página a cada envio; `revalidate = 900`
   é só o teto.
 - **Períodos:** Dia, Semana, Mês, Ano e Total (`lib/periodos-fundo.js`). Dia e
-  Semana usam os pontos de 15 min, que a página busca só para os últimos 7
-  dias; os outros usam o fechamento diário. Mês e Ano só aparecem quando o
-  histórico já passou deles.
+  Semana usam os pontos de 15 min; Mês, um por hora (a página busca os pontos
+  intradiários do último mês); Ano e Total, o fechamento diário. Mês e Ano só
+  aparecem quando o histórico já passou deles (antes disso seriam iguais ao Total).
 - **Estratégias:** "Retorno" mostra o retorno de cada uma no período, em % do
   capital dela (fatia × patrimônio), encadeado ponto a ponto
   (`fatoresRetorno` em `lib/periodos-fundo.js`), com o fundo tracejado para
