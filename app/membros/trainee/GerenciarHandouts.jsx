@@ -73,7 +73,7 @@ export default function GerenciarHandouts({ handouts }) {
         <div className="eyebrow">Liberação dos handouts</div>
         <p style={{ margin: '10px 0 0', fontSize: 14, lineHeight: 1.7, color: 'var(--texto-3)' }}>
           Cada handout abre para os trainees na data marcada. Campo vazio libera na hora. A gestão
-          enxerga todos, inclusive os fechados — os trainees não veem nem o card nem a URL.
+          enxerga todos, inclusive os fechados. Os trainees não veem nem o card nem a URL.
         </p>
       </div>
 
