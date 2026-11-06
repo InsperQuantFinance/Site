@@ -34,7 +34,7 @@ export default function PainelPatrimonio() {
         formato="moeda"
         escalaX={r.escalaX}
         rotuloX={r.rotuloX}
-        referencia={r.id === 'dia' && r.base ? { y: r.base.patrimonio, rotulo: 'Fechamento anterior' } : null}
+        referencia={r.id === 'dia' && r.base ? { y: r.base.patrimonio, rotulo: 'Início do período' } : null}
         rotuloAcessivel={`Patrimônio do fundo, período: ${r.rotulo.toLowerCase()} (${r.intervalo})`}
       />
     </div>

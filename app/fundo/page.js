@@ -104,9 +104,12 @@ export default async function PaginaFundo() {
                 <h2 className="eyebrow" style={{ marginBottom: 16 }}>Como ler</h2>
                 <ul className="fundo-notas">
                   <li>As ordens saem uma vez por dia, às 10:30. Fora disso, o patrimônio só muda com o preço dos ativos.</li>
-                  <li>Dia e Semana mostram os pontos de 15 em 15 minutos do pregão; Mês, um ponto por hora; Ano e Total, o
-                    fechamento de cada dia, que é o valor oficial da cota. Em Semana e Mês, noites e fins de semana não
-                    ocupam espaço no gráfico. Mês e Ano aparecem quando o fundo tiver mais de um mês e de um ano.</li>
+                  <li>Os períodos terminam no último dado e andam com ele: Dia é o último dia de pregão (de agora até o mesmo
+                    horário do pregão anterior); Semana, Mês e Ano, os últimos 7, 30 e 365 dias. Dia e Semana mostram os
+                    pontos de 15 em 15 minutos; Mês, um por hora; Ano e Total, o fechamento de cada dia, que é o valor
+                    oficial da cota. Os pontos vão da abertura (10h) até o fim do after-market (18h) e só aparecem quando o
+                    valor muda; o fechamento usa o preço do leilão de fechamento, não o do after-market. Até o Mês, cada dia de pregão ocupa a mesma largura e noites e fins de semana não
+                    ocupam espaço. Mês e Ano aparecem quando o fundo tiver mais de um mês e de um ano.</li>
                   <li>A variação ao lado do período é o retorno da cota: do fechamento anterior ao período até agora.</li>
                   <li>O retorno de cada estratégia é calculado sobre o patrimônio que ela administra, encadeado ponto a
                     ponto como a cota do fundo. Assim uma estratégia com 10% do fundo e outra com 50% ficam comparáveis,
