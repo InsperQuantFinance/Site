@@ -50,13 +50,14 @@ export default async function PaginaFundo() {
       <main>
         <section className="secao secao--mesh secao--mesh-azul" style={{ padding: '150px var(--gutter) 72px' }}>
           <div className="container">
-            <div className="eyebrow" style={{ marginBottom: 16 }}>Fundo IQF</div>
+            <div className="eyebrow" style={{ marginBottom: 16 }}>Fundo IQF · fictício</div>
             <h1 className="h-secao" style={{ margin: '0 0 20px', maxWidth: '22ch' }}>
               As estratégias da liga, operando todos os dias
             </h1>
             <p className="p-corpo" style={{ maxWidth: '62ch', margin: 0 }}>
-              R$ 1 milhão virtuais numa conta de simulação da B3. Os membros escrevem as estratégias em Python, e elas
-              operam sozinhas em todo pregão. Nenhum dinheiro real está envolvido.
+              <strong>Este é um fundo fictício: nenhum dinheiro real está envolvido.</strong> São R$ 1 milhão virtuais
+              numa conta de simulação da B3. Os membros escrevem as estratégias em Python, e elas operam sozinhas em
+              todo pregão.
             </p>
             {fundo && (
               <nav className="fundo-atalhos eyebrow" aria-label="Nesta página">

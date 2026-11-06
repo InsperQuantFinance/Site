@@ -9,7 +9,15 @@ import { useEffect } from 'react';
  */
 export default function Revelar() {
   useEffect(() => {
-    const alvos = Array.from(document.querySelectorAll('section:not(#top) > div'));
+    // Além dos blocos de seção, pega quem já vem com [data-reveal] escrito no
+    // JSX (cards de marcas, etapas do ciclo). Sem isso eles nunca são
+    // observados e ficam presos em opacity: 0, deixando só o fundo do grid.
+    const alvos = Array.from(
+      new Set([
+        ...document.querySelectorAll('section:not(#top) > div'),
+        ...document.querySelectorAll('[data-reveal]'),
+      ]),
+    );
     alvos.forEach((el, i) => {
       el.setAttribute('data-reveal', '');
       el.style.transitionDelay = `${(i % 3) * 90}ms`;

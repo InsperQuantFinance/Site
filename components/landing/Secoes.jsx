@@ -8,8 +8,8 @@ export function Sobre() {
   const marcas = [
     ['2º lugar', 'no Quantamental Challenge 2024, da Itaú Asset, com o Solaris.'],
     ['Semifinal', 'no Desafio Quant AI 2025, também da Itaú Asset, com o Nexus.'],
+    ['4º lugar', 'finalista no Desafio Quant AI 2026, da Itaú Asset, com o Kairos.'],
     ['4 ligas', 'organizam juntas o Quant Connect: Insper, Poli-USP, FEA-USP e FGV.'],
-    ['R$ 1 mi', 'virtuais no fundo da liga, operados todo pregão pelas estratégias dos membros.'],
   ];
 
   return (
@@ -216,9 +216,14 @@ const EVENTOS = [
     titulo: 'Desafio Quant AI',
     paragrafos: [
       'Competição nacional em que equipes constroem estratégias de investimento com uso intensivo de IA. A liga foi semifinalista na edição de 2025 com o Nexus, e a edição 2026 foi lançada no palco do Quant Connect.',
+      'Em 2026 o Kairos chegou à final e terminou em 4º lugar, com a apresentação no auditório da Itaú Asset.',
     ],
-    fotos: [{ src: '/assets/foto-quant-ai.jpg', alt: 'Abertura do Desafio Quant AI' }],
-    proporcao: '3 / 2',
+    fotos: [
+      { src: '/assets/foto-quant-ai.jpg', alt: 'Abertura do Desafio Quant AI' },
+      { src: '/assets/foto-quant-ai-2026-kairos.jpg', alt: 'O time Kairos apresenta na final do Desafio Quant AI 2026, na Itaú Asset' },
+    ],
+    // as duas fotos são 16:9; o 3/2 anterior cortava as laterais
+    proporcao: '16 / 9',
     textoPrimeiro: true,
   },
   {

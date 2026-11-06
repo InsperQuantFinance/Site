@@ -610,12 +610,15 @@ input[type='date'].inline-edit:focus::-webkit-calendar-picker-indicator {
   padding: 8px 8px 8px 18px;
   transition: background-color .3s ease, translate .45s cubic-bezier(.16,.84,.28,1);
 }
-.topo__marca { display: flex; align-items: center; gap: 12px; flex: 0 0 auto; }
+/* Laterais com o mesmo peso: sem isso o space-between joga o nav para a
+   esquerda, porque o bloco de ações é bem mais largo que a marca. */
+.topo__marca { display: flex; align-items: center; gap: 12px; flex: 1 1 0; }
 .topo__links { display: flex; align-items: center; gap: 24px; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }
 .topo__links a { color: rgba(242, 242, 240, 0.86); padding: 8px 0; }
 .topo__links a:hover { color: var(--osso); }
-.topo__acoes { display: flex; align-items: center; gap: 8px; flex: 0 0 auto; }
-.topo__membros { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--azul); padding: 10px 12px; }
+.topo__acoes { display: flex; align-items: center; justify-content: flex-end; gap: 8px; flex: 1 1 0; }
+/* Mesmo padding vertical dos links do nav, para os textos sentarem na mesma linha. */
+.topo__membros { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--azul); padding: 8px 12px; }
 .topo .btn { border-radius: 999px; padding: 12px 20px; }
 .topo__menu { display: none; }
 .topo__gaveta { display: none; }
@@ -668,9 +671,9 @@ input[type='date'].inline-edit:focus::-webkit-calendar-picker-indicator {
   margin-top: clamp(48px, 9vh, 96px);
   width: min(1080px, 100%);
   display: grid;
-  grid-template-columns: 1.25fr 1fr 1fr;
+  grid-template-columns: 1.25fr 1fr 1fr 1fr;
 }
-.hero__faixa > * { padding: 22px 26px; }
+.hero__faixa > * { padding: 22px 20px; }
 .hero__faixa > * + * { border-left: 1px solid rgba(242, 242, 240, 0.1); }
 .faixa__rotulo { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--azul); margin: 0 0 8px; }
 .faixa__valor { font-family: var(--serif); font-size: 30px; line-height: 1.05; color: var(--osso); }
