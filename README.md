@@ -212,14 +212,18 @@ Os números vêm da VM do fundo (repo `fundoIQF`), que faz POST em
   chegada. Para dar um nome público, preencha `nome_publico` na tabela
   `fundo_estrategias` (Table Editor). O nome vale para todo o histórico (mesma
   linha, mesma cor) e aparece em até 15 min. Apagar o nome volta ao número.
-  Não troque o `id` da estratégia no `config.toml` do fundo: para o site, id
+  Não troque o `id` da estratégia no `estrategias.toml` do fundo: para o site, id
   novo é estratégia nova.
 - **Atualização:** a rota revalida a página a cada envio; `revalidate = 900`
   é só o teto.
-- **Períodos:** Dia, Semana, Mês, Ano e Total (`lib/periodos-fundo.js`). Dia e
-  Semana usam os pontos de 15 min; Mês, um por hora (a página busca os pontos
-  intradiários do último mês); Ano e Total, o fechamento diário. Mês e Ano só
+- **Períodos:** Dia, Semana, Mês, Ano e Total (`lib/periodos-fundo.js`), janelas móveis
+  que terminam no último dado: Dia é o último dia de pregão; Semana, Mês e Ano, os últimos
+  7, 30 e 365 dias. Dia e Semana usam os pontos de 15 min; Mês, um por hora (a página busca
+  os intradiários dos últimos 31 dias); Ano e Total, o fechamento diário. Mês e Ano só
   aparecem quando o histórico já passou deles (antes disso seriam iguais ao Total).
+- **Eixo de tempo:** até o Mês, cada dia de pregão ocupa a mesma largura, das 10h às 18h15
+  (`posicoesPregao`); noites e fins de semana não ocupam espaço. O fundo só publica um
+  ponto quando o valor muda, das 10:05 às 18:05.
 - **Estratégias:** "Retorno" mostra o retorno de cada uma no período, em % do
   capital dela (fatia × patrimônio), encadeado ponto a ponto
   (`fatoresRetorno` em `lib/periodos-fundo.js`), com o fundo tracejado para

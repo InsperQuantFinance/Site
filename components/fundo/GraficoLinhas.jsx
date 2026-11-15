@@ -15,6 +15,7 @@ import {
   formatarResultado,
   formatarVariacao,
 } from '@/lib/formato-fundo';
+import { posicoesPregao } from '@/lib/periodos-fundo';
 
 /**
  * Gráfico de linhas (ou áreas empilhadas) em SVG, sem biblioteca (o site não
@@ -25,7 +26,7 @@ import {
  *   formato     'moeda' (valores) | 'resultado' (lucro/prejuízo em R$) |
  *               'percentual' (retorno, 0,05 = +5%); os dois últimos com linha do zero
  *   escalaX     'tempo' (proporcional ao relógio) | 'pregao' (proporcional ao tempo de
- *               pregão: cada dia ocupa a mesma largura, 10h-18h; noites, fins de semana
+ *               pregão: cada dia ocupa a mesma largura, 10h-18h15; noites, fins de semana
  *               e feriados não ocupam espaço)
  *   rotuloX     'hora' | 'dia' | 'mes'
  *   empilhado   áreas empilhadas a partir do zero; o topo é a soma (o tooltip
@@ -39,8 +40,6 @@ import {
 
 const ALTURA = 300;
 const M = { topo: 14, base: 30 };
-const PREGAO_INICIO = 10 * 60; // minutos do dia (horário de Brasília)
-const PREGAO_DURACAO = 8 * 60;
 const ROTULOS_X = { hora: formatarHora, dia: formatarDia, mes: formatarMes };
 
 /** Largura de um texto do eixo (11px, fonte do site); sem canvas, estimativa. */
@@ -148,29 +147,39 @@ export default function GraficoLinhas({
     let marcasX = [];
     let pregao = null;
     if (escalaX === 'pregao') {
-      const info = new Map(tempos.map((t) => [t, diaEMinuto(t)]));
-      const dias = [...new Set([...info.values()].map((v) => v.dia))].sort();
-      const indiceDia = new Map(dias.map((d, i) => [d, i]));
-      const pos = (t) => {
-        const v = info.get(t);
-        return indiceDia.get(v.dia)
-          + Math.min(1, Math.max(0, (v.min - PREGAO_INICIO) / PREGAO_DURACAO));
-      };
-      const pMin = pos(tempos[0]);
-      const pMax = pos(tempos[n - 1]);
-      if (pMax > pMin) pregao = { pos, pMin, pMax, dias, info };
+      const pos = posicoesPregao(tempos);
+      const pMin = pos.get(tempos[0]);
+      const pMax = pos.get(tempos[n - 1]);
+      if (pMax > pMin) pregao = { pos, pMin, pMax };
     }
     if (pregao) {
-      const { pos, pMin, pMax, dias, info } = pregao;
+      const { pos, pMin, pMax } = pregao;
       const px = (p) => esq + ((p - pMin) / (pMax - pMin)) * w;
-      x = (t) => px(pos(t));
-      // um rótulo no meio de cada dia de pregão
-      const primeiroDoDia = new Map();
-      for (const t of tempos) if (!primeiroDoDia.has(info.get(t).dia)) primeiroDoDia.set(info.get(t).dia, t);
-      marcasX = espalhar(dias).map((d) => {
-        const meio = Math.min(pMax, Math.max(pMin, dias.indexOf(d) + 0.5));
-        return { x: px(meio), texto: fmtX(primeiroDoDia.get(d)) };
-      });
+      x = (t) => px(pos.get(t));
+      if (rotuloX === 'hora') {
+        // horas cheias; na virada do dia, a data no lugar da hora
+        let anterior = null;
+        const cand = [];
+        for (const t of tempos) {
+          const v = diaEMinuto(t);
+          const chave = `${v.dia} ${Math.floor(v.min / 60)}`;
+          if (chave !== anterior) cand.push({ t, novoDia: !anterior || anterior.slice(0, 10) !== v.dia });
+          anterior = chave;
+        }
+        marcasX = espalhar(cand).map(({ t, novoDia }) => ({
+          x: x(t), texto: novoDia && cand[0].t !== t ? formatarDia(t) : formatarHora(t),
+        }));
+      } else {
+        // um rótulo no meio de cada dia de pregão
+        const primeiroDoDia = new Map();
+        for (const t of tempos) {
+          const d = Math.floor(pos.get(t) - 1e-9);
+          if (!primeiroDoDia.has(d)) primeiroDoDia.set(d, t);
+        }
+        marcasX = espalhar([...primeiroDoDia.keys()]).map((d) => ({
+          x: px(Math.min(pMax, Math.max(pMin, d + 0.5))), texto: fmtX(primeiroDoDia.get(d)),
+        }));
+      }
     } else {
       x = (t) => esq + ((t - tMin) / (tMax - tMin)) * w;
       // os próprios pontos, sem repetir texto (vários pontos no mesmo mês)
@@ -181,7 +190,7 @@ export default function GraficoLinhas({
     }
 
     return { tempos, faixas, ticks, x, y, w, h, esq, marcasX };
-  }, [largura, visiveis, formato, dir, empilhado, referencia, escalaX, fmtX]);
+  }, [largura, visiveis, formato, dir, empilhado, referencia, escalaX, rotuloX, fmtX]);
 
   const fmtY = formato === 'resultado' ? formatarResultado : formato === 'percentual' ? formatarVariacao : formatarMoeda;
   const passoY = g && g.ticks.length > 1 ? g.ticks[1] - g.ticks[0] : 1;
