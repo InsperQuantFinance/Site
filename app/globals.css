@@ -9,17 +9,24 @@
   --osso-claro: #F2F2EF;
   --azul: #A9C2D1;
 
-  /* Paleta institucional. A faixa de destaque é NEUTRA, não azul: qualquer
-     marinho chapado brigava com o mesh do hero (que já é vermelho e
-     marinho de verdade) e puxava a página para "site de banco". Aqui ela é
-     só um grafite um ponto acima do carvão — separa a seção do fundo sem
-     introduzir cor. O vermelho é o único acento, e só em fio e botão. */
+  /* A superfície da página é NEUTRA: preto, carvão e grafite. Marinho e
+     vermelho entram como identidade, não como chão — em fio, em rótulo e em
+     um campo pontual por página.
+
+     Isto já foi tentado ao contrário, com o marinho da InFinance (#212A57)
+     ocupando todas as faixas escuras. Funciona no site deles porque o chão é
+     branco e o marinho é o contraste; aqui o chão já é escuro, e o resultado
+     foi azul em cima de azul por centenas de pixels, sem hierarquia. */
   --grafite: #101114;
   --grafite-2: #17181C;
   --vermelho: #B8162B;
   /* O vermelho da marca rebaixado até virar campo: no tom do botão a área
      inteira vibra e come o texto branco por cima. */
   --acento-campo: #5A0F1C;
+  /* Marinho da identidade, para uso pontual: fundo de detalhe e nada mais.
+     O azul de maior presença no site continua sendo o do mesh do hero. */
+  --marinho: #212A57;
+  --marinho-fundo: #131C3C;
 
   /* O claro é papel, não tela, e entra em pouquíssimos lugares: só onde o
      conteúdo pede fundo claro (os logos dos parceiros, que foram
@@ -196,7 +203,6 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 400; margin: 0; }
 .secao--acento .btn--solido:hover { background: var(--osso-claro); color: var(--acento-campo); }
 .secao--acento .btn--vazado { border-color: rgba(255, 255, 255, 0.45); color: #FFF; }
 .secao--acento .btn--vazado:hover { background: #FFF; color: var(--acento-campo); border-color: #FFF; }
-
 
 /* ------------------------------------------- faixa grafite (destaque) */
 /* O degrau mais claro da família escura: separa a seção com foto e o rodapé

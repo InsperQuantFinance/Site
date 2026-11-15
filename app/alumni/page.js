@@ -41,25 +41,21 @@ export default async function PaginaAlumni() {
 
         <section className="secao secao--claro" style={{ borderBottom: 'none' }}>
           <div className="container">
-            {turmas.size > 0 ? (
-              [...turmas.entries()].map(([turma, pessoas]) => (
-                <div key={turma} className="grupo-equipe">
-                  <h2 className="grupo-equipe__titulo">{turma}</h2>
-                  <div className="grade-pessoas">
-                    {pessoas.map((p) => (
-                      <CartaoPessoa key={p.id} pessoa={p} rotulo={null} />
-                    ))}
-                  </div>
+            {/* Sem texto de estado vazio: enquanto não houver ex-membro, a
+                seção simplesmente não rende. Um aviso de "ainda não há
+                nenhum" é pior que o silêncio — anuncia a ausência para quem
+                nem tinha reparado. A lista se forma sozinha conforme a gestão
+                marca membros como inativos. */}
+            {[...turmas.entries()].map(([turma, pessoas]) => (
+              <div key={turma} className="grupo-equipe">
+                <h2 className="grupo-equipe__titulo">{turma}</h2>
+                <div className="grade-pessoas">
+                  {pessoas.map((p) => (
+                    <CartaoPessoa key={p.id} pessoa={p} rotulo={null} />
+                  ))}
                 </div>
-              ))
-            ) : (
-              <div style={{ maxWidth: '56ch' }}>
-                <p className="p-corpo" style={{ margin: 0 }}>
-                  Ainda não há alumni publicados. A lista se forma sozinha: quando um membro é marcado como inativo na
-                  área de membros e autorizou aparecer no site, ele passa a constar aqui.
-                </p>
               </div>
-            )}
+            ))}
           </div>
         </section>
       </main>

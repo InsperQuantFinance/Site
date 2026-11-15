@@ -479,9 +479,9 @@ export function Rodape() {
   return (
     <footer className="secao--grafite" style={{ padding: '64px var(--gutter) 40px' }}>
       <div className="container rodape-grade">
-        <Image src="/assets/logo-iqf.png" alt="Liga Insper Quantitative Finance" width={230} height={107}
-               quality={90} sizes="190px"
-               style={{ width: '100%', maxWidth: 190, height: 'auto' }} />
+        <Image src="/assets/logo-iqf.png" alt="Liga Insper Quantitative Finance" width={396} height={184}
+               quality={90} sizes="(max-width: 900px) 60vw, 300px"
+               style={{ width: '100%', maxWidth: 300, height: 'auto' }} />
         {/* O rodapé é o mapa completo: Alumni e Processo seletivo não cabem na
             barra do topo e moram aqui, junto do endereço e dos canais. */}
         <div>
@@ -501,7 +501,7 @@ export function Rodape() {
             <a href="/contato">Fale com a liga</a>
             <a href="mailto:insperqf@gmail.com">insperqf@gmail.com</a>
             <a href={LINKS_SOCIAIS.instagram} target="_blank" rel="noopener">Instagram</a>
-            <a href="https://www.linkedin.com/company/insper-quantitative-finance-club/" target="_blank" rel="noopener">LinkedIn</a>
+            <a href={LINKS_SOCIAIS.linkedin} target="_blank" rel="noopener">LinkedIn</a>
             <a href="/membros">Área de membros</a>
           </div>
           <div style={{ fontSize: 15, lineHeight: 1.75, color: 'var(--texto-3)', marginTop: 20 }}>
@@ -519,7 +519,7 @@ export function Rodape() {
           color: 'var(--texto-3)',
         }}
       >
-        © {new Date().getFullYear()} Liga Insper Quantitative Finance
+        © {new Date().getFullYear()} Liga Insper Quantitative Finance · Todos os direitos reservados
       </div>
     </footer>
   );

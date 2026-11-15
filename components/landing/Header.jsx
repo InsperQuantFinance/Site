@@ -5,14 +5,17 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 // O nav segue o padrão das ligas do Insper (InFinance, Insper Asset,
-// AgroInsper): Equipe, Competições, Eventos e Contato como PÁGINAS, não como
-// âncoras da home. Seis destinos — Alumni e Processo Seletivo ficam no rodapé
-// e no CTA, porque sete itens já começam a quebrar a barra em 1080px.
+// AgroInsper): Equipe, Alumni, Competições, Eventos, Contato e Processo
+// Seletivo como PÁGINAS, não como âncoras da home. São oito itens, a mesma
+// ordem de grandeza do nav da InFinance; abaixo de 1180px a barra inteira
+// colapsa no menu, então a largura nunca é problema.
 //
-// "A liga" continua âncora: é a seção de abertura da própria home, e uma
-// página só para ela repetiria o que o visitante acabou de ler.
+// "A liga" continua âncora e só aparece na gaveta: é a seção de abertura da
+// própria home, e uma página só para ela repetiria o que o visitante acabou
+// de ler.
 const LINKS = [
   { href: '/equipe', label: 'Equipe' },
+  { href: '/alumni', label: 'Alumni' },
   { href: '/#research', label: 'Projetos' },
   { href: '/competicoes', label: 'Competições' },
   { href: '/fundo', label: 'Fundo' },
@@ -85,10 +88,9 @@ export default function Header() {
         {LINKS.map((l) => (
           <a key={l.href} href={l.href} onClick={() => setAberta(false)}>{l.label}</a>
         ))}
-        {/* No celular cabe o nav inteiro: os destinos que não entram na barra
-            por falta de largura entram aqui. */}
+        {/* No celular cabe o nav inteiro: "A liga" é âncora da home e não
+            entra na barra por falta de largura. */}
         <a href="/#sobre" onClick={() => setAberta(false)}>A liga</a>
-        <a href="/alumni" onClick={() => setAberta(false)}>Alumni</a>
         <Link href="/membros" onClick={() => setAberta(false)} style={{ color: 'var(--azul)' }}>Área de membros</Link>
       </div>
     </header>
