@@ -30,17 +30,22 @@ export const ESTILO_HANDOUT = `
    entregas. As variáveis também ficam no \`.handout\`, não no \`:root\`, para não
    sobrescrever as do site.
    O mesmo arquivo serve ao HTML autocontido que vai para o bucket. */
+/* Os valores abaixo são os MESMOS do site, com fallback para quando o
+   handout abre sozinho a partir do bucket (aí não existe \`:root\` do site e o
+   segundo argumento do var() entra). Antes eram tons e uma serifada
+   próprios — parecidos, mas não iguais —, e o handout lia como um documento
+   de outro lugar colado dentro da área de membros: cinza levemente diferente,
+   outra serifada e o rótulo em azul, quando o acento do site virou vermelho. */
 .handout {
-  --preto: #0B0B0C;
-  --carvao: #131316;
-  --osso: #EDE9E3;
-  --texto-2: #B8B4AE;
-  --texto-3: #8A867F;
-  --azul: #7BA7C7;
-  --rosa: #E8B4B8;
-  --linha: #232329;
-  --linha-forte: #32323A;
-  --serif-h: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --preto: var(--preto-puro, #030304);
+  --carvao: var(--grafite, #101114);
+  --osso: #F2F2F0;
+  --texto-2: rgba(242, 242, 240, 0.74);
+  --texto-3: rgba(242, 242, 240, 0.62);
+  --acento: var(--vermelho, #B8162B);
+  --linha: rgba(242, 242, 240, 0.12);
+  --linha-forte: rgba(242, 242, 240, 0.18);
+  --serif-h: var(--serif, "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif);
   --mono-h: "SF Mono", "JetBrains Mono", "Cascadia Code", Consolas, monospace;
 
   color: var(--osso);
@@ -59,16 +64,26 @@ export const ESTILO_HANDOUT = `
    raiz; o resto do arquivo cuida de cada caso que nao quebra sozinho. */
 .handout { max-width: 100%; min-width: 0; overflow-wrap: break-word; }
 
-.handout .folha { max-width: 760px; min-width: 0; margin: 0 auto; }
+/* Alinhada à esquerda, e não centralizada: dentro da área de membros o
+   container já tem a margem da página, e o \`margin: 0 auto\` empurrava a
+   coluna para o meio — o título do handout não batia com o link de voltar
+   nem com o cabeçalho das outras telas. */
+.handout .folha { max-width: 760px; min-width: 0; margin: 0; }
 
 /* ---- cabeçalho ---- */
 .handout .marca { display: flex; align-items: baseline; gap: 12px; margin-bottom: 48px; }
 .handout .marca strong { font-size: 15px; letter-spacing: 0.22em; font-weight: 600; }
 .handout .marca span { font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--texto-3); }
 
+/* Mesmo rótulo com fio das seções do site (\`.eyebrow--regua\`): é o que faz o
+   handout abrir com a mesma marca de régua do resto. */
 .handout .etiqueta {
+  display: flex; align-items: center; gap: 12px;
   font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--azul); margin-bottom: 18px;
+  color: var(--texto-3); margin-bottom: 18px;
+}
+.handout .etiqueta::before {
+  content: ''; width: 26px; height: 2px; flex: none; background: var(--acento);
 }
 
 .handout h1 {
@@ -104,8 +119,15 @@ export const ESTILO_HANDOUT = `
 .handout .ficha > div { background: var(--carvao); padding: 16px 18px; min-width: 0; }
 .handout .ficha dt { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--texto-3); margin-bottom: 6px; }
 /* Nome de arquivo (\`precos_limpo.parquet\`) não tem espaço para quebrar: sem
-   isto a célula cresce até o nome caber e arrasta a ficha inteira. */
-.handout .ficha dd { margin: 0; font-size: 15px; font-family: var(--mono-h); overflow-wrap: anywhere; }
+   \`anywhere\` a célula cresce até o nome caber e arrasta a ficha inteira.
+   O corpo caiu de 15px para 13px porque \`anywhere\` é a rede de segurança, não
+   o resultado desejado: a 15px o nome mais longo estourava a célula por uns
+   poucos pixels e quebrava em "parqu / et", que é pior de ler do que a fonte
+   um ponto menor. */
+.handout .ficha dd {
+  margin: 0; font-size: 13px; letter-spacing: -0.01em;
+  font-family: var(--mono-h); overflow-wrap: anywhere;
+}
 
 /* ---- texto ---- */
 .handout h2 {
@@ -115,7 +137,8 @@ export const ESTILO_HANDOUT = `
 }
 .handout h3 { font-size: 17px; font-weight: 600; margin: 44px 0 14px; color: var(--osso); }
 .handout p { margin: 0 0 18px; }
-.handout a { color: var(--azul); }
+.handout a { color: var(--osso); text-decoration: underline; text-underline-offset: 3px; }
+.handout a:hover { color: var(--acento); }
 .handout strong { font-weight: 600; }
 .handout em { font-style: italic; }
 .handout ul, .handout ol { margin: 0 0 20px; padding-left: 22px; }
@@ -149,9 +172,9 @@ export const ESTILO_HANDOUT = `
   padding: 9px 14px; border-bottom: 1px solid var(--linha);
   font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--texto-3);
 }
-.handout .bloco.saida > header { color: var(--azul); }
-.handout .bloco.errado { border-color: var(--rosa); }
-.handout .bloco.errado > header { color: var(--rosa); }
+.handout .bloco.saida > header { color: var(--texto-2); }
+.handout .bloco.errado { border-color: rgba(184, 22, 43, 0.55); }
+.handout .bloco.errado > header { color: #E8949C; }
 .handout .bloco pre {
   margin: 0; padding: 18px 16px; overflow-x: auto;
   font-family: var(--mono-h); font-size: 13.5px; line-height: 1.65;
@@ -179,10 +202,10 @@ export const ESTILO_HANDOUT = `
 .handout .caixa { border: 1px solid var(--linha-forte); background: var(--carvao); padding: 22px 24px; margin: 0 0 24px; }
 .handout .caixa > .titulo { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 12px; }
 .handout .caixa p:last-child, .handout .caixa ul:last-child, .handout .caixa .bloco:last-child { margin-bottom: 0; }
-.handout .guarde { border-left: 2px solid var(--azul); }
-.handout .guarde > .titulo { color: var(--azul); }
-.handout .checkpoint { border-left: 2px solid var(--rosa); }
-.handout .checkpoint > .titulo { color: var(--rosa); }
+.handout .guarde { border-left: 2px solid var(--linha-forte); }
+.handout .guarde > .titulo { color: var(--texto-2); }
+.handout .checkpoint { border-left: 2px solid var(--acento); }
+.handout .checkpoint > .titulo { color: #E8949C; }
 
 .handout details { margin-top: 18px; border-top: 1px solid var(--linha); padding-top: 14px; }
 .handout summary {

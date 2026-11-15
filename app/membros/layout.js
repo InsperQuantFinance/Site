@@ -25,10 +25,12 @@ export default async function LayoutMembros({ children }) {
 
   return (
     <div className="membros-fundo" style={{ minHeight: '100svh', display: 'flex', flexDirection: 'column' }}>
-      {/* Uma barra só, de vidro, que acompanha a rolagem: marca e usuário em
-          cima, abas embaixo. Antes eram duas faixas opacas que comiam a tela. */}
+      {/* Uma barra só, que acompanha a rolagem: marca e usuário em cima, abas
+          embaixo. Era uma pílula de vidro flutuante; virou faixa de ponta a
+          ponta para bater com a barra do site público — a área de membros não
+          pode parecer outro produto. */}
       <header className="membros-topo">
-        <div className="vidro vidro--escuro">
+        <div className="membros-topo__interno">
           <div className="membros-topo__linha">
             <Link href="/membros" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
               <Image src="/assets/logo-mark.png" alt="" width={28} height={28} />

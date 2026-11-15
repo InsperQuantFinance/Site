@@ -9,6 +9,27 @@
   --osso-claro: #F2F2EF;
   --azul: #A9C2D1;
 
+  /* Paleta institucional. A faixa de destaque é NEUTRA, não azul: qualquer
+     marinho chapado brigava com o mesh do hero (que já é vermelho e
+     marinho de verdade) e puxava a página para "site de banco". Aqui ela é
+     só um grafite um ponto acima do carvão — separa a seção do fundo sem
+     introduzir cor. O vermelho é o único acento, e só em fio e botão. */
+  --grafite: #101114;
+  --grafite-2: #17181C;
+  --vermelho: #B8162B;
+  /* O vermelho da marca rebaixado até virar campo: no tom do botão a área
+     inteira vibra e come o texto branco por cima. */
+  --acento-campo: #5A0F1C;
+
+  /* O claro é papel, não tela, e entra em pouquíssimos lugares: só onde o
+     conteúdo pede fundo claro (os logos dos parceiros, que foram
+     desenhados para papel) ou ganha muito em leitura (os projetos, que são
+     texto longo de pesquisa). Tom fechado de propósito — branco puro ao
+     lado do hero preto estoura o contraste. */
+  --papel: #E6E5DF;
+  --papel-2: #DBDAD3;
+  --tinta: #15171C;
+
   --linha: rgba(242, 242, 240, 0.09);
   --linha-forte: rgba(242, 242, 240, 0.14);
   --linha-card: rgba(242, 242, 240, 0.12);
@@ -34,7 +55,10 @@ body {
   font-size: 16px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
+  /* `text-rendering: optimizeLegibility` saiu daqui: ele força o cálculo de
+     kerning e ligaduras em TODO o texto da página, atrasa o primeiro
+     desenho e reaparece a cada relayout. Nestas duas fontes a diferença
+     visual é imperceptível; o custo, não. */
 }
 
 a { color: var(--osso); text-decoration: none; }
@@ -64,11 +88,142 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 400; margin: 0; }
 .secao {
   padding: 110px var(--gutter);
   border-bottom: 1px solid var(--linha);
+  /* A barra do topo é fixa e opaca: sem isto o link do nav para em cima da
+     seção e o título fica escondido atrás dela. */
+  scroll-margin-top: 68px;
 }
 .secao--carvao { background: var(--carvao); }
 
+/* ====================================================================
+   Seções claras
+
+   A página inteira em preto virava um bloco só: o hero não tinha contra o
+   que brilhar e a leitura longa (A liga, O que é, Eventos) cansava. Daí a
+   alternância clara/escura das casas de mercado — papel para o texto
+   corrido, marinho para as faixas de destaque.
+
+   O truque é não reescrever seção nenhuma: os tokens são REDEFINIDOS aqui
+   dentro. Todo `var(--texto-2)`, `var(--linha-card)`, `var(--carvao)` que
+   já existia no conteúdo passa a resolver para o valor claro sozinho — e
+   componentes novos herdam o comportamento sem ninguém lembrar disso.
+   ==================================================================== */
+.secao--claro,
+.secao--claro-2 {
+  --preto: var(--papel);
+  --preto-puro: var(--papel);
+  --carvao: var(--papel-2);
+  --osso: var(--tinta);
+  --osso-claro: var(--papel);
+  /* O "azul" dos rótulos no claro é um cinza-ardósia, não um azul: azul
+     claro sobre papel some, azul forte vira link. */
+  --azul: #4A5361;
+
+  --linha: rgba(21, 23, 28, 0.11);
+  --linha-forte: rgba(21, 23, 28, 0.18);
+  --linha-card: rgba(21, 23, 28, 0.13);
+  --texto-2: rgba(21, 23, 28, 0.74);
+  --texto-3: rgba(21, 23, 28, 0.54);
+
+  background: var(--preto);
+  color: var(--tinta);
+  border-bottom-color: var(--linha);
+}
+/* A variante 2 inverte a dupla: o fundo da seção é o papel fechado e os
+   cartões ficam claros. Assim duas claras seguidas não viram uma mancha só. */
+.secao--claro-2 { --preto: var(--papel-2); --carvao: var(--papel); }
+
+.secao--claro a, .secao--claro-2 a { color: var(--tinta); }
+.secao--claro a:hover, .secao--claro-2 a:hover { color: var(--vermelho); }
+.secao--claro .btn--vazado, .secao--claro-2 .btn--vazado {
+  border-color: rgba(21, 23, 28, 0.28); color: var(--tinta);
+}
+.secao--claro .btn--vazado:hover, .secao--claro-2 .btn--vazado:hover {
+  background: var(--tinta); color: var(--papel); border-color: var(--tinta);
+}
+.secao--claro .btn--solido, .secao--claro-2 .btn--solido {
+  background: var(--tinta); color: var(--papel);
+}
+.secao--claro .btn--solido:hover, .secao--claro-2 .btn--solido:hover {
+  background: var(--vermelho); color: #FFF;
+}
+/* O logo do parceiro foi desenhado para papel: no claro ele só precisa de um
+   fio em volta para o cartão não sumir no fundo branco. */
+.secao--claro .parceiro-card, .secao--claro-2 .parceiro-card {
+  border: 1px solid var(--linha-card);
+}
+
+/* ====================================================================
+   Campo escuro chapado
+
+   Substituiu o degradê mesh que era fundo de nove seções (os cabeçalhos das
+   seis subpáginas, o PS e o contato da home, os CTAs). O mesh continua
+   existindo — no hero, onde é um momento só, tem movimento e funciona como
+   assinatura. Repetido como papel de parede ele virava o degradê morno de
+   qualquer página gerada, e borrava a hierarquia: seção nenhuma tinha cor
+   própria, todas tinham a mesma névoa.
+
+   É o tom mais fundo da família escura, abaixo do grafite: ancora o topo das
+   subpáginas e deixa o conteúdo subir a partir dele.
+   ==================================================================== */
+.secao--tinta {
+  background: var(--preto-puro);
+  --preto: var(--preto-puro);
+  --carvao: var(--grafite);
+  border-bottom-color: rgba(242, 242, 240, 0.1);
+}
+
+/* O campo de acento fecha a página, sempre na ação. É o único lugar em que o
+   vermelho da marca ocupa área em vez de fio — por isso aparece uma vez só
+   por página, e sempre embaixo. */
+.secao--acento {
+  background: var(--acento-campo);
+  --preto: var(--acento-campo);
+  --carvao: #6B1322;
+  --linha: rgba(255, 255, 255, 0.16);
+  --linha-forte: rgba(255, 255, 255, 0.26);
+  --linha-card: rgba(255, 255, 255, 0.2);
+  --texto-2: rgba(255, 255, 255, 0.84);
+  --texto-3: rgba(255, 255, 255, 0.66);
+  --azul: rgba(255, 255, 255, 0.72);
+  color: #FFF;
+  border-bottom-color: rgba(255, 255, 255, 0.16);
+}
+/* No campo de acento o fio da régua some: vermelho sobre vermelho. */
+.secao--acento .eyebrow--regua::before { background: rgba(255, 255, 255, 0.75); }
+/* E o botão inverte — branco cheio sobre o campo, que é o maior contraste
+   possível e deixa a ação ser a coisa mais clara da tela. */
+.secao--acento .btn--solido { background: #FFF; color: var(--acento-campo); }
+.secao--acento .btn--solido:hover { background: var(--osso-claro); color: var(--acento-campo); }
+.secao--acento .btn--vazado { border-color: rgba(255, 255, 255, 0.45); color: #FFF; }
+.secao--acento .btn--vazado:hover { background: #FFF; color: var(--acento-campo); border-color: #FFF; }
+
+
+/* ------------------------------------------- faixa grafite (destaque) */
+/* O degrau mais claro da família escura: separa a seção com foto e o rodapé
+   do preto do resto, sem virar cor. */
+.secao--grafite {
+  background: var(--grafite);
+  --carvao: var(--grafite-2);
+  --preto: var(--grafite);
+  --preto-puro: var(--grafite);
+  border-bottom-color: rgba(242, 242, 240, 0.12);
+}
+
 .h-secao { font-size: 44px; line-height: 1.15; }
 .p-corpo { font-size: 17px; line-height: 1.7; color: var(--texto-2); }
+
+/* Fio vermelho antes do rótulo: a marca de régua das casas de mercado, e o
+   único lugar em que o vermelho da identidade aparece chapado no texto. */
+.eyebrow--regua { display: flex; align-items: center; gap: 12px; }
+.eyebrow--regua::before {
+  content: ''; width: 26px; height: 2px; flex: none; background: var(--vermelho);
+}
+
+/* Número é dado: largura fixa por dígito, para as colunas alinharem e os
+   valores não "dançarem" quando atualizam. */
+.marcas__valor, .faixa__valor, .resumo-gestao__valor, .ciclo h3 {
+  font-variant-numeric: tabular-nums;
+}
 
 /* Grade hairline: o fundo faz as linhas de 1px entre as células. */
 .grade-hairline {
@@ -135,6 +290,10 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 400; margin: 0; }
   will-change: transform;
 }
 .marquee:hover .marquee-row { animation-play-state: paused; }
+/* Fora da tela a esteira para: ver components/landing/PausarHero.jsx. Sem
+   isto ela segue consumindo quadros no meio da página, com camada promovida
+   por will-change, que é justamente o que o Chrome não estrangula sozinho. */
+.marquee[data-fora] .marquee-row { animation-play-state: paused; }
 @keyframes marqueeSlide { from { transform: translate3d(0,0,0); } to { transform: translate3d(-100%,0,0); } }
 
 .parceiro-card {
@@ -229,7 +388,17 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 400; margin: 0; }
    GPU depois que você rolou para longe, e é justamente aí que a página
    precisa de fôlego para rolar liso. */
 .hero-fora-da-tela .mesh-b-orbita,
-.hero-fora-da-tela .hero-glow { animation-play-state: paused; }
+.hero-fora-da-tela .hero-glow,
+/* O ponto "ao vivo" mora na faixa do hero: fora da tela ele para junto, e aí
+   a página inteira fica com ZERO animação rodando enquanto se lê o resto. */
+.hero-fora-da-tela .faixa__vivo::after { animation-play-state: paused; }
+/* Pausada, a camada promovida por `will-change` continuaria reservada na GPU
+   pelo resto da visita. Devolver para `auto` enquanto está parada libera essa
+   memória; ao voltar ao topo o navegador repromove — custo de um quadro, uma
+   vez, contra uma textura de viewport inteira parada ali à toa. */
+.hero-fora-da-tela .mesh-b-orbita,
+.hero-fora-da-tela .hero-glow,
+.marquee[data-fora] .marquee-row { will-change: auto; }
 @keyframes glowBreathe { 0%,100% { opacity:.28; } 50% { opacity:.6; } }
 .hero-glow { opacity: .4; animation: glowBreathe 4.5s ease-in-out infinite; will-change: opacity; }
 @keyframes heroRise { from { opacity: 0; transform: translate3d(0,16px,0); } to { opacity: 1; transform: none; } }
@@ -265,6 +434,10 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 400; margin: 0; }
 /* ================================================================
    Área de membros — mesmos tokens, densidade maior.
    ================================================================ */
+/* `--carvao`, e não um tom fixo: é o que faz o painel acompanhar o escopo em
+   que está. No escuro ele é carvão; dentro de .secao--grafite, grafite-2; na
+   área de membros, que agora é clara, branco. Chegou a ficar fixo em
+   `--grafite` e o resultado foi painel preto sobre fundo de papel. */
 .painel {
   background: var(--carvao);
   border: 1px solid var(--linha-card);
@@ -436,6 +609,96 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 400; margin: 0; }
   .photo { aspect-ratio: 4 / 3 !important; }
 }
 
+/* ====================================================================
+   Telas de autenticação (entrar, convite, redefinir senha)
+
+   Tela dividida: foto à esquerda, formulário em fundo claro à direita. O
+   lado claro usa os mesmos tokens de papel das seções claras do site
+   público — é o `.secao--claro` reaproveitado como escopo, então todo campo
+   e botão dentro dele já nasce com a cor certa, sem regra nova.
+   ==================================================================== */
+.auth {
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.auth__arte { position: relative; overflow: hidden; background: var(--preto-puro); display: grid; place-items: center; }
+/* scale + blur pelo mesmo motivo do hero: o desfoque tira a borda dura dos
+   gradientes radiais, e a escala esconde o recorte deles na moldura. */
+.auth__mesh { position: absolute; inset: 0; transform: scale(1.12); filter: blur(42px); }
+/* O véu só escurece ATRÁS DO LOGO, e de leve. A versão anterior cobria o
+   painel inteiro a 72% no centro: garantia contraste, mas apagava a cor —
+   que é a única coisa que esse lado da tela tem para mostrar. */
+.auth__veu {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(38% 30% at 50% 50%, rgba(3, 3, 4, 0.62) 0%, rgba(3, 3, 4, 0.18) 62%, rgba(3, 3, 4, 0) 100%);
+}
+.auth__logo {
+  position: relative;
+  width: min(62%, 440px);
+  height: auto;
+}
+
+/* Metade direita: escopo claro completo, igual às seções de papel. */
+.auth__painel {
+  --preto: var(--papel);
+  --preto-puro: var(--papel);
+  --carvao: var(--papel-2);
+  --osso: var(--tinta);
+  --azul: #4A5361;
+  --linha: rgba(21, 23, 28, 0.11);
+  --linha-forte: rgba(21, 23, 28, 0.2);
+  --linha-card: rgba(21, 23, 28, 0.13);
+  --texto-2: rgba(21, 23, 28, 0.74);
+  --texto-3: rgba(21, 23, 28, 0.54);
+
+  background: var(--papel);
+  color: var(--tinta);
+  display: grid;
+  place-items: center;
+  padding: 48px var(--gutter);
+}
+.auth__conteudo { width: 100%; max-width: 420px; }
+
+.auth__rotulo { margin-bottom: 18px; }
+.auth__titulo { font-size: clamp(30px, 3.4vw, 42px); line-height: 1.1; margin: 0 0 12px; }
+.auth__descricao { font-size: 15px; line-height: 1.65; color: var(--texto-2); margin: 0 0 32px; }
+
+/* O botão do formulário ocupa a largura toda: numa tela de uma ação só, o
+   alvo grande é o certo. */
+.auth__painel .btn--solido {
+  width: 100%;
+  text-align: center;
+  background: var(--tinta);
+  color: var(--papel);
+}
+.auth__painel .btn--solido:hover { background: var(--vermelho); color: #FFF; }
+
+.auth__rodape {
+  margin-top: 28px;
+  padding-top: 22px;
+  border-top: 1px solid var(--linha);
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--texto-3);
+}
+.auth__rodape a { color: var(--tinta); text-decoration: underline; text-underline-offset: 3px; }
+.auth__rodape a:hover { color: var(--vermelho); }
+
+/* No celular a foto sairia comendo metade da altura sem dizer nada que o
+   formulário não diga: fica só o painel, com o logo em cima dele. */
+@media (max-width: 900px) {
+  .auth { grid-template-columns: 1fr; }
+  .auth__arte { display: none; }
+  .auth__painel { padding: 40px var(--gutter); align-content: center; }
+}
+
 /* ------------------------------------------------------- tela de carregamento */
 .splash {
   position: fixed;
@@ -543,105 +806,263 @@ input[type='date'].inline-edit:focus::-webkit-calendar-picker-indicator {
   .inline-edit, .btn-icone, .cartao-projeto { transition: none; }
 }
 
-/* ====================================================================
-   Vidro líquido
-
-   Superfície translúcida para o que flutua sobre a página: a barra do topo,
-   o cartão do fundo no hero, o formulário de contato, o cabeçalho da área de
-   membros. Ela só tem graça em cima de cor, por isso mora perto do mesh
-   vermelho e marinho, nunca sobre preto chapado.
-
-   Três camadas: o desfoque com saturação (a cor de trás atravessa mais viva),
-   a borda clara em cima (a luz batendo na aresta) e o brilho especular do
-   ::before, que é só um degradê mascarado para a borda. Nada de vidro sobre
-   vidro: a legibilidade cai na hora.
-   ==================================================================== */
-.vidro {
-  position: relative;
-  isolation: isolate;
-  background: linear-gradient(180deg, rgba(242, 242, 240, 0.11) 0%, rgba(242, 242, 240, 0.045) 100%);
-  -webkit-backdrop-filter: blur(22px) saturate(175%);
-  backdrop-filter: blur(22px) saturate(175%);
-  border: 1px solid rgba(242, 242, 240, 0.13);
-  border-top-color: rgba(242, 242, 240, 0.26);
-  border-radius: 22px;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.16),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.03),
-    0 24px 60px -28px rgba(0, 0, 0, 0.75);
-}
-.vidro::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0) 32%, rgba(255, 255, 255, 0) 68%, rgba(169, 194, 209, 0.32) 100%);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
-  pointer-events: none;
-}
-.vidro--pilula { border-radius: 999px; }
-.vidro--escuro { background: linear-gradient(180deg, rgba(10, 11, 13, 0.62) 0%, rgba(10, 11, 13, 0.48) 100%); }
-
-/* Sem backdrop-filter (Firefox antigo) ou com transparência reduzida pedida
-   pelo sistema: a superfície vira sólida em vez de ilegível. */
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .vidro { background: rgba(18, 19, 23, 0.94); }
-}
-@media (prefers-reduced-transparency: reduce) {
-  .vidro { background: rgba(18, 19, 23, 0.96); -webkit-backdrop-filter: none; backdrop-filter: none; }
-}
 
 /* ------------------------------------------------------- barra do topo */
+/* Barra institucional: largura inteira da tela, altura fixa, assentada na
+   borda de cima. A pílula flutuante que havia aqui antes dizia "produto";
+   a faixa de ponta a ponta é o que as casas de mercado usam, e é ela que
+   segura a alternância claro/escuro das seções — some a dúvida de onde
+   acaba o topo e começa a página.
+
+   Sobre o hero ela nasce transparente, para o mesh aparecer inteiro, e
+   vira marinho sólido ao primeiro gesto de rolagem. Em página sem hero
+   (/fundo) já nasce sólida: transparente ali seria texto sobre conteúdo. */
 .topo {
   position: fixed;
-  top: 14px;
-  left: 50%;
-  translate: -50% 0;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 60;
-  width: min(1180px, calc(100% - 28px));
+  height: 68px;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--gutter);
+  background: transparent;
+  box-shadow: none;
+  transition: background .3s ease, box-shadow .3s ease, backdrop-filter .3s ease;
+}
+/* Cor chapada, sem vidro e sem fio embaixo. O vidro chegou a ser testado
+   aqui: sobre as seções de papel ele lavava e o nav perdia contraste, e
+   compensar isso exigia um piso tão opaco que não sobrava translucidez — ou
+   seja, o custo do efeito sem o efeito. Acabou saindo do site inteiro. */
+.topo[data-solida] { background: var(--grafite); }
+
+/* O conteúdo respeita a mesma grade do resto da página, mesmo com a faixa
+   indo de ponta a ponta: assim o logo nasce na mesma vertical dos títulos. */
+.topo__interno {
+  width: 100%;
+  max-width: var(--max);
+  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
-  padding: 8px 8px 8px 18px;
-  transition: background-color .3s ease, translate .45s cubic-bezier(.16,.84,.28,1);
+  gap: 24px;
 }
 /* Laterais com o mesmo peso: sem isso o space-between joga o nav para a
    esquerda, porque o bloco de ações é bem mais largo que a marca. */
 .topo__marca { display: flex; align-items: center; gap: 12px; flex: 1 1 0; }
-.topo__links { display: flex; align-items: center; gap: 24px; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }
-.topo__links a { color: rgba(242, 242, 240, 0.86); padding: 8px 0; }
+.topo__links { display: flex; align-items: center; gap: 26px; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
+/* O sublinhado vermelho cresce do centro no hover — é o mesmo fio da
+   .eyebrow--regua, e amarra a barra ao resto da identidade. */
+.topo__links a { position: relative; color: rgba(242, 242, 240, 0.84); padding: 23px 0; }
+.topo__links a::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 18px; height: 2px;
+  background: var(--vermelho); scale: 0 1; transition: scale .25s ease;
+}
 .topo__links a:hover { color: var(--osso); }
-.topo__acoes { display: flex; align-items: center; justify-content: flex-end; gap: 8px; flex: 1 1 0; }
+.topo__links a:hover::after { scale: 1 1; }
+.topo__acoes { display: flex; align-items: center; justify-content: flex-end; gap: 10px; flex: 1 1 0; }
 /* Mesmo padding vertical dos links do nav, para os textos sentarem na mesma linha. */
-.topo__membros { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--azul); padding: 8px 12px; }
-.topo .btn { border-radius: 999px; padding: 12px 20px; }
+/* nowrap nos dois: com sete itens no nav o lado direito ficou apertado e
+   "Área de membros" / "Processo seletivo" quebravam em duas linhas, jogando a
+   altura da barra para fora do lugar. */
+.topo__membros { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: rgba(242, 242, 240, 0.84); padding: 8px 0; white-space: nowrap; }
+.topo__membros:hover { color: var(--osso); }
+/* O fio separa "entrar na conta" de "entrar na liga": são ações de públicos
+   diferentes coladas uma na outra. */
+.topo__acoes::before {
+  content: ''; width: 1px; height: 20px; background: rgba(242, 242, 240, 0.2); margin-right: 4px;
+}
 .topo__menu { display: none; }
 .topo__gaveta { display: none; }
 
-@media (max-width: 1080px) {
-  .topo__links, .topo__membros { display: none; }
+/* 1180 e não 1080: o nav passou de cinco para seis itens (Equipe,
+   Competições e Contato entraram), e nessa faixa eles já encostavam no bloco
+   de ações. */
+@media (max-width: 1180px) {
+  .topo__links, .topo__membros, .topo__acoes::before { display: none; }
   .topo__menu {
     display: inline-flex; align-items: center; justify-content: center;
-    height: 42px; padding: 0 16px; border-radius: 999px;
-    background: rgba(242, 242, 240, 0.08); border: 1px solid rgba(242, 242, 240, 0.16);
+    height: 40px; padding: 0 16px; border-radius: 2px;
+    background: rgba(242, 242, 240, 0.08); border: 1px solid rgba(242, 242, 240, 0.2);
     color: var(--osso); font: inherit; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; cursor: pointer;
   }
+  /* A gaveta desce da própria faixa, de ponta a ponta — sem cantos soltos
+      no meio da tela, porque a barra agora também não tem. */
   .topo__gaveta[data-aberta] {
     display: grid;
-    position: absolute; top: calc(100% + 10px); left: 0; right: 0;
-    padding: 10px; border-radius: 22px; gap: 2px;
+    position: fixed; top: 68px; left: 0; right: 0;
+    padding: 8px var(--gutter) 14px; gap: 2px;
+    background: var(--grafite);
+    box-shadow: inset 0 -1px 0 rgba(242, 242, 240, 0.14), 0 20px 40px -24px rgba(0,0,0,.8);
   }
-  .topo__gaveta a { padding: 14px 16px; border-radius: 14px; font-size: 15px; color: var(--osso); }
-  .topo__gaveta a:hover { background: rgba(242, 242, 240, 0.07); }
+  .topo__gaveta a { padding: 14px 2px; font-size: 15px; color: var(--osso); border-bottom: 1px solid rgba(242,242,240,.09); }
+  .topo__gaveta a:last-child { border-bottom: 0; }
+  .topo__gaveta a:hover { color: var(--azul); }
 }
 @media (max-width: 520px) {
-  .topo { top: 10px; padding-left: 14px; }
-  .topo .btn { padding: 11px 16px; }
+  .topo { height: 60px; }
+  .topo__gaveta[data-aberta] { top: 60px; }
+}
+
+/* ------------------------------------------------------ página /contato */
+/* Formulário e mapa lado a lado. O mapa é um iframe, então precisa de altura
+   explícita: iframe não tem proporção intrínseca e colapsaria para 150px. */
+.contato-grade { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+.contato-mapa {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--linha-card);
+  overflow: hidden;
+}
+.contato-mapa iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+/* O mapa do Google nasce claro; nas seções claras isso já combina, e aqui
+   fica só o fio em volta para ele não flutuar solto no papel. */
+@media (max-width: 860px) {
+  .contato-grade { grid-template-columns: 1fr; gap: 32px; }
+  .contato-mapa { aspect-ratio: 16 / 10; }
+}
+
+/* ------------------------------------------- fases do processo seletivo */
+/* Numeral grande à esquerda, texto à direita — o formato da página de PS da
+   Insper Asset. O numeral vem do CSS e não do JSX para não virar texto que o
+   leitor de tela anuncia junto com o título da fase. */
+.fases { list-style: none; margin: 0; padding: 0; display: grid; border-top: 1px solid var(--linha-forte); }
+.fases li {
+  display: grid;
+  grid-template-columns: minmax(0, 0.3fr) minmax(0, 1.4fr);
+  gap: 32px;
+  padding: 34px 0;
+  border-bottom: 1px solid var(--linha-forte);
+}
+.fases__numero {
+  font-family: var(--serif);
+  font-size: clamp(34px, 5vw, 54px);
+  line-height: 1;
+  color: var(--vermelho);
+  font-variant-numeric: tabular-nums;
+}
+.fases__titulo { font-size: 24px; line-height: 1.25; margin: 0 0 10px; }
+.fases__texto { margin: 0; font-size: 16px; line-height: 1.7; color: var(--texto-2); max-width: 62ch; }
+@media (max-width: 700px) {
+  .fases li { grid-template-columns: 1fr; gap: 10px; }
+}
+
+/* ------------------------------------------------- equipe e alumni */
+.grade-pessoas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px 32px; }
+@media (max-width: 860px) { .grade-pessoas { grid-template-columns: repeat(2, 1fr); gap: 32px 24px; } }
+@media (max-width: 520px) { .grade-pessoas { grid-template-columns: 1fr; } }
+
+/* Retrato à esquerda, fio vertical, texto à direita — o molde das páginas de
+   equipe das outras ligas. O fio fica no .pessoa__corpo (e não entre os dois)
+   para continuar existindo quando não há foto, que é o caso hoje. */
+.pessoa { display: flex; align-items: flex-start; gap: 18px; min-width: 0; }
+.pessoa__retrato {
+  position: relative;
+  flex: none;
+  width: 92px;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--carvao);
+  border: 1px solid var(--linha-card);
+}
+.pessoa__retrato img { object-fit: cover; }
+.pessoa__corpo {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  padding-left: 18px;
+  border-left: 2px solid var(--vermelho);
+}
+.pessoa__nome { font-family: var(--sans); font-size: 16px; font-weight: 600; line-height: 1.35; margin: 0; }
+.pessoa__cargo { font-size: 14px; line-height: 1.5; color: var(--texto-2); }
+.pessoa__area { font-size: 13px; color: var(--texto-3); }
+.pessoa__bio { margin: 6px 0 0; font-size: 13.5px; line-height: 1.6; color: var(--texto-2); }
+.pessoa__link { margin-top: 8px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--azul); }
+
+/* O presidente abre a Diretoria sozinho, centralizado — é assim nas três
+   referências, e é o que dá hierarquia a um quadro pequeno. */
+.pessoa[data-destaque] { justify-content: center; margin-bottom: 44px; }
+.pessoa[data-destaque] .pessoa__retrato { width: 120px; }
+.pessoa[data-destaque] .pessoa__nome { font-size: 19px; }
+
+/* Título do bloco centralizado com fio embaixo, como "Diretoria" / "Conselho"
+   da InFinance. */
+.grupo-equipe + .grupo-equipe { margin-top: 80px; }
+.grupo-equipe__titulo {
+  margin: 0 auto 40px;
+  padding-bottom: 14px;
+  max-width: 420px;
+  text-align: center;
+  font-family: var(--serif);
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1.2;
+  border-bottom: 1px solid var(--linha-forte);
+}
+
+/* Texto só para leitor de tela: distingue links "LinkedIn" repetidos na
+   grade, que fora de contexto soam todos iguais. */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ------------------------------------------------ lista de competições */
+/* Ano à esquerda, edição à direita: a mesma régua de .caminhos, mas com o
+   ano servindo de âncora para o olho descer a coluna. */
+.lista-competicoes { display: grid; border-top: 1px solid var(--linha-forte); }
+.lista-competicoes > article {
+  display: grid;
+  grid-template-columns: minmax(0, 0.42fr) minmax(0, 1.4fr);
+  gap: 32px;
+  padding: 34px 0;
+  border-bottom: 1px solid var(--linha-forte);
+}
+.competicao__ano { font-family: var(--serif); font-size: 34px; line-height: 1; font-variant-numeric: tabular-nums; }
+.competicao__nome { font-size: 26px; line-height: 1.25; margin: 0 0 12px; }
+.competicao__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 14px; }
+.competicao__equipe { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--texto-3); }
+.competicao__texto { margin: 0; font-size: 16px; line-height: 1.7; color: var(--texto-2); max-width: 62ch; }
+@media (max-width: 700px) {
+  .lista-competicoes > article { grid-template-columns: 1fr; gap: 10px; }
+  .competicao__ano { font-size: 26px; }
+}
+
+/* ------------------------------------------- cabeçalho das subpáginas */
+/* O respiro embaixo da barra fixa mora aqui, num lugar só: toda subpágina
+   começa com este bloco, e o número não se repete por arquivo. */
+.cabecalho-pagina { padding: 150px var(--gutter) 96px; }
+@media (max-width: 900px) { .cabecalho-pagina { padding: 118px var(--gutter) 64px; } }
+
+/* Logo | título, centralizado. O fio é a borda do h1, e não um elemento
+   separado, para os dois ficarem sempre da mesma altura. */
+.cabecalho-pagina__marca {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+}
+.cabecalho-pagina__marca img { width: min(56vw, 330px); height: auto; display: block; }
+.cabecalho-pagina__marca h1 {
+  margin: 0;
+  padding-left: 28px;
+  border-left: 1px solid rgba(242, 242, 240, 0.34);
+  font-family: var(--serif);
+  font-size: clamp(30px, 5.2vw, 58px);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+}
+@media (max-width: 600px) {
+  .cabecalho-pagina__marca { flex-direction: column; gap: 20px; }
+  .cabecalho-pagina__marca h1 {
+    padding: 18px 0 0;
+    border-left: 0;
+    border-top: 1px solid rgba(242, 242, 240, 0.34);
+    text-align: center;
+  }
 }
 
 /* ---------------------------------------------------------------- hero */
@@ -666,12 +1087,17 @@ input[type='date'].inline-edit:focus::-webkit-calendar-picker-indicator {
   text-wrap: balance;
 }
 .hero__botoes { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+/* Sem vidro: era o último `.vidro` do site e destoava de tudo que ficou
+   chapado. Agora é um fio em volta e células separadas por fio — a mesma
+   linguagem da tira de resultados (.marcas) e da ficha do /fundo. */
 .hero__faixa {
   position: relative;
   margin-top: clamp(48px, 9vh, 96px);
   width: min(1080px, 100%);
   display: grid;
   grid-template-columns: 1.25fr 1fr 1fr 1fr;
+  border: 1px solid rgba(242, 242, 240, 0.16);
+  background: rgba(5, 5, 6, 0.55);
 }
 .hero__faixa > * { padding: 22px 20px; }
 .hero__faixa > * + * { border-left: 1px solid rgba(242, 242, 240, 0.1); }
@@ -682,12 +1108,24 @@ input[type='date'].inline-edit:focus::-webkit-calendar-picker-indicator {
 .faixa__fundo:hover { color: inherit; }
 .faixa__fundo:hover .faixa__mais { color: var(--osso); }
 .faixa__mais { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--azul); transition: color .2s ease; }
-.faixa__vivo { display: inline-flex; align-items: center; gap: 8px; }
+.faixa__vivo { position: relative; display: inline-flex; align-items: center; gap: 8px; }
+/* O pulso era uma animação de `box-shadow`, que o navegador resolve
+   repintando a cada quadro. Agora é um anel em ::after animado só por
+   transform e opacity — o compositor dá conta sem repintar nada. */
 .faixa__vivo::before {
-  content: ''; width: 7px; height: 7px; border-radius: 50%; background: #6FD39A;
-  box-shadow: 0 0 0 0 rgba(111, 211, 154, .55); animation: pulsoVivo 2.4s ease-out infinite;
+  content: ''; position: relative; width: 7px; height: 7px; flex: none;
+  border-radius: 50%; background: #6FD39A;
 }
-@keyframes pulsoVivo { 0% { box-shadow: 0 0 0 0 rgba(111,211,154,.55); } 80%,100% { box-shadow: 0 0 0 9px rgba(111,211,154,0); } }
+.faixa__vivo::after {
+  content: ''; position: absolute; width: 7px; height: 7px; margin-left: -7px;
+  border-radius: 50%; background: rgba(111, 211, 154, .45);
+  animation: pulsoVivo 2.4s ease-out infinite; will-change: transform, opacity;
+  pointer-events: none;
+}
+@keyframes pulsoVivo {
+  0%   { transform: scale(1);   opacity: .55; }
+  80%, 100% { transform: scale(3.6); opacity: 0; }
+}
 .faixa__sobe { color: #8FE0B0; }
 .faixa__desce { color: #F2A3A3; }
 .faixa__spark { grid-row: span 2; width: 132px; height: 46px; }
@@ -701,7 +1139,9 @@ input[type='date'].inline-edit:focus::-webkit-calendar-picker-indicator {
 }
 
 /* ------------------------------------------------------ a liga (marcas) */
-.marcas { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--linha-card); margin-top: 64px; }
+/* --marcas-cols deixa a página definir a contagem (a /competicoes cresce a
+   cada edição); o padrão 4 é o da home. */
+.marcas { display: grid; grid-template-columns: repeat(var(--marcas-cols, 4), 1fr); gap: 1px; background: var(--linha-card); margin-top: 64px; }
 .marcas > div { background: var(--preto); padding: 30px 26px 34px; }
 .marcas__valor { font-family: var(--serif); font-size: clamp(38px, 4vw, 56px); line-height: 1; letter-spacing: -0.02em; margin-bottom: 14px; }
 .marcas__texto { margin: 0; font-size: 15px; line-height: 1.6; color: var(--texto-2); }
@@ -727,22 +1167,6 @@ input[type='date'].inline-edit:focus::-webkit-calendar-picker-indicator {
 .caminhos p { margin: 0; font-size: 16px; line-height: 1.65; color: var(--texto-2); }
 @media (max-width: 700px) { .caminhos > div { grid-template-columns: 1fr; gap: 8px; } }
 
-/* ------------------------------------------- seções com mesh de fundo */
-.secao--mesh { position: relative; overflow: hidden; isolation: isolate; }
-.secao--mesh::before {
-  content: ''; position: absolute; inset: -10%; z-index: -1; filter: blur(40px);
-  background:
-    radial-gradient(40% 55% at 88% 40%, rgba(206, 24, 28, 0.42) 0%, rgba(206, 24, 28, 0) 70%),
-    radial-gradient(34% 48% at 70% 96%, rgba(122, 10, 26, 0.4) 0%, rgba(122, 10, 26, 0) 72%),
-    radial-gradient(40% 50% at 8% 20%, rgba(16, 32, 90, 0.55) 0%, rgba(16, 32, 90, 0) 70%);
-}
-.secao--mesh-azul::before {
-  background:
-    radial-gradient(44% 60% at 10% 30%, rgba(20, 50, 140, 0.5) 0%, rgba(20, 50, 140, 0) 70%),
-    radial-gradient(36% 50% at 90% 90%, rgba(150, 12, 20, 0.32) 0%, rgba(150, 12, 20, 0) 72%);
-}
-.cartao-vidro { padding: 34px 34px 30px; }
-@media (max-width: 560px) { .cartao-vidro { padding: 24px 20px; } }
 
 .faq { display: grid; }
 .faq details { border-bottom: 1px solid rgba(242, 242, 240, 0.12); }
@@ -761,16 +1185,33 @@ input[type='date'].inline-edit:focus::-webkit-calendar-picker-indicator {
 
 
 /* ============================================ área de membros, revisão */
+/* ====================================================================
+   Área de membros
+
+   Volta ao escuro depois de um teste em claro. A área de membros é a mesma
+   família visual do site público em tipografia, fio e acento vermelho, mas o
+   chão continua preto: é onde se lê tabela e handout por tempo longo, muitas
+   vezes à noite, e o claro aqui cansava mais do que ajudava. O claro ficou
+   onde ele ganha de fato — nas seções de leitura do site público e no lado
+   do formulário das telas de autenticação.
+
+   O brilho em degradê que havia no topo não voltou: degradê de fundo é o
+   tell mais comum de página genérica, e aqui só fazia o preto parecer sujo.
+   O que separa a barra do conteúdo é o degrau de tom entre grafite e preto.
+   ==================================================================== */
 .membros-fundo { position: relative; isolation: isolate; }
-.membros-fundo::before {
-  content: ''; position: absolute; inset: 0 0 auto 0; height: 520px; z-index: -1; pointer-events: none;
-  background:
-    radial-gradient(38% 70% at 92% 0%, rgba(206, 24, 28, 0.22) 0%, rgba(206, 24, 28, 0) 70%),
-    radial-gradient(42% 80% at 6% 0%, rgba(16, 32, 90, 0.5) 0%, rgba(16, 32, 90, 0) 72%);
-  filter: blur(30px);
+/* Mesma faixa do site público: de ponta a ponta, colada no topo, grafite
+   sólido com fio embaixo. A pílula de vidro que havia aqui fazia a área de
+   membros parecer um produto diferente do site. */
+.membros-topo {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  padding: 0 var(--gutter);
+  /* Chapada e sem fio embaixo, igual à barra pública. */
+  background: var(--grafite);
 }
-.membros-topo { position: sticky; top: 10px; z-index: 40; padding: 0 var(--gutter); margin-top: 10px; }
-.membros-topo .vidro { max-width: calc(var(--max) + 36px); margin: 0 auto; border-radius: 20px; padding: 10px 10px 0 18px; }
+.membros-topo__interno { max-width: var(--max); margin: 0 auto; padding: 12px 0 0; }
 .membros-topo__linha { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
 .membros-usuario { display: flex; align-items: center; gap: 12px; }
 .membros-avatar {
@@ -778,7 +1219,15 @@ input[type='date'].inline-edit:focus::-webkit-calendar-picker-indicator {
   background: rgba(169, 194, 209, 0.16); border: 1px solid rgba(169, 194, 209, 0.4);
   font-size: 13px; letter-spacing: .04em; color: var(--osso);
 }
-.membros-topo .btn { border-radius: 999px; }
+/* Canto reto e vermelho, como o botão da barra pública — a pílula era do
+   desenho antigo, de vidro. */
+.membros-topo .btn {
+  border-radius: 2px;
+  background: var(--vermelho);
+  color: #FFF;
+  border-color: var(--vermelho);
+}
+.membros-topo .btn:hover { background: #E11733; color: #FFF; border-color: #E11733; }
 
 .abas { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; padding: 8px 0 10px; margin-top: 6px; }
 .abas a {
@@ -786,7 +1235,9 @@ input[type='date'].inline-edit:focus::-webkit-calendar-picker-indicator {
   white-space: nowrap; color: rgba(242, 242, 240, 0.72); transition: background-color .2s ease, color .2s ease;
 }
 .abas a:hover { color: var(--osso); background: rgba(242, 242, 240, 0.06); }
-.abas a[aria-current='page'] { color: var(--preto); background: var(--osso); }
+/* A aba ativa usa o vermelho da identidade, o mesmo do botão do site
+   público — era osso sobre preto, que não dizia "IQF" nenhum. */
+.abas a[aria-current='page'] { color: #FFF; background: var(--vermelho); }
 .abas a[data-gestao] { color: var(--azul); }
 .abas a[data-gestao][aria-current='page'] { color: var(--preto); background: var(--azul); }
 
@@ -794,7 +1245,7 @@ input[type='date'].inline-edit:focus::-webkit-calendar-picker-indicator {
 .saudacao h1 { font-size: clamp(38px, 4.6vw, 58px); line-height: 1.04; letter-spacing: -0.02em; margin: 0 0 14px; }
 
 .semana { display: grid; grid-template-columns: 1.3fr 1fr; gap: 20px; align-items: start; }
-.semana .vidro, .semana .painel { padding: 26px 26px 22px; }
+.semana .painel { padding: 26px 26px 22px; }
 .lista-agenda { list-style: none; margin: 0; padding: 0; display: grid; }
 .lista-agenda li + li { border-top: 1px solid rgba(242, 242, 240, 0.09); }
 .lista-agenda a, .lista-agenda .item {
@@ -813,11 +1264,11 @@ input[type='date'].inline-edit:focus::-webkit-calendar-picker-indicator {
 .atalhos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
 @media (max-width: 900px) { .atalhos { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 560px) { .atalhos { grid-template-columns: 1fr; } }
-.atalhos a { background: var(--preto); border: 1px solid var(--linha-card); padding: 22px 24px 24px; color: inherit; transition: background-color .2s ease; }
-.atalhos a:hover { background: var(--carvao); border-color: rgba(169, 194, 209, 0.45); color: inherit; }
+.atalhos a { background: var(--carvao); border: 1px solid var(--linha-card); padding: 22px 24px 24px; color: inherit; transition: background-color .2s ease, border-color .2s ease; }
+.atalhos a:hover { background: var(--carvao); border-color: var(--vermelho); color: inherit; }
 .atalhos a:hover .atalho__titulo::after { translate: 4px 0; }
 .atalho__titulo { font-family: var(--serif); font-size: 20px; line-height: 1.3; margin-bottom: 6px; display: flex; justify-content: space-between; gap: 12px; }
-.atalho__titulo::after { content: '→'; font-family: var(--sans); font-size: 16px; color: var(--azul); transition: translate .2s ease; }
+.atalho__titulo::after { content: '→'; font-family: var(--sans); font-size: 16px; color: var(--vermelho); transition: translate .2s ease; }
 .atalho__texto { margin: 0; font-size: 14px; line-height: 1.6; color: var(--texto-3); }
 
 .resumo-gestao { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--linha-card); border: 1px solid var(--linha-card); }
@@ -835,7 +1286,7 @@ input[type='date'].inline-edit:focus::-webkit-calendar-picker-indicator {
 .tabela .btn { padding: 8px 12px; font-size: 10.5px; letter-spacing: .12em; }
 
 @media (prefers-reduced-motion: reduce) {
-  .faixa__vivo::before { animation: none; }
+  .faixa__vivo::after { animation: none; display: none; }
   .topo, .abas a, .atalho__titulo::after, .faq summary::after { transition: none; }
 }
 
@@ -843,5 +1294,5 @@ input[type='date'].inline-edit:focus::-webkit-calendar-picker-indicator {
 @media (max-width: 900px) { .fixo-desktop { position: static; } }
 @media (max-width: 560px) {
   .membros-usuario > div:first-child { display: none; }
-  .membros-topo .vidro { padding-left: 12px; }
+  .membros-topo__interno { padding-left: 0; }
 }

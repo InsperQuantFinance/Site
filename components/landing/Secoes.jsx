@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import FormularioContato from '@/components/landing/FormularioContato';
+import { CAMINHOS_EMPRESA, CANAIS, EVENTOS, FAQ_PS, LINKS_SOCIAIS } from '@/lib/conteudo-liga';
 
 /* ============================================================ A liga */
 export function Sobre() {
@@ -13,11 +14,11 @@ export function Sobre() {
   ];
 
   return (
-    <section id="sobre" className="secao">
+    <section id="sobre" className="secao secao--claro">
       <div className="container">
         <div className="duas-colunas" style={{ alignItems: 'end' }}>
           <div>
-            <div className="eyebrow" style={{ marginBottom: 16 }}>A liga</div>
+            <div className="eyebrow eyebrow--regua" style={{ marginBottom: 16 }}>A liga</div>
             <h2 className="h-secao" style={{ margin: 0, maxWidth: '24ch', textWrap: 'balance' }}>
               Projeto de verdade desde o primeiro semestre
             </h2>
@@ -42,6 +43,11 @@ export function Sobre() {
             </div>
           ))}
         </div>
+
+        <div style={{ marginTop: 32, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+          <a className="btn btn--vazado" href="/competicoes">Ver as competições</a>
+          <a className="btn btn--vazado" href="/equipe">Conhecer a equipe</a>
+        </div>
       </div>
     </section>
   );
@@ -63,18 +69,11 @@ export function OQueE() {
   ];
 
   return (
-    <section
-      id="o-que-e"
-      className="secao"
-      style={{
-        backgroundColor: 'var(--carvao)',
-        backgroundImage: 'radial-gradient(52% 64% at 88% 8%, rgba(20,70,150,0.10) 0%, rgba(20,70,150,0) 72%)',
-      }}
-    >
+    <section id="o-que-e" className="secao secao--claro-2">
       <div className="container">
         <div className="duas-colunas" style={{ alignItems: 'start', marginBottom: 56 }}>
           <div>
-            <div className="eyebrow" style={{ marginBottom: 16 }}>Finanças quantitativas</div>
+            <div className="eyebrow eyebrow--regua" style={{ marginBottom: 16 }}>Finanças quantitativas</div>
             <h2 className="h-secao" style={{ margin: 0, maxWidth: '24ch', textWrap: 'balance' }}>
               Regras que se testam antes de valer dinheiro
             </h2>
@@ -115,7 +114,7 @@ export function OQueE() {
           <div style={{ display: 'grid', gap: 20 }}>
             {pilares.map(([rotulo, texto]) => (
               <div key={rotulo} className="linha-rotulo">
-                <h3 className="eyebrow" style={{ color: 'rgba(169,194,209,0.9)' }}>{rotulo}</h3>
+                <h3 className="eyebrow" style={{ color: 'var(--azul)' }}>{rotulo}</h3>
                 <div style={{ fontSize: 15, lineHeight: 1.7, color: 'var(--texto-2)' }}>{texto}</div>
               </div>
             ))}
@@ -136,13 +135,14 @@ export function QuantConnect() {
   ];
 
   return (
-    <section id="quant-connect" className="secao">
+    <section id="quant-connect" className="secao secao--grafite">
       <div className="container">
         <div className="duas-colunas" style={{ alignItems: 'center' }}>
           <div className="photo" style={{ aspectRatio: '4 / 3' }}>
             <Image src="/assets/foto-quant-connect.jpg" alt="Quant Connect" fill sizes="(max-width: 900px) 100vw, 50vw" />
           </div>
           <div>
+            <div className="eyebrow eyebrow--regua" style={{ marginBottom: 16 }}>Evento</div>
             <h2 className="h-secao" style={{ fontSize: 46, lineHeight: 1.1, margin: '0 0 24px' }}>Quant Connect</h2>
             <p className="p-corpo" style={{ margin: '0 0 20px', maxWidth: '56ch' }}>
               O maior encontro de finanças quantitativas entre estudantes do país, organizado pelas ligas quant do
@@ -186,67 +186,6 @@ export function QuantConnect() {
 }
 
 /* ========================================================== Eventos */
-const EVENTOS = [
-  {
-    tag: '2026 · Vault Capital',
-    titulo: 'Kick off do Challenge Vault Quant',
-    paragrafos: [
-      'A Vault Capital recebeu em seu escritório as ligas IQF, FEA.dev e FGV Quant para a abertura do challenge. O encontro começou com a apresentação institucional da consultoria, da fundação à operação atual.',
-      'Em seguida, Bruno Drezza, head de quant da casa, apresentou o formato do desafio e os critérios de avaliação das estratégias, detalhando o que uma mesa considera relevante na construção e na validação de um modelo. O encerramento foi uma conversa aberta com o time sobre a rotina de pesquisa e execução.',
-    ],
-    fotos: [
-      { src: '/assets/foto-vault-iqf.jpg', alt: 'Membros do IQF no escritório da Vault Capital' },
-      { src: '/assets/foto-vault-ligas.jpg', alt: 'As três ligas na mesa da Vault Capital' },
-    ],
-    proporcao: '16 / 9',
-    textoPrimeiro: true,
-  },
-  {
-    tag: '2026 · Insper e Poli-USP',
-    titulo: 'Quant Connect · 2ª edição',
-    paragrafos: [
-      'Maior encontro de finanças quantitativas entre estudantes no país, co-organizado pelo IQF com FEA.dev, Poli Quant e FGV Quant. Dois dias de palestras de gestoras e mesas proprietárias, painéis com quants em atividade e apresentações das próprias ligas.',
-    ],
-    fotos: [{ src: '/assets/foto-qc-auditorio.jpg', alt: 'Quant Connect no auditório do Insper' }],
-    proporcao: '3 / 2',
-    textoPrimeiro: false,
-  },
-  {
-    tag: '2025 e 2026 · Itaú Asset',
-    titulo: 'Desafio Quant AI',
-    paragrafos: [
-      'Competição nacional em que equipes constroem estratégias de investimento com uso intensivo de IA. A liga foi semifinalista na edição de 2025 com o Nexus, e a edição 2026 foi lançada no palco do Quant Connect.',
-      'Em 2026 o Kairos chegou à final e terminou em 4º lugar, com a apresentação no auditório da Itaú Asset.',
-    ],
-    fotos: [
-      { src: '/assets/foto-quant-ai.jpg', alt: 'Abertura do Desafio Quant AI' },
-      { src: '/assets/foto-quant-ai-2026-kairos.jpg', alt: 'O time Kairos apresenta na final do Desafio Quant AI 2026, na Itaú Asset' },
-    ],
-    // as duas fotos são 16:9; o 3/2 anterior cortava as laterais
-    proporcao: '16 / 9',
-    textoPrimeiro: true,
-  },
-  {
-    tag: '2026 · Giant Steps Capital',
-    titulo: 'Painéis dentro das gestoras',
-    paragrafos: [
-      'Parte da programação acontece na mesa das casas parceiras: conversa aberta com gestores sobre pesquisa, execução e carreira, com espaço para recrutamento ao final.',
-    ],
-    fotos: [{ src: '/assets/foto-giant-steps.jpg', alt: 'Painel na Giant Steps Capital' }],
-    proporcao: '3 / 2',
-    textoPrimeiro: false,
-  },
-  {
-    tag: 'Todo semestre · Insper',
-    titulo: 'Treinamentos internos',
-    paragrafos: [
-      'Os próprios membros ensinam: fundamentos de factor investing, índices e ETFs, e as ferramentas que a liga desenvolve, como o dashboard de análise de carteira usado nos projetos.',
-    ],
-    fotos: [{ src: '/assets/foto-treinamento.jpg', alt: 'Treinamento interno da liga' }],
-    proporcao: '3 / 2',
-    textoPrimeiro: true,
-  },
-];
 
 const fmtData = (iso) => {
   try {
@@ -340,14 +279,12 @@ export function Eventos({ posts = [] }) {
   return (
     <section id="eventos" className="secao secao--carvao">
       <div className="container">
-        <div className="eyebrow" style={{ marginBottom: 16 }}>Últimos eventos</div>
+        <div className="eyebrow eyebrow--regua" style={{ marginBottom: 16 }}>Últimos eventos</div>
         <div className="cabecalho-ultimas">
           <h2 className="h-secao" style={{ margin: 0 }}>A liga em atividade</h2>
-          {doInstagram && (
-            <a className="btn btn--vazado" href="https://www.instagram.com/insperqf/" target="_blank" rel="noopener">
-              Seguir @insperqf
-            </a>
-          )}
+          {/* Sempre visível, e não só quando há Instagram: o histórico escrito
+              da /eventos existe independentemente de o cache ter post. */}
+          <a className="btn btn--vazado" href="/eventos">Ver todos os eventos</a>
         </div>
 
         {doInstagram ? (
@@ -360,7 +297,7 @@ export function Eventos({ posts = [] }) {
           EVENTOS.map((ev, i) => {
             const texto = (
               <div>
-                <div className="eyebrow" style={{ color: 'rgba(169,194,209,0.9)', marginBottom: 14 }}>{ev.tag}</div>
+                <div className="eyebrow" style={{ color: 'var(--azul)', marginBottom: 14 }}>{ev.tag}</div>
                 <h3 style={{ fontSize: 32, lineHeight: 1.2, margin: '0 0 18px' }}>{ev.titulo}</h3>
                 {ev.paragrafos.map((p, j) => (
                   <p
@@ -383,7 +320,8 @@ export function Eventos({ posts = [] }) {
               <div style={{ display: 'grid', gap: 14 }}>
                 {ev.fotos.map((f) => (
                   <div key={f.src} className="photo" style={{ aspectRatio: ev.proporcao }}>
-                    <Image src={f.src} alt={f.alt} fill sizes="(max-width: 900px) 100vw, 50vw" />
+                    <Image src={f.src} alt={f.alt} fill sizes="(max-width: 900px) 100vw, 50vw"
+                             placeholder="blur" />
                   </div>
                 ))}
               </div>
@@ -407,34 +345,23 @@ export function Eventos({ posts = [] }) {
 }
 
 /* ============================================== Processo seletivo */
-const LINK_INSCRICAO =
-  'https://docs.google.com/forms/d/e/1FAIpQLScrwUvYpostcTPRLIXiZNyGCVsqQY2O-bPJwliCM5sOzQUtuA/viewform';
 
 export function ProcessoSeletivo() {
-  const faq = [
-    ['Preciso saber programar?', 'Não. O trainee começa pelos fundamentos, e a parte técnica se constrói ao longo do processo, com mentoria dos membros mais experientes.'],
-    ['Quais cursos podem se inscrever?', 'Todos os cursos do Insper. O que conta é interesse por mercado e disposição para estudo técnico.'],
-    ['Quanto tempo leva por semana?', 'As reuniões da sua frente de trabalho, mais o estudo individual e o projeto do semestre.'],
-    ['Como é a seleção?', 'Você se inscreve pelo formulário e passa pelas etapas de avaliação e entrevista, divulgadas a cada edição.'],
-  ];
-
   return (
-    <section id="ps" className="secao secao--mesh">
+    <section id="ps" className="secao secao--acento">
       <div className="container duas-colunas" style={{ alignItems: 'center' }}>
         <div>
-          <div className="eyebrow" style={{ marginBottom: 16 }}>Processo seletivo</div>
+          <div className="eyebrow eyebrow--regua" style={{ marginBottom: 16 }}>Processo seletivo</div>
           <h2 className="h-secao" style={{ margin: '0 0 22px' }}>Faça parte da liga</h2>
           <p className="p-corpo" style={{ maxWidth: '50ch', margin: '0 0 32px' }}>
             Aberto a alunos do Insper de todos os cursos. Você entra pelo trainee, sai com uma estratégia própria
             testada e um paper escrito, e segue para os projetos com gestoras.
           </p>
-          <a className="btn btn--solido" href={LINK_INSCRICAO} target="_blank" rel="noopener">
-            Quero entrar
-          </a>
+          <a className="btn btn--solido" href="/processo-seletivo">Quero entrar</a>
         </div>
 
         <div className="faq" style={{ borderTop: '1px solid rgba(242,242,240,0.14)' }}>
-          {faq.map(([pergunta, resposta], i) => (
+          {FAQ_PS.map(([pergunta, resposta], i) => (
             <details key={pergunta} open={i === 0}>
               <summary>{pergunta}</summary>
               <p>{resposta}</p>
@@ -448,33 +375,24 @@ export function ProcessoSeletivo() {
 
 /* ======================================================== Empresas */
 export function Empresas() {
-  const caminhos = [
-    ['Mentoria de projetos', 'Sua equipe propõe a tese e acompanha o desenvolvimento durante o semestre, como a Lev e a Vault Capital já fizeram.'],
-    ['Recrutamento', 'Acesso a alunos com prática em modelagem, backtest e pesquisa aplicada, com o portfólio de cada projeto à vista.'],
-    ['Palestras e workshops', 'Profissionais da casa apresentam para os membros e, nos eventos abertos, para o público de várias escolas.'],
-    ['Visitas ao escritório', 'Um grupo de membros conhece a operação de perto, conversa com o time e vê o dia a dia da mesa.'],
-    ['Patrocínio do Quant Connect', 'Presença de marca no encontro das ligas quant de Insper, Poli-USP, FEA-USP e FGV.'],
-  ];
-
   return (
     <section
       id="empresas"
       className="secao secao--carvao"
-      style={{ backgroundImage: 'radial-gradient(50% 70% at 4% 92%, rgba(22,42,118,0.12) 0%, rgba(22,42,118,0) 72%)' }}
     >
       <div className="container duas-colunas" style={{ alignItems: 'start' }}>
         <div className="fixo-desktop">
-          <div className="eyebrow" style={{ marginBottom: 16 }}>Para empresas</div>
+          <div className="eyebrow eyebrow--regua" style={{ marginBottom: 16 }}>Para empresas</div>
           <h2 className="h-secao" style={{ margin: '0 0 20px', maxWidth: '20ch', textWrap: 'balance' }}>Cinco formas de trabalhar com a liga</h2>
           <p className="p-corpo" style={{ maxWidth: '44ch', margin: '0 0 32px' }}>
             Gestoras, mesas proprietárias e fintechs chegam até os membros por um destes caminhos. Você escolhe um ou
             combina vários.
           </p>
-          <a className="btn btn--vazado" href="#contato">Falar com a diretoria</a>
+          <a className="btn btn--vazado" href="/contato">Falar com a diretoria</a>
         </div>
 
         <div className="caminhos">
-          {caminhos.map(([titulo, texto]) => (
+          {CAMINHOS_EMPRESA.map(([titulo, texto]) => (
             <div key={titulo} data-reveal>
               <h3>{titulo}</h3>
               <p>{texto}</p>
@@ -513,9 +431,9 @@ export function Parceiros() {
   );
 
   return (
-    <section id="parceiros" className="secao secao--carvao" style={{ padding: '100px 0' }}>
+    <section id="parceiros" className="secao secao--claro-2" style={{ padding: '100px 0' }}>
       <div className="container" style={{ margin: '0 auto 44px', padding: '0 var(--gutter)' }}>
-        <h2 className="eyebrow">Quem já esteve com a liga</h2>
+        <h2 className="eyebrow eyebrow--regua">Quem já esteve com a liga</h2>
       </div>
       <div className="marquee">
         {fila(false)}
@@ -527,14 +445,8 @@ export function Parceiros() {
 
 /* ========================================================= Contato */
 export function Contato() {
-  const canais = [
-    ['E-mail', 'insperqf@gmail.com', 'mailto:insperqf@gmail.com'],
-    ['LinkedIn', 'Insper Quantitative Finance Club', 'https://www.linkedin.com/company/insper-quantitative-finance-club/'],
-    ['Instagram', '@insperqf', 'https://www.instagram.com/insperqf/'],
-  ];
-
   return (
-    <section id="contato" className="secao secao--mesh secao--mesh-azul" style={{ padding: '120px var(--gutter) 96px', borderBottom: 'none' }}>
+    <section id="contato" className="secao secao--grafite" style={{ padding: '120px var(--gutter) 96px', borderBottom: 'none' }}>
       <div className="container duas-colunas duas-colunas--estreita" style={{ alignItems: 'start' }}>
         <div className="painel" style={{ padding: '36px 34px' }}>
           <h2 className="h-secao" style={{ margin: '0 0 16px' }}>Fale com a liga</h2>
@@ -547,7 +459,7 @@ export function Contato() {
           </div>
         </div>
         <div className="grade-hairline">
-          {canais.map(([rotulo, texto, href]) => (
+          {CANAIS.map(([rotulo, texto, href]) => (
             <div key={rotulo} style={{ padding: '24px 28px' }}>
               <div className="eyebrow" style={{ marginBottom: 10 }}>{rotulo}</div>
               <a href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noopener"
@@ -565,23 +477,35 @@ export function Contato() {
 /* ========================================================== Rodapé */
 export function Rodape() {
   return (
-    <footer style={{ padding: '64px var(--gutter) 40px', borderTop: '1px solid var(--linha)', background: 'var(--carvao)' }}>
+    <footer className="secao--grafite" style={{ padding: '64px var(--gutter) 40px' }}>
       <div className="container rodape-grade">
         <Image src="/assets/logo-iqf.png" alt="Liga Insper Quantitative Finance" width={230} height={107}
+               quality={90} sizes="190px"
                style={{ width: '100%', maxWidth: 190, height: 'auto' }} />
+        {/* O rodapé é o mapa completo: Alumni e Processo seletivo não cabem na
+            barra do topo e moram aqui, junto do endereço e dos canais. */}
         <div>
-          <div className="eyebrow" style={{ marginBottom: 12 }}>Endereço</div>
-          <div style={{ fontSize: 15, lineHeight: 1.75, color: 'var(--texto-2)' }}>
-            Insper, Rua Quatá, 300<br />Vila Olímpia, São Paulo, SP
+          <div className="eyebrow" style={{ marginBottom: 12 }}>Navegar</div>
+          <div style={{ fontSize: 15, lineHeight: 1.9, color: 'var(--texto-2)', display: 'grid', justifyItems: 'start' }}>
+            <a href="/equipe">Equipe</a>
+            <a href="/alumni">Alumni</a>
+            <a href="/competicoes">Competições</a>
+            <a href="/eventos">Eventos</a>
+            <a href="/fundo">Fundo</a>
+            <a href="/processo-seletivo">Processo seletivo</a>
           </div>
         </div>
         <div>
           <div className="eyebrow" style={{ marginBottom: 12 }}>Contato</div>
           <div style={{ fontSize: 15, lineHeight: 1.9, color: 'var(--texto-2)', display: 'grid', justifyItems: 'start' }}>
+            <a href="/contato">Fale com a liga</a>
             <a href="mailto:insperqf@gmail.com">insperqf@gmail.com</a>
-            <a href="https://www.instagram.com/insperqf/" target="_blank" rel="noopener">Instagram</a>
+            <a href={LINKS_SOCIAIS.instagram} target="_blank" rel="noopener">Instagram</a>
             <a href="https://www.linkedin.com/company/insper-quantitative-finance-club/" target="_blank" rel="noopener">LinkedIn</a>
             <a href="/membros">Área de membros</a>
+          </div>
+          <div style={{ fontSize: 15, lineHeight: 1.75, color: 'var(--texto-3)', marginTop: 20 }}>
+            Insper, Rua Quatá, 300<br />Vila Olímpia, São Paulo, SP
           </div>
         </div>
       </div>

@@ -117,6 +117,8 @@ export default function Hero({ fundo = null }) {
             width={396}
             height={184}
             priority
+            quality={90}
+            sizes="(max-width: 560px) 64vw, 360px"
             style={{ width: 'min(64vw, 360px)', height: 'auto', display: 'block', margin: '0 auto 30px' }}
           />
         </h1>
@@ -124,12 +126,14 @@ export default function Hero({ fundo = null }) {
           Liga universitária pioneira em finanças quantitativas no Brasil
         </p>
         <div className="hero__botoes hero-rise-2">
-          <a className="btn btn--solido" href="#ps">Quero entrar</a>
+          {/* Aponta para /processo-seletivo, e não mais para a âncora #ps: a
+              página existe agora e diz muito mais que a seção da home. */}
+          <a className="btn btn--solido" href="/processo-seletivo">Quero entrar</a>
           <a className="btn btn--vazado" href="#research">Ver os projetos</a>
         </div>
       </div>
 
-      <div className="hero__faixa vidro hero-rise-2">
+      <div className="hero__faixa hero-rise-2">
         {fundo ? (
           <CartaoFundo fundo={fundo} />
         ) : (

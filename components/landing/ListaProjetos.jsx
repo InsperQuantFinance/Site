@@ -13,7 +13,7 @@ function CartaoProjeto({ p }) {
     <article
       style={{
         background: 'var(--carvao)',
-        border: '1px solid rgba(242,242,240,0.16)',
+        border: '1px solid var(--linha-forte)',
         display: 'flex',
         flexDirection: 'column',
         gap: 20,
@@ -51,7 +51,7 @@ function CartaoProjeto({ p }) {
         )}
       </div>
 
-      <p style={{ margin: 0, fontSize: 15, lineHeight: 1.7, color: 'rgba(242,242,240,0.78)' }}>{p.resumo}</p>
+      <p style={{ margin: 0, fontSize: 15, lineHeight: 1.7, color: 'var(--texto-2)' }}>{p.resumo}</p>
 
       {detalhes.length > 0 && (
         <div style={{ display: 'grid', gap: 14 }}>
@@ -59,9 +59,9 @@ function CartaoProjeto({ p }) {
             <div
               key={i}
               className="detalhe-projeto"
-              style={{ paddingTop: 14, borderTop: '1px solid rgba(242,242,240,0.1)' }}
+              style={{ paddingTop: 14, borderTop: '1px solid var(--linha)' }}
             >
-              <div className="eyebrow" style={{ letterSpacing: '0.14em', color: 'rgba(169,194,209,0.9)' }}>{d.rotulo}</div>
+              <div className="eyebrow" style={{ letterSpacing: '0.14em', color: 'var(--azul)' }}>{d.rotulo}</div>
               <div style={{ fontSize: 14, lineHeight: 1.65, color: 'var(--texto-2)' }}>{d.texto}</div>
             </div>
           ))}

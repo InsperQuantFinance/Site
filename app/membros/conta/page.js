@@ -21,9 +21,9 @@ export default async function MinhaConta() {
       </div>
 
       <section className="painel">
-        <h2 style={{ fontSize: 22, marginBottom: 8 }}>Seu nome</h2>
+        <h2 style={{ fontSize: 22, marginBottom: 8 }}>Seu perfil</h2>
         <p style={{ color: 'var(--texto-3)', fontSize: 14, margin: '0 0 24px' }}>
-          Cargo, frente de trabalho, turma, LinkedIn e bio são definidos pela gestão. Nome, e-mail e senha são seus.
+          Cargo, frente de trabalho, turma e bio são definidos pela gestão. Nome, LinkedIn, e-mail e senha são seus.
         </p>
         <FormularioPerfil usuario={usuario} />
       </section>

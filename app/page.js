@@ -80,9 +80,9 @@ export default async function Home() {
         <QuantConnect />
         <Eventos posts={instagram.posts} />
 
-        <section id="research" className="secao secao--carvao">
+        <section id="research" className="secao secao--claro-2">
           <div className="container">
-            <div className="eyebrow" style={{ marginBottom: 16 }}>Projetos</div>
+            <div className="eyebrow eyebrow--regua" style={{ marginBottom: 16 }}>Projetos</div>
             <h2 className="h-secao" style={{ margin: '0 0 20px', maxWidth: '26ch' }}>O que a liga já construiu</h2>
             <p className="p-corpo" style={{ maxWidth: '62ch', margin: '0 0 56px' }}>
               Cada projeto parte de uma tese, vira código, passa por backtest e termina em paper. Muda a origem da

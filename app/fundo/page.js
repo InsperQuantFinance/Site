@@ -48,7 +48,7 @@ export default async function PaginaFundo() {
       <Header />
 
       <main>
-        <section className="secao secao--mesh secao--mesh-azul" style={{ padding: '150px var(--gutter) 72px' }}>
+        <section className="secao secao--tinta" style={{ padding: '150px var(--gutter) 72px' }}>
           <div className="container">
             <div className="eyebrow" style={{ marginBottom: 16 }}>Fundo IQF · fictício</div>
             <h1 className="h-secao" style={{ margin: '0 0 20px', maxWidth: '22ch' }}>

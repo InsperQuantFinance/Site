@@ -117,14 +117,14 @@ mas hiberna após 15 minutos ociosos — a primeira visita depois disso demora ~
 
 ## 4. Instagram
 
-A seção "Últimas da liga" lê os posts de [@insperqf](https://www.instagram.com/insperqf/)
+A seção "Últimas da liga" lê os posts de [@insperquant](https://www.instagram.com/insperquant/)
 pela Graph API. Precisa de uma conta **Business** ou **Creator** (Instagram →
 Configurações → Tipo de conta).
 
 1. [developers.facebook.com](https://developers.facebook.com) → **Criar app** →
    tipo **Empresa**.
 2. Adicione o produto **Instagram** → *API configurada com login do Instagram*.
-3. Em *Configuração da API*, gere um **token de acesso** para o @insperqf com as
+3. Em *Configuração da API*, gere um **token de acesso** para o @insperquant com as
    permissões `instagram_business_basic`.
 4. Copie o token para `INSTAGRAM_ACCESS_TOKEN` no Render. Deixe
    `INSTAGRAM_USER_ID` vazio neste fluxo.
