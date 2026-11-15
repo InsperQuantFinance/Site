@@ -23,10 +23,15 @@
   /* O vermelho da marca rebaixado até virar campo: no tom do botão a área
      inteira vibra e come o texto branco por cima. */
   --acento-campo: #5A0F1C;
-  /* Marinho da identidade, para uso pontual: fundo de detalhe e nada mais.
-     O azul de maior presença no site continua sendo o do mesh do hero. */
+  /* Marinho da identidade. Os dois valores vieram medidos da InFinance: o
+     primeiro é a tinta deles (títulos, resultados, rótulos), o segundo é o
+     tom um pouco mais vivo que usam no fio sob os títulos.
+
+     Aqui entra só como DETALHE — fio e rótulo —, nunca como chão. Como campo
+     de fundo já foi testado e não funciona: o site deles é branco, e o
+     marinho é o contraste; o nosso já é escuro, e vira azul sobre azul. */
   --marinho: #212A57;
-  --marinho-fundo: #131C3C;
+  --marinho-detalhe: #273878;
 
   /* O claro é papel, não tela, e entra em pouquíssimos lugares: só onde o
      conteúdo pede fundo claro (os logos dos parceiros, que foram
@@ -121,9 +126,11 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 400; margin: 0; }
   --carvao: var(--papel-2);
   --osso: var(--tinta);
   --osso-claro: var(--papel);
-  /* O "azul" dos rótulos no claro é um cinza-ardósia, não um azul: azul
-     claro sobre papel some, azul forte vira link. */
-  --azul: #4A5361;
+  /* O rótulo no claro é MARINHO, não o cinza-ardósia que havia aqui: é
+     exatamente o uso que a InFinance faz do azul deles — tinta de título e
+     de rótulo sobre papel. Em #212A57 o contraste contra o papel passa de
+     12:1, então serve para texto pequeno sem ressalva. */
+  --azul: var(--marinho);
 
   --linha: rgba(21, 23, 28, 0.11);
   --linha-forte: rgba(21, 23, 28, 0.18);
@@ -218,12 +225,49 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 400; margin: 0; }
 .h-secao { font-size: 44px; line-height: 1.15; }
 .p-corpo { font-size: 17px; line-height: 1.7; color: var(--texto-2); }
 
-/* Fio vermelho antes do rótulo: a marca de régua das casas de mercado, e o
-   único lugar em que o vermelho da identidade aparece chapado no texto. */
+/* Fio bicolor antes do rótulo: vermelho e depois marinho, as duas cores da
+   identidade lado a lado. É a assinatura visual da InFinance — lá o fio vive
+   sob o título da seção, em segmentos de ~2.7px. Aqui ele fica antes do
+   rótulo, que é onde este site já tinha a régua.
+
+   O `linear-gradient` com paradas duras (40% 40%) são dois blocos sólidos,
+   não um degradê: não há transição entre as cores. */
 .eyebrow--regua { display: flex; align-items: center; gap: 12px; }
+/* No escuro o marinho fechado sumiria contra o preto, então o segmento azul
+   usa o tom claro que o site já reserva para rótulo. */
 .eyebrow--regua::before {
-  content: ''; width: 26px; height: 2px; flex: none; background: var(--vermelho);
+  content: ''; width: 34px; height: 2px; flex: none;
+  background: linear-gradient(90deg,
+    var(--vermelho) 0 44%,
+    var(--azul) 44% 100%);
 }
+.secao--claro .eyebrow--regua::before,
+.secao--claro-2 .eyebrow--regua::before {
+  background: linear-gradient(90deg,
+    var(--vermelho) 0 44%,
+    var(--marinho-detalhe) 44% 100%);
+}
+
+/* ------------------------------------------------ cor no texto
+   Uma regra só, para a cor não virar enfeite: MARINHO marca fato — número,
+   resultado, ano, o trecho que o parágrafo quer provar. VERMELHO marca ação
+   — botão, fio de régua, numeral de etapa. Nada mais recebe cor.
+
+   Vale só nas seções claras. No escuro o marinho fechado some contra o
+   preto, e lá quem destaca é o próprio osso contra o cinza do corpo. */
+.secao--claro .marcas__valor,
+.secao--claro-2 .marcas__valor,
+.secao--claro .competicao__ano,
+.secao--claro-2 .competicao__ano,
+.secao--claro .grupo-equipe__titulo,
+.secao--claro-2 .grupo-equipe__titulo { color: var(--marinho); }
+
+/* O trecho que o autor marcou como importante no meio do texto corrido.
+   É o uso que a InFinance faz da cor inline. */
+.secao--claro .p-corpo strong,
+.secao--claro-2 .p-corpo strong,
+.secao--claro .fases__texto strong,
+.secao--claro-2 .fases__texto strong { color: var(--marinho); font-weight: 600; }
 
 /* Número é dado: largura fixa por dígito, para as colunas alinharem e os
    valores não "dançarem" quando atualizam. */
