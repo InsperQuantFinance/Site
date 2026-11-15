@@ -7,9 +7,15 @@ import { EVENTOS, LINKS_SOCIAIS } from '@/lib/conteudo-liga';
 import { buscarPostsInstagram } from '@/lib/instagram';
 
 export const metadata = {
-  title: 'Eventos · IQF',
+  title: 'Eventos · IQF Insper',
   description:
-    'Quant Connect, painéis dentro das gestoras, competições e treinamentos internos: o que a liga realiza ao longo do ano.',
+    'Quant Connect, painéis dentro das gestoras e treinamentos internos: o que a liga de finanças quantitativas do Insper realiza ao longo do ano.',
+  // Canonical próprio: sem ele, a mesma página acessada com parâmetro
+  // de campanha (?utm_source=...) vira uma URL concorrente na busca.
+  alternates: { canonical: '/eventos' },
+  // OpenGraph próprio. Sem isto toda página compartilhada no WhatsApp
+  // ou no LinkedIn aparecia com o título da home.
+  openGraph: { title: 'Eventos · IQF Insper', description: 'Quant Connect, painéis dentro das gestoras e treinamentos internos: o que a liga de finanças quantitativas do Insper realiza ao longo do ano.', url: '/eventos', type: 'website' },
 };
 
 // Mesmo intervalo da home: quem manda aqui é o cache do Instagram.

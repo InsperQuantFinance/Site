@@ -6,8 +6,15 @@ import { Rodape } from '@/components/landing/Secoes';
 import { carregarAlumni } from '@/lib/equipe';
 
 export const metadata = {
-  title: 'Alumni · IQF',
-  description: 'Ex-membros do Insper Quantitative Finance e por onde passaram depois da liga.',
+  title: 'Alumni · IQF Insper',
+  description:
+    'Ex-membros do Insper Quantitative Finance e por onde passaram depois da liga.',
+  // Canonical próprio: sem ele, a mesma página acessada com parâmetro
+  // de campanha (?utm_source=...) vira uma URL concorrente na busca.
+  alternates: { canonical: '/alumni' },
+  // OpenGraph próprio. Sem isto toda página compartilhada no WhatsApp
+  // ou no LinkedIn aparecia com o título da home.
+  openGraph: { title: 'Alumni · IQF Insper', description: 'Ex-membros do Insper Quantitative Finance e por onde passaram depois da liga.', url: '/alumni', type: 'website' },
 };
 
 export const revalidate = 600;

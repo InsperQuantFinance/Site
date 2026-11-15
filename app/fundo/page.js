@@ -8,9 +8,15 @@ import { formatarDiaHora, formatarMoeda, formatarVariacao } from '@/lib/formato-
 import './fundo.css';
 
 export const metadata = {
-  title: 'Fundo · IQF',
+  title: 'Fundo IQF · Insper Quantitative Finance',
   description:
-    'O fundo fictício da liga: R$ 1 milhão virtuais operados pelas estratégias dos membros, atualizado a cada 15 minutos.',
+    'O fundo fictício da liga: R$ 1 milhão virtuais operados pelas estratégias dos membros em conta de simulação da B3, atualizado a cada 15 minutos.',
+  // Canonical próprio: sem ele, a mesma página acessada com parâmetro
+  // de campanha (?utm_source=...) vira uma URL concorrente na busca.
+  alternates: { canonical: '/fundo' },
+  // OpenGraph próprio. Sem isto toda página compartilhada no WhatsApp
+  // ou no LinkedIn aparecia com o título da home.
+  openGraph: { title: 'Fundo IQF · Insper Quantitative Finance', description: 'O fundo fictício da liga: R$ 1 milhão virtuais operados pelas estratégias dos membros em conta de simulação da B3, atualizado a cada 15 minutos.', url: '/fundo', type: 'website' },
 };
 
 // A VM manda dados a cada 15 min e a rota de recebimento antecipa a

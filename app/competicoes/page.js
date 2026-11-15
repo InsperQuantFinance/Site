@@ -5,9 +5,15 @@ import { Rodape } from '@/components/landing/Secoes';
 import { COMPETICOES } from '@/lib/conteudo-liga';
 
 export const metadata = {
-  title: 'Competições · IQF',
+  title: 'Competições · IQF Insper',
   description:
-    'Os resultados da liga em competição: Quantamental Challenge e Desafio Quant AI, da Itaú Asset, e o Challenge da Vault Capital.',
+    'Os resultados do IQF em competição: 2º lugar no Quantamental Challenge, semifinal e 4º lugar no Desafio Quant AI, ambos da Itaú Asset.',
+  // Canonical próprio: sem ele, a mesma página acessada com parâmetro
+  // de campanha (?utm_source=...) vira uma URL concorrente na busca.
+  alternates: { canonical: '/competicoes' },
+  // OpenGraph próprio. Sem isto toda página compartilhada no WhatsApp
+  // ou no LinkedIn aparecia com o título da home.
+  openGraph: { title: 'Competições · IQF Insper', description: 'Os resultados do IQF em competição: 2º lugar no Quantamental Challenge, semifinal e 4º lugar no Desafio Quant AI, ambos da Itaú Asset.', url: '/competicoes', type: 'website' },
 };
 
 // Conteúdo escrito à mão, sem banco: a página é estática por completo.

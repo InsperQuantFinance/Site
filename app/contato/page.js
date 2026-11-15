@@ -6,9 +6,15 @@ import { Rodape } from '@/components/landing/Secoes';
 import { LINKS_SOCIAIS } from '@/lib/conteudo-liga';
 
 export const metadata = {
-  title: 'Contato · IQF',
+  title: 'Contato · IQF Insper',
   description:
     'Fale com a diretoria do Insper Quantitative Finance: processo seletivo, patrocínio, mentoria de projetos e palestras.',
+  // Canonical próprio: sem ele, a mesma página acessada com parâmetro
+  // de campanha (?utm_source=...) vira uma URL concorrente na busca.
+  alternates: { canonical: '/contato' },
+  // OpenGraph próprio. Sem isto toda página compartilhada no WhatsApp
+  // ou no LinkedIn aparecia com o título da home.
+  openGraph: { title: 'Contato · IQF Insper', description: 'Fale com a diretoria do Insper Quantitative Finance: processo seletivo, patrocínio, mentoria de projetos e palestras.', url: '/contato', type: 'website' },
 };
 
 const ENDERECO = 'Insper, Rua Quatá, 300 — Vila Olímpia, São Paulo, SP';

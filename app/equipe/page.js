@@ -6,8 +6,15 @@ import { Rodape } from '@/components/landing/Secoes';
 import { agruparEquipe, carregarEquipe, rotuloDoCargo } from '@/lib/equipe';
 
 export const metadata = {
-  title: 'Equipe · IQF',
-  description: 'Quem faz o Insper Quantitative Finance: diretoria, membros e trainees.',
+  title: 'Equipe · IQF Insper',
+  description:
+    'Quem faz o Insper Quantitative Finance: a diretoria e os membros efetivados da liga de finanças quantitativas do Insper.',
+  // Canonical próprio: sem ele, a mesma página acessada com parâmetro
+  // de campanha (?utm_source=...) vira uma URL concorrente na busca.
+  alternates: { canonical: '/equipe' },
+  // OpenGraph próprio. Sem isto toda página compartilhada no WhatsApp
+  // ou no LinkedIn aparecia com o título da home.
+  openGraph: { title: 'Equipe · IQF Insper', description: 'Quem faz o Insper Quantitative Finance: a diretoria e os membros efetivados da liga de finanças quantitativas do Insper.', url: '/equipe', type: 'website' },
 };
 
 // A página é estática e revalida junto com o resto do site. Nada aqui lê

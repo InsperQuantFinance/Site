@@ -5,9 +5,15 @@ import { Rodape } from '@/components/landing/Secoes';
 import { ETAPAS_PS, FAQ_PS, LINK_INSCRICAO, TRILHA_TRAINEE } from '@/lib/conteudo-liga';
 
 export const metadata = {
-  title: 'Processo seletivo · IQF',
+  title: 'Processo seletivo · IQF Insper',
   description:
-    'Como entrar na liga de finanças quantitativas do Insper: aberto a todos os cursos, sem pré-requisito de programação.',
+    'Como entrar na liga de finanças quantitativas do Insper: aberto a alunos de todos os cursos, sem pré-requisito de programação.',
+  // Canonical próprio: sem ele, a mesma página acessada com parâmetro
+  // de campanha (?utm_source=...) vira uma URL concorrente na busca.
+  alternates: { canonical: '/processo-seletivo' },
+  // OpenGraph próprio. Sem isto toda página compartilhada no WhatsApp
+  // ou no LinkedIn aparecia com o título da home.
+  openGraph: { title: 'Processo seletivo · IQF Insper', description: 'Como entrar na liga de finanças quantitativas do Insper: aberto a alunos de todos os cursos, sem pré-requisito de programação.', url: '/processo-seletivo', type: 'website' },
 };
 
 export const dynamic = 'force-static';

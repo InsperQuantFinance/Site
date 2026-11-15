@@ -1,7 +1,11 @@
 import TelaAuth from '@/components/membros/TelaAuth';
 import FormularioLogin from './FormularioLogin';
 
-export const metadata = { title: 'Entrar · Insper Quantitative Finance' };
+// Tela de autenticação não tem o que fazer num resultado de busca.
+export const metadata = {
+  title: 'Entrar · Insper Quantitative Finance',
+  robots: { index: false, follow: false },
+};
 
 // Motivos pelos quais /sair devolveu a pessoa para cá.
 const MOTIVOS = {

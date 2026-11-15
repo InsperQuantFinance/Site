@@ -5,7 +5,13 @@ import { exigirUsuario } from '@/lib/auth';
 import BotaoSair from '@/components/membros/BotaoSair';
 import NavMembros from '@/components/membros/NavMembros';
 
-export const metadata = { title: 'Área de membros · IQF' };
+// `noindex` herdado por toda a área: o robots.txt já bloqueia o rastreio,
+// mas uma URL pode chegar ao índice por link externo sem nunca ser
+// rastreada — e aí só a meta tag a tira de lá. As duas travas juntas.
+export const metadata = {
+  title: 'Área de membros · IQF',
+  robots: { index: false, follow: false },
+};
 
 export default async function LayoutMembros({ children }) {
   // exigirUsuario() cobre os três casos: anônimo vai para o login, sessão
