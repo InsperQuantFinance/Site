@@ -123,7 +123,10 @@ export default function Hero({ fundo = null }) {
           />
         </h1>
         <p className="hero-rise-2 hero-legenda" style={{ margin: '0 0 22px', color: 'rgba(242,242,240,0.78)', textTransform: 'uppercase' }}>
-          Liga universitária pioneira em finanças quantitativas no Brasil
+          {/* "Insper Quant" é como a liga é digitada na busca e no @ do
+              Instagram, e não aparecia escrito em lugar nenhum da home — o
+              buscador não deriva "quant" de "quantitative" com confiança. */}
+          IQF · Insper Quant · liga universitária pioneira em finanças quantitativas no Brasil
         </p>
         <div className="hero__botoes hero-rise-2">
           {/* Aponta para /processo-seletivo, e não mais para a âncora #ps: a

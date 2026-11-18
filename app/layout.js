@@ -6,15 +6,17 @@ import { LINKS_SOCIAIS } from '@/lib/conteudo-liga';
 /* O título e a descrição da home são a linha que aparece no resultado do
    Google, e por isso são escritos para a BUSCA, não para a marca.
 
-   O título traz a sigla junto do nome por extenso porque as duas coisas são
-   digitadas ("IQF Insper" e "Insper Quantitative Finance"), e quem busca pela
-   sigla não acharia uma página que só diz o nome completo. A descrição cabe
-   em ~155 caracteres, que é onde o Google corta, e repete os termos da busca
-   real: liga, finanças quantitativas, Insper. */
-const TITULO = 'Insper Quantitative Finance (IQF) — Liga de finanças quantitativas do Insper';
+   O título carrega as três formas pelas quais a liga é digitada — "Insper
+   Quant", "IQF" e "Insper Quantitative Finance" — e nessa ordem: o buscador
+   não trata "quant" como prefixo confiável de "quantitative", então a forma
+   curta precisa estar escrita literalmente, e no começo, que é a parte do
+   título que sobrevive ao corte. A descrição cabe em ~155 caracteres, que é
+   onde o Google corta, e repete os termos da busca real: liga, finanças
+   quantitativas, Insper. */
+const TITULO = 'Insper Quant (IQF) — Insper Quantitative Finance, liga de finanças quantitativas';
 const DESCRICAO =
-  'O IQF é a liga de finanças quantitativas do Insper. Projetos próprios em Python, '
-  + 'competições nacionais, um fundo fictício operando na B3 e contato direto com gestoras.';
+  'IQF (Insper Quant) é a liga de finanças quantitativas do Insper: estratégias '
+  + 'próprias em Python, competições nacionais e um fundo fictício operando na B3.';
 
 export const metadata = {
   metadataBase: new URL(URL_SITE),
@@ -31,11 +33,18 @@ export const metadata = {
   // Termos pelos quais a liga é procurada e que nem sempre aparecem no corpo
   // da página. Não pesa em ranking há anos, mas alimenta buscadores menores
   // e agregadores de entidades estudantis.
-  keywords: ['IQF', 'Insper Quantitative Finance', 'liga de finanças quantitativas',
+  keywords: ['IQF', 'Insper Quant', 'insperquant', 'Insper Quantitative Finance',
+    'liga de finanças quantitativas',
     'finanças quantitativas Insper', 'liga quant Insper', 'trading quantitativo',
     'Insper', 'liga estudantil Insper', 'quant Brasil'],
-  icons: { icon: '/favicon.png' },
-  applicationName: TITULO,
+  /* Sem `icons` declarado aqui de propósito. O ícone vem de app/icon.png e
+     app/apple-icon.png pela convenção do Next — declarar `icons` neste objeto
+     SOBRESCREVE a convenção, e era por isso que só existia um <link> apontando
+     para um PNG branco sobre fundo transparente: invisível no cartão branco do
+     Google, que então cai no globo genérico. Os arquivos novos trazem a marca
+     sobre o preto da identidade, legível nos dois temas, e public/favicon.ico
+     cobre o rastreador que busca /favicon.ico direto, sem ler o HTML. */
+  applicationName: NOME_SITE,
 
   // A área de membros não tem nada que deva entrar em buscador, e as páginas
   // dela ficam atrás de login de qualquer forma; o que vale indexar é a landing.
@@ -43,7 +52,7 @@ export const metadata = {
 
   openGraph: {
     type: 'website',
-    siteName: TITULO,
+    siteName: NOME_SITE,
     title: TITULO,
     description: DESCRICAO,
     url: '/',
